@@ -1,0 +1,9 @@
+## Interface: 90002
+## Title: FigUI-2
+## Notes: Fig's DK UI
+## SavedVariablesPerCharacter: savedVar1, savedVar2, savedVar3
+## DefaultState: enabled
+## Author: Fignewticus - Zul'jin (H)
+## Version 0.0.1
+
+main.lua
