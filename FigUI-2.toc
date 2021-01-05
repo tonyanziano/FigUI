@@ -6,4 +6,5 @@
 ## Author: Fignewticus - Zul'jin (H)
 ## Version 0.0.1
 
-main.lua
+DK.lua
+DK.xml
