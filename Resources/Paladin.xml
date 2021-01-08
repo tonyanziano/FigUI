@@ -1,37 +1,15 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
-  <Script file="DK.lua" />
+  <Script file="Paladin.lua" />
 
-  <Frame name="FigResourceDK" movable="true" enableMouse="true">
-    <Size x="200" y="50"/>
+  <Frame name="FigResourcePaladin" movable="true" enableMouse="true" hidden="true">
+    <Size x="200" y="25"/>
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="-100" y="0"/>
     </Anchors>
-    <Layers>
-      <Layer level="BACKGROUND">
-        <!-- just a blank dark background -->
-        <Texture name="$parentTexture" setAllPoints="true">
-          <Color r="0" g="0" b="0" a=".5"/>
-        </Texture>
-      </Layer>
-    </Layers>
 
     <Frames>
-      <!-- Runes -->
-      <Frame name="$parentRunes">
-        <Size x="200" y="25"/>
-        <Anchors>
-          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
-        </Anchors>
-
-        <Scripts>
-          <OnLoad>
-            FigDK.drawRunes()
-          </OnLoad>
-        </Scripts>
-      </Frame>
-
-      <!-- Runic Power -->
-      <StatusBar name="$parentRunicPower" minValue="0" maxValue="100" defaultValue="100">
+      <!-- Holy Power -->
+      <StatusBar name="$parentHolyPower" minValue="0" maxValue="5" defaultValue="0" parentKey="status">
         <Size x="200" y="25"/>
         <Anchors>
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
@@ -39,7 +17,7 @@
 
         <!-- Status bar fill texture -->
         <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
-        <BarColor r=".18" g=".56" b=".8" a="1"/>
+        <BarColor r=".86" g=".86" b=".22" a="1"/>
 
         <Layers>
           <Layer level="BACKGROUND">
@@ -59,25 +37,17 @@
             </FontString>
           </Layer>
         </Layers>
-
-        <Scripts>
-          <OnLoad>
-            FigDK.drawRunicPower(self)
-          </OnLoad>
-          <OnDragStart>
-            if not self.isLocked then
-              self:StartMoving()
-            end
-          </OnDragStart>
-          <OnDragStop>
-            self:StopMovingOrSizing()
-          </OnDragStop>
-        </Scripts>
       </StatusBar>
     </Frames>
 
     <Scripts>
       <OnLoad>
+        -- only show if the player is a paladin
+        local _, class = UnitClass("player")
+        if class ~= 'PALADIN' then return end
+
+        self:Show()
+        FigPaladin.initialize(self)
         self:RegisterForDrag("LeftButton")
         self.isLocked = false
       </OnLoad>

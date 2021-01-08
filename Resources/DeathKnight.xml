@@ -1,0 +1,92 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="DeathKnight.lua" />
+
+  <Frame name="FigResourceDeathKnight" movable="true" enableMouse="true" hidden="true">
+    <Size x="200" y="50"/>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="-100" y="0"/>
+    </Anchors>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <!-- just a blank dark background -->
+        <Texture name="$parentTexture" setAllPoints="true">
+          <Color r="0" g="0" b="0" a=".5"/>
+        </Texture>
+      </Layer>
+    </Layers>
+
+    <Frames>
+      <!-- Runes -->
+      <Frame name="$parentRunes">
+        <Size x="200" y="25"/>
+        <Anchors>
+          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
+        </Anchors>
+
+        <Scripts>
+          <OnLoad>
+            FigDK.drawRunes()
+          </OnLoad>
+        </Scripts>
+      </Frame>
+
+      <!-- Runic Power -->
+      <StatusBar name="$parentRunicPower" minValue="0" maxValue="100" defaultValue="100">
+        <Size x="200" y="25"/>
+        <Anchors>
+          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
+        </Anchors>
+
+        <!-- Status bar fill texture -->
+        <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
+        <BarColor r=".18" g=".56" b=".8" a="1"/>
+
+        <Layers>
+          <Layer level="BACKGROUND">
+            <!-- just a blank dark background -->
+            <Texture name="$parentTexture" setAllPoints="true">
+              <Color r="0" g="0" b="0" a=".5"/>
+            </Texture>
+          </Layer>
+          <Layer level="ARTWORK">
+            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
+              <Size>
+                <AbsDimension x="0" y="16"/>
+              </Size>
+              <Anchors>
+                <Anchor point="CENTER"/>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+
+        <Scripts>
+          <OnLoad>
+            FigDK.drawRunicPower(self)
+          </OnLoad>
+        </Scripts>
+      </StatusBar>
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        -- only show if the player is a dk
+        local _, class = UnitClass("player")
+        if class ~= 'DEATHKNIGHT' then return end
+
+        self:Show()
+        self:RegisterForDrag("LeftButton")
+        self.isLocked = false
+        FigDK.initialize(self)
+      </OnLoad>
+      <OnDragStart>
+        if not self.isLocked then
+          self:StartMoving()
+        end
+      </OnDragStart>
+      <OnDragStop>
+        self:StopMovingOrSizing()
+      </OnDragStop>
+    </Scripts>
+  </Frame>
+</Ui>

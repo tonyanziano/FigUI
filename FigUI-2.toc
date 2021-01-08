@@ -6,5 +6,9 @@
 ## Author: Fignewticus - Zul'jin (H)
 ## Version 0.0.1
 
-DK.lua
-DK.xml
+FigUI.lua
+FigUtils.lua
+Resources\DeathKnight.lua
+Resources\DeathKnight.xml
+Resources\Paladin.lua
+Resources\Paladin.xml

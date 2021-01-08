@@ -1,6 +1,3 @@
-Fig = {}
-Fig.overlord = CreateFrame('FRAME', 'FigUI-Overlord', UIParent) -- frame that listens for events
-
 -- event handling
 events = {};
 
@@ -15,7 +12,7 @@ end
 function events:UNIT_POWER_UPDATE(...)
   local unitId, resource = ...
   if unitId == 'player' and resource == 'RUNIC_POWER' then
-    FigDK.drawRunicPower(_G['FigResourceDKRunicPower'])
+    FigDK.drawRunicPower(_G['FigResourceDeathKnightRunicPower'])
   end
 end
 
@@ -48,26 +45,11 @@ local function handleEvents(self, event, ...)
   events[event](self, ...)
 end
 
--- Register events
-for k, v in pairs(events) do
-  Fig.overlord:RegisterEvent(k)
-end
-Fig.overlord:SetScript('OnEvent', handleEvents)
-
-local function makeFrame(name, parent)
-  local f = CreateFrame('FRAME', name, parent or UIParent)
-  return f
-end
-
-local function getTexturePath(texture)
-  return 'Interface\\AddOns\\FigUI-2\\Textures\\' .. texture
-end
-
 local runePaddingX, runePaddingY = 2, 0
 function FigDK.drawRunes()
   -- positioning and creation
   local numRunes = 6
-  local container = _G['FigResourceDKRunes']
+  local container = _G['FigResourceDeathKnightRunes']
   container.tex = container:CreateTexture(nil, 'BACKGROUND')
   container.tex:SetAllPoints(container)
   container.tex:SetColorTexture(0, 0, 0, 0.5) -- gray
@@ -78,7 +60,7 @@ function FigDK.drawRunes()
   Fig.runeWidth = runeWidth
 
   for i=1, numRunes do
-    local f = makeFrame('FigRune' .. i, container)
+    local f = Fig.makeFrame('FigRune' .. i, container)
     f:SetHeight(containerHeight - 2 * runePaddingY)
     f:SetWidth(runeWidth)
     local prevRune = _G['FigRune' .. (i - 1)]
@@ -97,7 +79,7 @@ function FigDK.drawRunes()
     -- fill
     f.fill = f:CreateTexture(nil, 'ARTWORK')
     f.fill:SetVertexColor(.36, .17, .89, 1) -- yellow
-    f.fill:SetTexture(getTexturePath('GenericBarFill'))
+    f.fill:SetTexture(Fig.getTexturePath('GenericBarFill'))
     f.fill:SetPoint('LEFT', f, 'LEFT')
     f.fill:SetWidth(f:GetWidth())
     f.fill:SetHeight(f:GetHeight())
@@ -106,4 +88,12 @@ function FigDK.drawRunes()
     f.fill.RuneRegen = f.fill.animG:CreateAnimation('Scale')
     f.fill.RuneRegen:SetOrigin('LEFT', 0, 0)
   end
+end
+
+function FigDK.initialize(frame)
+  -- Register events
+  for k, v in pairs(events) do
+    frame:RegisterEvent(k)
+  end
+  frame:SetScript('OnEvent', handleEvents)
 end
