@@ -119,6 +119,8 @@ function FigPlayer.initialize(frame)
   frame:RegisterEvent('PLAYER_UPDATE_RESTING')
   frame:SetScript('OnEvent', FigPlayer.handleEvents)
 
+  PlayerFrame:Hide()
+
   -- initial draw
   FigPlayer.colorHp(frame, 'player')
   FigPlayer.colorPower(frame, 'player')
