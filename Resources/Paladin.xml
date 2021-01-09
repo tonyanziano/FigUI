@@ -1,44 +1,34 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Paladin.lua" />
 
-  <Frame name="FigResourcePaladin" movable="true" enableMouse="true" hidden="true">
+  <StatusBar name="FigResourcePaladin" movable="true" enableMouse="true" hidden="true" parent="UIParent" minValue="0" maxValue="5" defaultValue="0">
     <Size x="200" y="25"/>
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="-100" y="0"/>
     </Anchors>
 
-    <Frames>
-      <!-- Holy Power -->
-      <StatusBar name="$parentHolyPower" minValue="0" maxValue="5" defaultValue="0" parentKey="status">
-        <Size x="200" y="25"/>
-        <Anchors>
-          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
-        </Anchors>
+    <!-- Status bar fill texture -->
+    <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
+    <BarColor r=".86" g=".86" b=".22" a="1"/>
 
-        <!-- Status bar fill texture -->
-        <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
-        <BarColor r=".86" g=".86" b=".22" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <!-- just a blank dark background -->
-            <Texture name="$parentTexture" setAllPoints="true">
-              <Color r="0" g="0" b="0" a=".5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
-              <Anchors>
-                <Anchor point="CENTER"/>
-              </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-      </StatusBar>
-    </Frames>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <!-- just a blank dark background -->
+        <Texture name="$parentTexture" setAllPoints="true">
+          <Color r="0" g="0" b="0" a=".5"/>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK">
+        <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
+          <Size>
+            <AbsDimension x="0" y="16"/>
+          </Size>
+          <Anchors>
+            <Anchor point="CENTER"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
 
     <Scripts>
       <OnLoad>
@@ -60,5 +50,5 @@
         self:StopMovingOrSizing()
       </OnDragStop>
     </Scripts>
-  </Frame>
+  </StatusBar>
 </Ui>

@@ -8,7 +8,7 @@ function FigPaladin.drawTicks(frame)
   local tickWidth = 2
   for i=1, numTicks do
     -- create a texture for each tick and place into overlay layer
-    local tick = frame.status:CreateTexture(nil, 'OVERLAY')
+    local tick = frame:CreateTexture(nil, 'OVERLAY')
     tick:SetColorTexture(1, 1, 1, 1)
     tick:SetHeight(frame:GetHeight())
     tick:SetWidth(2)
@@ -18,8 +18,8 @@ end
 
 function FigPaladin.updateHolyPower(frame)
   local holyPower = UnitPower('player', 9) -- 9 is the enum for holy power
-  frame.status:SetValue(holyPower)
-  frame.status.text:SetText('' .. holyPower)
+  frame:SetValue(holyPower)
+  frame.text:SetText('' .. holyPower)
 end
 
 function FigPaladin.handleEvents(frame, event, ...)
