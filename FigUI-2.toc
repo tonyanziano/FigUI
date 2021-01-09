@@ -1,7 +1,7 @@
 ## Interface: 90002
 ## Title: FigUI-2
-## Notes: Fig's DK UI
-## SavedVariablesPerCharacter: savedVar1, savedVar2, savedVar3
+## Notes: Custom UI by Fignewticus - Zul'Jin (H)
+## SavedVariablesPerCharacter: Fig.config
 ## DefaultState: enabled
 ## Author: Fignewticus - Zul'jin (H)
 ## Version 0.0.1
@@ -12,3 +12,5 @@ Resources\DeathKnight.lua
 Resources\DeathKnight.xml
 Resources\Paladin.lua
 Resources\Paladin.xml
+UnitFrames\Player.lua
+UnitFrames\Player.xml
