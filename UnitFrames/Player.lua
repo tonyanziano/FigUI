@@ -87,6 +87,14 @@ function FigPlayer.updateRestingState(frame)
   frame.hp.resting:SetShown(IsResting())
 end
 
+function FigPlayer.updateFrame(frame)
+  FigPlayer.updateHp(frame, 'player')
+  FigPlayer.updatePower(frame, 'player')
+  FigPlayer.updatePlayerInfo(frame)
+  FigPlayer.updateCombatState(frame)
+  FigPlayer.updateRestingState(frame)
+end
+
 function FigPlayer.handleEvents(frame, event, ...)
   if event == 'UNIT_HEALTH' then
     FigPlayer.updateHp(frame, ...)
@@ -107,6 +115,10 @@ function FigPlayer.handleEvents(frame, event, ...)
   if event == 'PLAYER_UPDATE_RESTING' then
     FigPlayer.updateRestingState(frame)
   end
+
+  if event == 'PLAYER_ENTERING_WORLD' then
+    FigPlayer.updateFrame(frame)
+  end
 end
 
 function FigPlayer.initialize(frame)
@@ -117,6 +129,7 @@ function FigPlayer.initialize(frame)
   frame:RegisterEvent('PLAYER_REGEN_DISABLED')
   frame:RegisterEvent('PLAYER_REGEN_ENABLED')
   frame:RegisterEvent('PLAYER_UPDATE_RESTING')
+  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
   frame:SetScript('OnEvent', FigPlayer.handleEvents)
 
   PlayerFrame:Hide()
@@ -124,9 +137,5 @@ function FigPlayer.initialize(frame)
   -- initial draw
   FigPlayer.colorHp(frame, 'player')
   FigPlayer.colorPower(frame, 'player')
-  FigPlayer.updateHp(frame, 'player')
-  FigPlayer.updatePower(frame, 'player')
-  FigPlayer.updatePlayerInfo(frame)
-  FigPlayer.updateCombatState(frame)
-  FigPlayer.updateRestingState(frame)
+  FigPlayer.updateFrame(frame)
 end

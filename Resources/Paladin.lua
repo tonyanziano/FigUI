@@ -29,11 +29,16 @@ function FigPaladin.handleEvents(frame, event, ...)
       FigPaladin.updateHolyPower(frame)
     end
   end
+
+  if event == 'PLAYER_ENTERING_WORLD' then
+    FigPaladin.updateHolyPower(frame)
+  end
 end
 
 function FigPaladin.initialize(frame)
   -- register for events
   frame:RegisterEvent('UNIT_POWER_UPDATE')
+  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
   frame:SetScript('OnEvent', FigPaladin.handleEvents)
 
   -- do initial draw
