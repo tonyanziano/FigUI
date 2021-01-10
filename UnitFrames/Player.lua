@@ -59,7 +59,7 @@ function FigPlayer.updatePower(frame, unit)
 end
 
 function FigPlayer.colorHp(frame, unit)
-  local class = UnitClass('player')
+  local _, class = UnitClass('player')
   local classColor = C_ClassColor.GetClassColor(class)
   frame.hp:SetStatusBarColor(classColor.r, classColor.g, classColor.b, 1)
 end
