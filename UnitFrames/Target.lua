@@ -130,7 +130,8 @@ function FigTarget.initialize(frame)
   frame:RegisterEvent('PLAYER_TARGET_CHANGED')
   frame:SetScript('OnEvent', FigTarget.handleEvents)
 
-  -- TargetFrame:Hide()
+  -- hide default target frame
+  TargetFrame:SetScript('OnEvent', nil)
 end
 
 function FigTarget.onShow(frame)
