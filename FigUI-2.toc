@@ -14,3 +14,5 @@ Resources\Paladin.lua
 Resources\Paladin.xml
 UnitFrames\Player.lua
 UnitFrames\Player.xml
+UnitFrames\Target.lua
+UnitFrames\Target.xml
