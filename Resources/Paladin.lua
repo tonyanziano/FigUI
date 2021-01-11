@@ -1,18 +1,18 @@
 FigPaladin = {}
 
-FigPaladin.showTicks = true
+FigPaladin.showSeparators = true
 
-function FigPaladin.drawTicks(frame)
+function FigPaladin.drawSeparators(frame)
   local frameWidth = frame:GetWidth()
-  local numTicks = 4
-  local tickWidth = 2
-  for i=1, numTicks do
-    -- create a texture for each tick and place into overlay layer
-    local tick = frame:CreateTexture(nil, 'OVERLAY')
-    tick:SetColorTexture(1, 1, 1, 1)
-    tick:SetHeight(frame:GetHeight())
-    tick:SetWidth(2)
-    tick:SetPoint('LEFT', frame, 'LEFT', i * (frameWidth / (numTicks + 1)) - (tickWidth / 2), 0)
+  local numSeparators = 4
+  local separatorWidth = 2
+  for i=1, numSeparators do
+    -- create a texture for each separator and place into overlay layer
+    local separator = frame:CreateTexture(nil, 'OVERLAY')
+    separator:SetColorTexture(1, 1, 1, 1)
+    separator:SetHeight(frame:GetHeight())
+    separator:SetWidth(2)
+    separator:SetPoint('LEFT', frame, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
   end
 end
 
@@ -42,6 +42,6 @@ function FigPaladin.initialize(frame)
   frame:SetScript('OnEvent', FigPaladin.handleEvents)
 
   -- do initial draw
-  FigPaladin.drawTicks(frame)
+  FigPaladin.drawSeparators(frame)
   FigPaladin.updateHolyPower(frame)
 end
