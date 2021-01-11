@@ -116,9 +116,6 @@
         GameTooltip:SetUnit('player')
         GameTooltip:Show()
       </OnEnter>
-      <OnLeave>
-        GameTooltip:Hide()
-      </OnLeave>
     </Scripts>
   </Button>
 </Ui>

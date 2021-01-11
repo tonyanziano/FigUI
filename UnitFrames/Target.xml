@@ -52,7 +52,6 @@
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
         </Anchors>
 
-        <!-- Status bar fill texture -->
         <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
         <BarColor r="0" g="0" b="0" a="1"/>
 
@@ -104,9 +103,6 @@
         GameTooltip:SetUnit('target')
         GameTooltip:Show()
       </OnEnter>
-      <OnLeave>
-        GameTooltip:Hide()
-      </OnLeave>
       <OnShow>
         FigTarget.onShow(self)
       </OnShow>
