@@ -1,6 +1,19 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="DeathKnight.lua" />
 
+  <Frame name="FigDeathKnightRune" virtual="true" >
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture setAllPoints="true" file="Interface\AddOns\FigUI-2\Textures\GenericBarFill">
+          <Color r=".28" g=".15" b="0.91" a="1"/>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Cooldown inherits="CooldownFrameTemplate" parentKey="cd" />
+    </Frames>
+  </Frame>
+
   <Frame name="FigResourceDeathKnight" movable="true" enableMouse="true" hidden="true" parent="UIParent">
     <Size x="200" y="50"/>
     <Anchors>
@@ -8,8 +21,7 @@
     </Anchors>
     <Layers>
       <Layer level="BACKGROUND">
-        <!-- just a blank dark background -->
-        <Texture name="$parentTexture" setAllPoints="true">
+        <Texture setAllPoints="true">
           <Color r="0" g="0" b="0" a=".5"/>
         </Texture>
       </Layer>
@@ -17,21 +29,15 @@
 
     <Frames>
       <!-- Runes -->
-      <Frame name="$parentRunes">
+      <Frame parentKey="runeContainer">
         <Size x="200" y="25"/>
         <Anchors>
           <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
         </Anchors>
-
-        <Scripts>
-          <OnLoad>
-            FigDK.drawRunes()
-          </OnLoad>
-        </Scripts>
       </Frame>
 
       <!-- Runic Power -->
-      <StatusBar name="$parentRunicPower" minValue="0" maxValue="100" defaultValue="100">
+      <StatusBar parentKey="runicPower" minValue="0" maxValue="100" defaultValue="100">
         <Size x="200" y="25"/>
         <Anchors>
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
@@ -43,8 +49,7 @@
 
         <Layers>
           <Layer level="BACKGROUND">
-            <!-- just a blank dark background -->
-            <Texture name="$parentTexture" setAllPoints="true">
+            <Texture setAllPoints="true">
               <Color r="0" g="0" b="0" a=".5"/>
             </Texture>
           </Layer>
@@ -59,12 +64,6 @@
             </FontString>
           </Layer>
         </Layers>
-
-        <Scripts>
-          <OnLoad>
-            FigDK.drawRunicPower(self)
-          </OnLoad>
-        </Scripts>
       </StatusBar>
     </Frames>
 
