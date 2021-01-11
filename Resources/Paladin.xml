@@ -2,18 +2,16 @@
   <Script file="Paladin.lua" />
 
   <StatusBar name="FigResourcePaladin" movable="true" enableMouse="true" hidden="true" parent="UIParent" minValue="0" maxValue="5" defaultValue="0">
-    <Size x="200" y="25"/>
+    <Size x="250" y="30"/>
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="-100" y="0"/>
     </Anchors>
 
-    <!-- Status bar fill texture -->
     <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
     <BarColor r=".86" g=".86" b=".22" a="1"/>
 
     <Layers>
       <Layer level="BACKGROUND">
-        <!-- just a blank dark background -->
         <Texture name="$parentTexture" setAllPoints="true">
           <Color r="0" g="0" b="0" a=".5"/>
         </Texture>
