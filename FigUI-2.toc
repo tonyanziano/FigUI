@@ -16,3 +16,7 @@ UnitFrames\Player.lua
 UnitFrames\Player.xml
 UnitFrames\Target.lua
 UnitFrames\Target.xml
+UnitFrames\TargetOfTarget.lua
+UnitFrames\TargetOfTarget.xml
+UnitFrames\Pet.lua
+UnitFrames\Pet.xml
