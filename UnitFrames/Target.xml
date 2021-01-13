@@ -1,6 +1,28 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Target.lua" />
 
+  <Frame name="FigTargetAura" virtual="true" enableMouse="true">
+    <Size x="24" y="24"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="texture">
+          <Size x="24" y="24"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+    </Layers>
+
+    <Scripts>
+      <OnEnter>
+        GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+        GameTooltip:SetUnitAura('target', self.auraIndex)
+        GameTooltip:Show()
+      </OnEnter>
+    </Scripts>
+  </Frame>
+
   <Button name="FigTargetFrame" inherits="SecureUnitButtonTemplate" parent="UIParent" movable="true" enableMouse="true">
     <Size x="200" y="75"/>
     <Anchors>

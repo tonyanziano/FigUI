@@ -98,7 +98,7 @@
         GameTooltip:Show()
       </OnEnter>
       <OnShow>
-        FigTarget.onShow(self)
+        FigToT.onShow(self)
       </OnShow>
     </Scripts>
   </Button>

@@ -91,12 +91,35 @@ function FigTarget.updatePlayerInfo(frame)
   frame.hp.playerInfo:SetText(format('%s %s', level, name))
 end
 
+local maxNumAuras = 40
+function FigTarget.updateAuras(frame)
+  for i = 1, maxNumAuras do
+    local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
+      nameplateShowPersonal, spellId = UnitBuff('target', i)
+    local f = _G['FigTargetAura' .. i] or CreateFrame('Frame', 'FigTargetAura' .. i, frame, 'FigTargetAura')
+    if name then
+      local frameWidth = f:GetWidth()
+      xOffset = frameWidth * (i - 1)
+      f:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', xOffset, 0)
+      f.texture:SetTexture(icon)
+      f.spellId = spellId
+      f.auraIndex = i
+      f:Show()
+    else
+      f.spellId = nil
+      f.auraIndex = nil
+      f:Hide()
+    end
+  end
+end
+
 function FigTarget.updateFrame(frame)
   FigTarget.colorHp(frame, 'target')
   FigTarget.colorPower(frame, 'target')
   FigTarget.updateHp(frame, 'target')
   FigTarget.updatePower(frame, 'target')
   FigTarget.updatePlayerInfo(frame)
+  FigTarget.updateAuras(frame)
 end
 
 function FigTarget.handleEvents(frame, event, ...)
@@ -119,6 +142,10 @@ function FigTarget.handleEvents(frame, event, ...)
   if event == 'PLAYER_TARGET_CHANGED' and UnitExists('target') then
     FigTarget.updateFrame(frame)
   end
+
+  if event == 'UNIT_AURA' and ... == 'target' then
+    FigTarget.updateAuras(frame)
+  end
 end
 
 function FigTarget.initialize(frame)
@@ -128,6 +155,7 @@ function FigTarget.initialize(frame)
   frame:RegisterEvent('PLAYER_LEVEL_CHANGED')
   frame:RegisterEvent('PLAYER_ENTERING_WORLD')
   frame:RegisterEvent('PLAYER_TARGET_CHANGED')
+  frame:RegisterEvent('UNIT_AURA')
   frame:SetScript('OnEvent', FigTarget.handleEvents)
 
   -- hide default target frame
