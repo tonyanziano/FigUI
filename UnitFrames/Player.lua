@@ -31,41 +31,31 @@ local powerBarColors = {
 function FigPlayer.updateHp(frame, unit)
   if unit == 'player' then
     local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
-    if hp >= 1000 then
-      -- do conversion to shorter syntax (eg. 4700 = 4.7k)
-      local shortHp = format('%.2f', tostring(hp / 1000)) .. 'k'
-      local shortMaxHp = format('%.2f', tostring(maxHp / 1000)) .. 'k'
-      frame.hp.text:SetText(shortHp .. ' / '.. shortMaxHp)
-    else
-      frame.hp.text:SetText(hp .. ' / '.. maxHp)
-    end
-    frame.hp:SetValue(hp / maxHp * 100)
+    local percentHp = format('%i', tostring(hp / maxHp * 100))
+    local shortHp = Fig.prettyPrintNumber(hp)
+    frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
+    frame.hp:SetValue(percentHp)
   end
 end
 
 function FigPlayer.updatePower(frame, unit)
   if unit == 'player' then
     local power, maxPower = UnitPower(unit), UnitPowerMax(unit)
-    if power >= 1000 then
-      -- do conversion to shorter syntax (eg. 4700 = 4.7k)
-      local shortPower = format('%.2f', tostring(power / 1000)) .. 'k'
-      local shortMaxPower = format('%.2f', tostring(maxPower / 1000)) .. 'k'
-      frame.power.text:SetText(shortPower .. ' / '.. shortMaxPower)
-    else
-      frame.power.text:SetText(power .. ' / '.. maxPower)
-    end
-    frame.power:SetValue(power / maxPower * 100)
+    local percentPower = format('%i', tostring(power / maxPower * 100))
+    local shortPower = Fig.prettyPrintNumber(power)
+    frame.power.text:SetText(format('%s - %s%%', shortPower, percentPower))
+    frame.power:SetValue(percentPower)
   end
 end
 
-function FigPlayer.colorHp(frame, unit)
+function FigPlayer.colorHp(frame)
   local _, class = UnitClass('player')
   local classColor = C_ClassColor.GetClassColor(class)
   frame.hp:SetStatusBarColor(classColor.r, classColor.g, classColor.b, 1)
 end
 
-function FigPlayer.colorPower(frame, unit)
-  local _, powerToken = UnitPowerType(unit)
+function FigPlayer.colorPower(frame)
+  local _, powerToken = UnitPowerType('player')
   local powerColor = powerBarColors[powerToken]
   if not powerColor then
     -- fall back to mana color
@@ -135,7 +125,9 @@ function FigPlayer.initialize(frame)
   PlayerFrame:Hide()
 
   -- initial draw
-  FigPlayer.colorHp(frame, 'player')
-  FigPlayer.colorPower(frame, 'player')
+  -- TODO: make this respect the user's frame positioning
+  frame:SetPoint('CENTER', UIParent, 'CENTER', -200, -240)
+  FigPlayer.colorHp(frame)
+  FigPlayer.colorPower(frame)
   FigPlayer.updateFrame(frame)
 end

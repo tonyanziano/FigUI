@@ -24,15 +24,12 @@
   </Frame>
 
   <Button name="FigTargetFrame" inherits="SecureUnitButtonTemplate" parent="UIParent" movable="true" enableMouse="true">
-    <Size x="200" y="75"/>
-    <Anchors>
-      <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="200" y="0"/>
-    </Anchors>
+    <Size x="200" y="50"/>
 
     <Frames>
       <!-- HP -->
       <StatusBar parentKey="hp" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="50"/>
+        <Size x="200" y="40"/>
         <Anchors>
           <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
         </Anchors>
@@ -47,18 +44,12 @@
             </Texture>
           </Layer>
           <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
+            <FontString parentKey="text" inherits="SystemFont_Shadow_Med3">
               <Anchors>
-                <Anchor point="CENTER" y="-10"/>
+                <Anchor point="RIGHT" y="-10"/>
               </Anchors>
             </FontString>
             <FontString parentKey="playerInfo" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
               <Anchors>
                 <Anchor point="TOPLEFT" x="4" y="-2" />
               </Anchors>
@@ -69,7 +60,7 @@
 
       <!-- Power -->
       <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="25"/>
+        <Size x="200" y="10"/>
         <Anchors>
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
         </Anchors>
@@ -85,11 +76,8 @@
           </Layer>
           <Layer level="ARTWORK">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
               <Anchors>
-                <Anchor point="CENTER"/>
+                <Anchor point="RIGHT"/>
               </Anchors>
             </FontString>
           </Layer>

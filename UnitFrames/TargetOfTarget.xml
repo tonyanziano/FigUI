@@ -1,10 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="TargetOfTarget.lua" />
 
-  <Button name="FigToTFrame" inherits="SecureUnitButtonTemplate" parent="UIParent" movable="true" enableMouse="true">
-    <Size x="100" y="50"/>
+  <Button name="FigToTFrame" inherits="SecureUnitButtonTemplate" parent="FigTargetFrame" movable="true" enableMouse="true">
+    <Size x="100" y="35"/>
     <Anchors>
-      <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="300" y="0"/>
+      <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT" x="10"/>
     </Anchors>
 
     <Frames>
@@ -26,17 +26,11 @@
           </Layer>
           <Layer level="ARTWORK">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
               <Anchors>
-                <Anchor point="CENTER" y="-10"/>
+                <Anchor point="BOTTOMRIGHT" />
               </Anchors>
             </FontString>
             <FontString parentKey="playerInfo" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
               <Anchors>
                 <Anchor point="TOPLEFT" x="4" y="-2" />
               </Anchors>
@@ -47,7 +41,7 @@
 
       <!-- Power -->
       <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="100" y="25"/>
+        <Size x="100" y="10"/>
         <Anchors>
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
         </Anchors>
@@ -63,11 +57,8 @@
           </Layer>
           <Layer level="ARTWORK">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
               <Anchors>
-                <Anchor point="CENTER"/>
+                <Anchor point="RIGHT"/>
               </Anchors>
             </FontString>
           </Layer>

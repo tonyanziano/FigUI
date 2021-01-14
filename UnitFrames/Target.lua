@@ -37,30 +37,26 @@ local noClassHpColor = {
 function FigTarget.updateHp(frame, unit)
   if unit == 'target' then
     local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
-    if hp >= 1000 then
-      -- do conversion to shorter syntax (eg. 4700 = 4.7k)
-      local shortHp = format('%.2f', tostring(hp / 1000)) .. 'k'
-      local shortMaxHp = format('%.2f', tostring(maxHp / 1000)) .. 'k'
-      frame.hp.text:SetText(shortHp .. ' / '.. shortMaxHp)
-    else
-      frame.hp.text:SetText(hp .. ' / '.. maxHp)
-    end
-    frame.hp:SetValue(hp / maxHp * 100)
+    local percentHp = format('%i', tostring(hp / maxHp * 100))
+    local shortHp = Fig.prettyPrintNumber(hp)
+    frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
+    frame.hp:SetValue(percentHp)
   end
 end
 
 function FigTarget.updatePower(frame, unit)
   if unit == 'target' then
     local power, maxPower = UnitPower(unit), UnitPowerMax(unit)
-    if power >= 1000 then
-      -- do conversion to shorter syntax (eg. 4700 = 4.7k)
-      local shortPower = format('%.2f', tostring(power / 1000)) .. 'k'
-      local shortMaxPower = format('%.2f', tostring(maxPower / 1000)) .. 'k'
-      frame.power.text:SetText(shortPower .. ' / '.. shortMaxPower)
-    else
-      frame.power.text:SetText(power .. ' / '.. maxPower)
+    if maxPower == 0 then
+      -- handle the case of 0 / 0 power
+      frame.power.text:SetText('N/A')
+      frame.power:SetValue(0)
+      return
     end
-    frame.power:SetValue(power / maxPower * 100)
+    local percentPower = format('%i', tostring(power / maxPower * 100))
+    local shortPower = Fig.prettyPrintNumber(power)
+    frame.power.text:SetText(format('%s - %s%%', shortPower, percentPower))
+    frame.power:SetValue(percentPower)
   end
 end
 
@@ -99,7 +95,7 @@ function FigTarget.updateAuras(frame)
     local f = _G['FigTargetAura' .. i] or CreateFrame('Frame', 'FigTargetAura' .. i, frame, 'FigTargetAura')
     if name then
       local frameWidth = f:GetWidth()
-      xOffset = frameWidth * (i - 1)
+      local xOffset = frameWidth * (i - 1)
       f:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', xOffset, 0)
       f.texture:SetTexture(icon)
       f.spellId = spellId
@@ -160,6 +156,9 @@ function FigTarget.initialize(frame)
 
   -- hide default target frame
   TargetFrame:SetScript('OnEvent', nil)
+
+  -- TODO: make this respect the user's frame positioning
+  frame:SetPoint('CENTER', UIParent, 'CENTER', 200, -240)
 end
 
 function FigTarget.onShow(frame)
