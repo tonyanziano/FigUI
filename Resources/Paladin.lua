@@ -9,7 +9,7 @@ function FigPaladin.drawSeparators(frame)
   for i=1, numSeparators do
     -- create a texture for each separator and place into overlay layer
     local separator = frame:CreateTexture(nil, 'OVERLAY')
-    separator:SetColorTexture(1, 1, 1, 1)
+    separator:SetColorTexture(0, 0, 0, 0.5)
     separator:SetHeight(frame:GetHeight())
     separator:SetWidth(2)
     separator:SetPoint('LEFT', frame, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
