@@ -1,22 +1,18 @@
 ## Interface: 90002
 ## Title: FigUI-2
 ## Notes: Custom UI by Fignewticus - Zul'Jin (H)
-## SavedVariablesPerCharacter: Fig.config
+## SavedVariablesPerCharacter: FigConfig
 ## DefaultState: enabled
 ## Author: Fignewticus - Zul'jin (H)
 ## Version 0.0.1
 
 FigUI.lua
 FigUtils.lua
-Resources\DeathKnight.lua
+Config\Config.xml
+Fonts\Fonts.xml
 Resources\DeathKnight.xml
-Resources\Paladin.lua
 Resources\Paladin.xml
-UnitFrames\Player.lua
 UnitFrames\Player.xml
-UnitFrames\Target.lua
 UnitFrames\Target.xml
-UnitFrames\TargetOfTarget.lua
 UnitFrames\TargetOfTarget.xml
-UnitFrames\Pet.lua
 UnitFrames\Pet.xml

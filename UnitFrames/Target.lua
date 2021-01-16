@@ -88,21 +88,67 @@ function FigTarget.updatePlayerInfo(frame)
 end
 
 local maxNumAuras = 40
+local aurasPerRow = 10
+
 function FigTarget.updateAuras(frame)
-  for i = 1, maxNumAuras do
+  local auraWidth, auraHeight
+  -- draw buffs
+  frame.numBuffRows = nil
+  for i = 1, maxNumAuras / 2 do
     local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
       nameplateShowPersonal, spellId = UnitBuff('target', i)
-    local f = _G['FigTargetAura' .. i] or CreateFrame('Frame', 'FigTargetAura' .. i, frame, 'FigTargetAura')
+    local f = _G['FigTargetBuff' .. i] or CreateFrame('Frame', 'FigTargetBuff' .. i, frame, 'FigTargetBuffTemplate')
     if name then
-      local frameWidth = f:GetWidth()
-      local xOffset = frameWidth * (i - 1)
-      f:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', xOffset, 0)
+      if not auraWidth or not auraHeight then
+        -- get the aura width and height
+        auraWidth, auraHeight = f:GetWidth(), f:GetHeight()
+      end
+      local xOffset = auraWidth * ((i - 1) % aurasPerRow)
+      local rowNum = math.floor((i - 1) / aurasPerRow)
+      local yOffset = auraHeight * rowNum
+      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset)
       f.texture:SetTexture(icon)
-      f.spellId = spellId
+      if duration and duration ~= 0 then
+        f.cd:Show()
+        f.cd:SetCountdownFont('FigFontInvis')
+        f.cd:SetCooldown(GetTime(), duration)
+      else
+        f.cd:Hide()
+      end
+      f.auraIndex = i
+      frame.numBuffRows = rowNum -- used to position the debuffs
+      f:Show()
+    else
+      f.auraIndex = nil
+      f:Hide()
+    end
+  end
+
+  -- draw debuffs
+  -- TODO: add cooldowns
+  for i = 1, maxNumAuras / 2 do
+    local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
+      nameplateShowPersonal, spellId = UnitDebuff('target', i)
+    local f = _G['FigTargetDebuff' .. i] or CreateFrame('Frame', 'FigTargetDebuff' .. i, frame, 'FigTargetDebuffTemplate')
+    if name then
+      if not auraWidth or not auraHeight then
+        -- get the aura width and height
+        auraWidth, auraHeight = f:GetWidth(), f:GetHeight()
+      end
+      local xOffset = auraWidth * ((i - 1) % aurasPerRow)
+      local debuffRowsStartPos
+      if frame.numBuffRows ~= nil then
+        debuffRowsStartPos = (frame.numBuffRows + 1) * auraHeight
+      else
+        debuffRowsStartPos = 0
+      end
+      local yOffset = auraHeight * math.floor((i - 1) / aurasPerRow) + debuffRowsStartPos
+      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset)
+      f.texture:SetTexture(icon)
+      f.textureTint:SetColorTexture(1, 0, 0, 0.3)
       f.auraIndex = i
       f:Show()
     else
-      f.spellId = nil
       f.auraIndex = nil
       f:Hide()
     end
