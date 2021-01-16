@@ -102,17 +102,19 @@ function FigToT.updateFrame(frame)
   end
 end
 
+local tickRate = 0.4
+local totalElapsed = 0
+function FigToT.handleUpdate(frame, elapsed)
+  totalElapsed = totalElapsed + elapsed
+  if totalElapsed >= tickRate then
+    FigToT.updateFrame(frame)
+    totalElapsed = 0
+  end
+end
+
 function FigToT.handleEvents(frame, event, ...)
   if not frame:IsShown() then
     return
-  end
-
-  if event == 'UNIT_HEALTH' then
-    FigToT.updateHp(frame, ...)
-  end
-
-  if event == 'UNIT_POWER_UPDATE' then
-    FigToT.updatePower(frame, ...)
   end
 
   if event == 'PLAYER_ENTERING_WORLD' then
@@ -126,12 +128,10 @@ end
 
 function FigToT.initialize(frame)
   -- register for events
-  frame:RegisterEvent('UNIT_HEALTH')
-  frame:RegisterEvent('UNIT_POWER_UPDATE')
-  frame:RegisterEvent('PLAYER_LEVEL_CHANGED')
   frame:RegisterEvent('PLAYER_ENTERING_WORLD')
   frame:RegisterEvent('PLAYER_TARGET_CHANGED')
   frame:SetScript('OnEvent', FigToT.handleEvents)
+  frame:SetScript('OnUpdate', FigToT.handleUpdate)
 end
 
 function FigToT.onShow(frame)
