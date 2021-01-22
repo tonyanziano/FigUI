@@ -1,4 +1,4 @@
-Fig = {}
+Fig = { frames = {} }
 
 if not FigConfig then
   print('No saved Fig config detected. Generating new table.')
@@ -13,4 +13,13 @@ function SlashCmdList.SHOW_OPTIONS()
   -- this function is bugged and calling it twice navigates to the correct panel
   InterfaceOptionsFrame_OpenToCategory(FigConfigPanel)
   InterfaceOptionsFrame_OpenToCategory(FigConfigPanel)
+end
+
+SLASH_TOGGLE_FRAME_LOCK1 = '/figlock'
+function SlashCmdList.TOGGLE_FRAME_LOCK()
+  for _, frame in pairs(Fig.frames) do
+    if frame.onToggleLock then
+      frame:onToggleLock()
+    end
+  end
 end

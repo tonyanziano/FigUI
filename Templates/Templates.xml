@@ -1,0 +1,33 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="Templates.lua" />
+
+  <!-- Generic template used to be an opaque, moveable background for all frames -->
+  <Frame name="FigBackdropTemplate" parent="UIParent" virtual="true" movable="true" enableMouse="true">
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture>
+          <Color r="0" g="0" b="0" a="1"/>
+        </Texture>
+      </Layer>
+    </Layers>
+
+    <!-- Overlay for dragging frames -->
+    <Frames>
+      <Frame parentKey="overlay" enableMouse="true">
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture>
+              <Color r="0" g="1" b="0" a=".6"/>
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        FigTemplates.initalizeBackdrop(self)
+      </OnLoad>
+    </Scripts>
+  </Frame>
+</Ui>

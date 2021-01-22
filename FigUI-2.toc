@@ -10,6 +10,7 @@ FigUI.lua
 FigUtils.lua
 Config\Config.xml
 Fonts\Fonts.xml
+Templates\Templates.xml
 Resources\DeathKnight.xml
 Resources\Paladin.xml
 UnitFrames\Player.xml
