@@ -3,23 +3,23 @@ FigPaladin = {}
 FigPaladin.showSeparators = true
 
 function FigPaladin.drawSeparators(frame)
-  local frameWidth = frame:GetWidth()
+  local frameWidth = frame.status:GetWidth()
   local numSeparators = 4
   local separatorWidth = 2
   for i=1, numSeparators do
     -- create a texture for each separator and place into overlay layer
-    local separator = frame:CreateTexture(nil, 'OVERLAY')
+    local separator = frame.status:CreateTexture(nil, 'OVERLAY')
     separator:SetColorTexture(0, 0, 0, 1)
-    separator:SetHeight(frame:GetHeight())
+    separator:SetHeight(frame.status:GetHeight())
     separator:SetWidth(2)
-    separator:SetPoint('LEFT', frame, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
+    separator:SetPoint('LEFT', frame.status, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
   end
 end
 
 function FigPaladin.updateHolyPower(frame)
   local holyPower = UnitPower('player', 9) -- 9 is the enum for holy power
-  frame:SetValue(holyPower)
-  frame.text:SetText('' .. holyPower)
+  frame.status:SetValue(holyPower)
+  frame.status.text:SetText('' .. holyPower)
 end
 
 function FigPaladin.handleEvents(frame, event, ...)
