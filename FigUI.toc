@@ -1,5 +1,5 @@
 ## Interface: 90002
-## Title: FigUI-2
+## Title: FigUI
 ## Notes: Custom UI by Fignewticus - Zul'Jin (H)
 ## SavedVariablesPerCharacter: FigConfig
 ## DefaultState: enabled
