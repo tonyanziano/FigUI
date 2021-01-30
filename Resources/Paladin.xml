@@ -14,7 +14,7 @@
           <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
         </Anchors>
 
-        <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
+        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
         <BarColor r=".86" g=".86" b=".22" a="1"/>
 
         <Layers>

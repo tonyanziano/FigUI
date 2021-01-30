@@ -4,7 +4,7 @@
   <Frame name="FigDeathKnightRune" virtual="true" >
     <Layers>
       <Layer level="BACKGROUND">
-        <Texture setAllPoints="true" file="Interface\AddOns\FigUI-2\Textures\GenericBarFill">
+        <Texture setAllPoints="true" file="Interface\AddOns\FigUI\Textures\GenericBarFill">
           <Color r=".28" g=".15" b="0.91" a="1"/>
         </Texture>
       </Layer>
@@ -15,9 +15,9 @@
   </Frame>
 
   <Frame name="FigResourceDeathKnight" movable="true" enableMouse="true" hidden="true" parent="UIParent">
-    <Size x="200" y="50"/>
+    <Size x="200" y="40"/>
     <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="-100" y="0"/>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="-200"/>
     </Anchors>
     <Layers>
       <Layer level="BACKGROUND">
@@ -38,13 +38,13 @@
 
       <!-- Runic Power -->
       <StatusBar parentKey="runicPower" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="25"/>
+        <Size x="200" y="15"/>
         <Anchors>
           <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
         </Anchors>
 
         <!-- Status bar fill texture -->
-        <BarTexture file="Interface\AddOns\FigUI-2\Textures\GenericBarFill"/>
+        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
         <BarColor r=".18" g=".56" b=".8" a="1"/>
 
         <Layers>
