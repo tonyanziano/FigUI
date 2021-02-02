@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Player.lua" />
 
-  <Button name="FigPlayerFrame" inherits="SecureUnitButtonTemplate" parent="UIParent" movable="true" enableMouse="true">
+  <Button name="FigPlayerFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="UIParent">
     <Size x="200" y="50"/>
 
     <Frames>
@@ -78,26 +78,16 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         -- configure to behave like default player frame
 	      self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-        self:RegisterForDrag("LeftButton")
         local showMenu = function()
           ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0);
         end
         SecureUnitButton_OnLoad(self, 'player', showMenu)
 
         FigPlayer.initialize(self)
-        self.isLocked = false
       </OnLoad>
-      <OnDragStart>
-        if not self.isLocked then
-          self:StartMoving()
-        end
-      </OnDragStart>
-      <OnDragStop>
-        self:StopMovingOrSizing()
-      </OnDragStop>
       <OnEnter>
         GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
         GameTooltip:SetUnit('player')

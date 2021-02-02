@@ -31,6 +31,7 @@ local powerBarColors = {
 function FigPlayer.updateHp(frame, unit)
   if unit == 'player' then
     local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
+    if maxHp == 0 then return end -- hp has not loaded yet -- let next redraw do the work
     local percentHp = format('%i', tostring(hp / maxHp * 100))
     local shortHp = Fig.prettyPrintNumber(hp)
     frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
@@ -41,6 +42,7 @@ end
 function FigPlayer.updatePower(frame, unit)
   if unit == 'player' then
     local power, maxPower = UnitPower(unit), UnitPowerMax(unit)
+    if maxPower == 0 then return end -- power has not loaded yet -- let next redraw do the work
     local percentPower = format('%i', tostring(power / maxPower * 100))
     local shortPower = Fig.prettyPrintNumber(power)
     frame.power.text:SetText(format('%s - %s%%', shortPower, percentPower))
@@ -125,7 +127,6 @@ function FigPlayer.initialize(frame)
   PlayerFrame:Hide()
 
   -- initial draw
-  -- TODO: make this respect the user's frame positioning
   frame:SetPoint('CENTER', UIParent, 'CENTER', -200, -240)
   FigPlayer.colorHp(frame)
   FigPlayer.colorPower(frame)
