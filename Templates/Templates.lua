@@ -33,3 +33,20 @@ function FigTemplates.initalizeBackdrop(frame)
   frame.overlay:SetScript('OnDragStart', moveBackdrop)
   frame.overlay:SetScript('OnDragStop', stopMovingBackdrop)
 end
+
+function FigTemplates.initializeBorderedFrame(frame)
+  Fig.frames[frame:GetName()] = frame
+  frame.onToggleLock = onToggleLock
+  frame.isLocked = true
+  frame:SetClampedToScreen(true)
+
+  -- create overlay for dragging
+  frame.overlay:SetShown(false)
+  frame.overlay:SetAllPoints()
+  frame.overlay:SetFrameLevel(frame:GetFrameLevel() + 5) -- ensure frame is clickable
+  frame.overlay:RegisterForDrag('LeftButton')
+  frame.overlay:SetScript('OnDragStart', moveBackdrop)
+  frame.overlay:SetScript('OnDragStop', stopMovingBackdrop)
+
+  Fig.drawBordersForFrame(frame)
+end

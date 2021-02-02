@@ -30,4 +30,26 @@
       </OnLoad>
     </Scripts>
   </Frame>
+  
+  <!-- Generic template used to make a frame bordered and moveable -->
+  <Frame name="FigBorderedTemplate" parent="UIParent" virtual="true" movable="true" enableMouse="true">
+    <!-- Overlay for dragging frames -->
+    <Frames>
+      <Frame parentKey="overlay" enableMouse="true">
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture>
+              <Color r="0" g="1" b="0" a=".6"/>
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        FigTemplates.initializeBorderedFrame(self)
+      </OnLoad>
+    </Scripts>
+  </Frame>
 </Ui>
