@@ -53,8 +53,11 @@
     </Scripts>
   </Frame>
 
-  <Button name="FigTargetFrame" inherits="SecureUnitButtonTemplate" parent="UIParent" movable="true" enableMouse="true">
+  <Button name="FigTargetFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="UIParent">
     <Size x="200" y="50"/>
+    <Anchors>
+      <Anchor point="TOPRIGHT" relativeTo="UIParent" relativePoint="CENTER" x="310" y="-100" />
+    </Anchors>
 
     <Frames>
       <!-- HP -->
@@ -116,10 +119,9 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         -- configure to behave like default target frame
 	      self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-        self:RegisterForDrag("LeftButton")
         local showMenu = function()
           ToggleDropDownMenu(1, nil, TargetFrameDropDown, self, 0, 0);
         end
@@ -128,16 +130,7 @@
         RegisterUnitWatch(self, false)
 
         FigTarget.initialize(self)
-        self.isLocked = false
       </OnLoad>
-      <OnDragStart>
-        if not self.isLocked then
-          self:StartMoving()
-        end
-      </OnDragStart>
-      <OnDragStop>
-        self:StopMovingOrSizing()
-      </OnDragStop>
       <OnEnter>
         GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
         GameTooltip:SetUnit('target')

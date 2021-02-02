@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="TargetOfTarget.lua" />
 
-  <Button name="FigToTFrame" inherits="SecureUnitButtonTemplate" parent="FigTargetFrame" movable="true" enableMouse="true">
+  <Button name="FigToTFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="FigTargetFrame">
     <Size x="100" y="35"/>
     <Anchors>
       <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT" x="10"/>
@@ -67,22 +67,12 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
-        self:RegisterForDrag("LeftButton")
+      <OnLoad inherit="prepend">
         self:SetAttribute('unit', 'targettarget')
         RegisterUnitWatch(self, false)
 
         FigToT.initialize(self)
-        self.isLocked = false
       </OnLoad>
-      <OnDragStart>
-        if not self.isLocked then
-          self:StartMoving()
-        end
-      </OnDragStart>
-      <OnDragStop>
-        self:StopMovingOrSizing()
-      </OnDragStop>
       <OnEnter>
         GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
         GameTooltip:SetUnit('targettarget')

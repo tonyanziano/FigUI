@@ -14,26 +14,40 @@
     </Frames>
   </Frame>
 
-  <Frame name="FigResourceDeathKnight" movable="true" enableMouse="true" hidden="true" parent="UIParent">
+  <Frame name="FigResourceDeathKnight" hidden="true" parent="UIParent" inherits="FigBorderedTemplate">
     <Size x="200" y="40"/>
     <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="-200"/>
+      <Anchor point="TOP" relativeTo="UIParent" relativePoint="CENTER" x="0" y="-100"/>
     </Anchors>
     <Layers>
       <Layer level="BACKGROUND">
         <Texture setAllPoints="true">
-          <Color r="0" g="0" b="0" a=".5"/>
+          <Color r="0" g="0" b="0" a="1"/>
         </Texture>
       </Layer>
     </Layers>
 
     <Frames>
       <!-- Runes -->
-      <Frame parentKey="runeContainer">
-        <Size x="200" y="25"/>
+      <Frame parentKey="runeContainer" name="$parentRuneContainer">
+        <Size x="200" y="23"/>
         <Anchors>
           <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
         </Anchors>
+      </Frame>
+      
+      <Frame>
+        <Size x="200" y="2"/>
+        <Anchors>
+          <Anchor point="TOP" relativeTo="$parentRuneContainer" relativePoint="BOTTOM"/>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture setAllPoints="true">
+              <Color r="0" g="0" b="0" a="1"/>
+            </Texture>
+          </Layer>
+        </Layers>
       </Frame>
 
       <!-- Runic Power -->
@@ -48,11 +62,6 @@
         <BarColor r=".18" g=".56" b=".8" a="1"/>
 
         <Layers>
-          <Layer level="BACKGROUND">
-            <Texture setAllPoints="true">
-              <Color r="0" g="0" b="0" a=".5"/>
-            </Texture>
-          </Layer>
           <Layer level="ARTWORK">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
               <Size>
@@ -68,24 +77,14 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         -- only show if the player is a dk
         local _, class = UnitClass("player")
         if class ~= 'DEATHKNIGHT' then return end
 
         self:Show()
-        self:RegisterForDrag("LeftButton")
-        self.isLocked = false
         FigDK.initialize(self)
       </OnLoad>
-      <OnDragStart>
-        if not self.isLocked then
-          self:StartMoving()
-        end
-      </OnDragStart>
-      <OnDragStop>
-        self:StopMovingOrSizing()
-      </OnDragStop>
     </Scripts>
   </Frame>
 </Ui>

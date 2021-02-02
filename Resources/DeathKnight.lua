@@ -48,6 +48,7 @@ function FigDK.drawRunes(frame)
     local f = CreateFrame('StatusBar', 'FigRune' .. i, container, 'FigDeathKnightRune')
     f:SetHeight(containerHeight - 2 * runePaddingY)
     f:SetWidth(runeWidth)
+    f.cd:SetCountdownFont('FigFontInvis')
     local prevRune = _G['FigRune' .. (i - 1)]
     if not (prevRune == nil) then
       -- place it in relation to the previous rune

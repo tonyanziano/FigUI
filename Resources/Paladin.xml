@@ -38,7 +38,7 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         -- only show if the player is a paladin
         local _, class = UnitClass("player")
         if class ~= 'PALADIN' then return end

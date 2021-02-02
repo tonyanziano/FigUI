@@ -3,6 +3,9 @@
 
   <Button name="FigPlayerFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="UIParent">
     <Size x="200" y="50"/>
+    <Anchors>
+      <Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="CENTER" x="-310" y="-100" />
+    </Anchors>
 
     <Frames>
       <!-- HP -->
