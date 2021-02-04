@@ -88,11 +88,19 @@ function FigTarget.updatePlayerInfo(frame)
 end
 
 -- updates the duration and stacks of an aura
+function getAura(frame)
+  if frame.auraType == 'HELPFUL' then
+    return UnitBuff('target', frame.slot)
+  else
+    return UnitDebuff('target', frame.slot)
+  end
+end
+
 function FigTarget.updateAuraStatus(frame, elapsed)
   local totalElapsed = frame.elapsedSinceLastStatusTick + elapsed
   if totalElapsed >= frame.statusTick then
     frame.elapsedSinceLastStatusTick = 0
-    local _, _, count, _, _, expirationTime = UnitAura('target', frame.slot, frame.auraType)
+    local _, _, count, _, _, expirationTime = getAura(frame)
     if expirationTime == 0 or expirationTime == nil then
       frame.text:SetText(nil)
     else
