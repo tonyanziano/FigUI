@@ -16,6 +16,21 @@ function Fig.prettyPrintNumber(num)
   end
 end
 
+-- Shortens a duration in seconds to a prettier form:
+-- Ex. 3600 -> 1h, 180 -> 3m, etc
+function Fig.prettyPrintDuration(duration)
+  if duration > 3600 then
+    -- hours
+    return format('%ih', math.ceil(duration / 3600))
+  elseif duration > 60 then
+    -- minutes
+    return format('%im', math.ceil(duration / 60))
+  else
+    --seconds
+    return format('%is', math.ceil(duration))
+  end
+end
+
 function Fig.drawBordersForFrame(frame)
   if not frame then return end
   
@@ -23,8 +38,6 @@ function Fig.drawBordersForFrame(frame)
   borderThickness = PixelUtil.GetNearestPixelSize(borderThickness, frame:GetEffectiveScale(), 1)
   if not frame.hasBorders then
     -- draw borders
-    print('drawing borders for ' .. frame:GetName() or 'unnamed frame')
-
     local top = frame:CreateLine()
     top:SetColorTexture(0, 0, 0, 1)
     top:SetStartPoint('TOPLEFT', frame, -borderThickness/2, borderThickness/2)

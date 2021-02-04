@@ -87,34 +87,62 @@ function FigTarget.updatePlayerInfo(frame)
   frame.hp.playerInfo:SetText(format('%s %s', level, name))
 end
 
+-- updates the duration and stacks of an aura
+function FigTarget.updateAuraStatus(frame, elapsed)
+  local totalElapsed = frame.elapsedSinceLastStatusTick + elapsed
+  if totalElapsed >= frame.statusTick then
+    frame.elapsedSinceLastStatusTick = 0
+    local _, _, count, _, _, expirationTime = UnitAura('target', frame.slot, frame.auraType)
+    if expirationTime == 0 or expirationTime == nil then
+      frame.text:SetText(nil)
+    else
+      frame.text:SetText(Fig.prettyPrintDuration(expirationTime - GetTime()))
+    end
+    if count == 0 or count == nil then
+      frame.stackCount:SetText(nil)
+    else
+      frame.stackCount:SetText(count)
+    end
+  else
+    frame.elapsedSinceLastStatusTick = totalElapsed
+  end
+end
+
+function FigTarget.initAuraConfig()
+  -- create a frame to measure width
+  local dummyFrame = _G['FigDummyAura'] or CreateFrame('Frame', 'FigDummyAura', UIParent, 'FigTargetAuraTemplate')
+  FigTarget.aurasPerRow = math.floor(FigTargetFrame:GetWidth() / dummyFrame:GetWidth())
+  FigTarget.auraTextHeight = dummyFrame.text:GetHeight()
+  FigTarget.auraWidth = dummyFrame:GetWidth()
+  FigTarget.auraHeight = dummyFrame:GetHeight()
+  if dummyFrame:IsShown() then
+    dummyFrame:Hide()
+  end
+end
+
 local maxNumAuras = 40
-local aurasPerRow = 10
+local targetBotBorderCompensation = 5
 
 function FigTarget.updateAuras(frame)
-  local auraWidth, auraHeight
   -- draw buffs
   frame.numBuffRows = nil
   for i = 1, maxNumAuras / 2 do
     local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
       nameplateShowPersonal, spellId = UnitBuff('target', i)
     local f = _G['FigTargetBuff' .. i] or CreateFrame('Frame', 'FigTargetBuff' .. i, frame, 'FigTargetBuffTemplate')
+    if not f.slot then
+      f.slot = i
+    end
     if name then
-      if not auraWidth or not auraHeight then
-        -- get the aura width and height
-        auraWidth, auraHeight = f:GetWidth(), f:GetHeight()
+      local xOffset = FigTarget.auraWidth * ((i - 1) % FigTarget.aurasPerRow)
+      local rowNum = math.floor((i - 1) / FigTarget.aurasPerRow)
+      local yOffset = FigTarget.auraHeight * rowNum
+      if rowNum >= 1 then
+        -- make sure it clears the duration text of the previous row
+        yOffset = yOffset + FigTarget.auraTextHeight
       end
-      local xOffset = auraWidth * ((i - 1) % aurasPerRow)
-      local rowNum = math.floor((i - 1) / aurasPerRow)
-      local yOffset = auraHeight * rowNum
-      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset)
+      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset - targetBotBorderCompensation)
       f.texture:SetTexture(icon)
-      if duration and duration ~= 0 then
-        f.cd:Show()
-        f.cd:SetCountdownFont('FigFontInvis')
-        f.cd:SetCooldown(GetTime(), duration)
-      else
-        f.cd:Hide()
-      end
       f.auraIndex = i
       frame.numBuffRows = rowNum -- used to position the debuffs
       f:Show()
@@ -125,27 +153,24 @@ function FigTarget.updateAuras(frame)
   end
 
   -- draw debuffs
-  -- TODO: add cooldowns
   for i = 1, maxNumAuras / 2 do
     local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
       nameplateShowPersonal, spellId = UnitDebuff('target', i)
     local f = _G['FigTargetDebuff' .. i] or CreateFrame('Frame', 'FigTargetDebuff' .. i, frame, 'FigTargetDebuffTemplate')
+    if not f.slot then
+      f.slot = i
+    end
     if name then
-      if not auraWidth or not auraHeight then
-        -- get the aura width and height
-        auraWidth, auraHeight = f:GetWidth(), f:GetHeight()
-      end
-      local xOffset = auraWidth * ((i - 1) % aurasPerRow)
+      local xOffset = FigTarget.auraWidth * ((i - 1) % FigTarget.aurasPerRow)
       local debuffRowsStartPos
       if frame.numBuffRows ~= nil then
-        debuffRowsStartPos = (frame.numBuffRows + 1) * auraHeight
+        debuffRowsStartPos = (frame.numBuffRows + 1) * (FigTarget.auraHeight + FigTarget.auraTextHeight) + targetBotBorderCompensation
       else
-        debuffRowsStartPos = 0
+        debuffRowsStartPos = 0 + targetBotBorderCompensation
       end
-      local yOffset = auraHeight * math.floor((i - 1) / aurasPerRow) + debuffRowsStartPos
+      local yOffset = FigTarget.auraHeight * math.floor((i - 1) / FigTarget.aurasPerRow) + debuffRowsStartPos
       f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset)
       f.texture:SetTexture(icon)
-      f.textureTint:SetColorTexture(1, 0, 0, 0.3)
       f.auraIndex = i
       f:Show()
     else
@@ -203,8 +228,8 @@ function FigTarget.initialize(frame)
   -- hide default target frame
   TargetFrame:SetScript('OnEvent', nil)
 
-  -- TODO: make this respect the user's frame positioning
   frame:SetPoint('CENTER', UIParent, 'CENTER', 200, -240)
+  FigTarget.initAuraConfig()
 end
 
 function FigTarget.onShow(frame)

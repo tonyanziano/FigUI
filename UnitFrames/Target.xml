@@ -2,11 +2,11 @@
   <Script file="Target.lua" />
 
   <Frame name="FigTargetAuraTemplate" virtual="true" enableMouse="true">
-    <Size x="16" y="16"/>
+    <Size x="24" y="24"/>
     <Layers>
       <Layer level="BACKGROUND">
         <Texture parentKey="texture">
-          <Size x="16" y="16"/>
+          <Size x="24" y="24"/>
           <Anchors>
             <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER"/>
           </Anchors>
@@ -14,21 +14,43 @@
       </Layer>
       <Layer level="ARTWORK">
         <Texture parentKey="textureTint">
-          <Size x="16" y="16"/>
+          <Size x="24" y="24"/>
           <Anchors>
             <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
           </Anchors>            
         </Texture>
       </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
+          <Size y="10"/>
+          <Anchors>
+            <Anchor point="TOP" relativeTo="$parent" relativePoint="BOTTOM" />
+          </Anchors>
+        </FontString>
+        <FontString parentKey="stackCount" inherits="SystemFont_Shadow_Small">
+          <Size y="10"/>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" />
+          </Anchors>
+        </FontString>
+      </Layer>
     </Layers>
-
-    <Frames>
-      <Cooldown inherits="CooldownFrameTemplate" parentKey="cd" />
-    </Frames>
+    
+    <Scripts>
+      <OnLoad>
+        -- update status every quarter second
+        self.statusTick = 0.25
+        self.elapsedSinceLastStatusTick = 0
+        self:SetScript('OnUpdate', FigTarget.updateAuraStatus)
+      </OnLoad>
+    </Scripts>
   </Frame>
   
   <Frame name="FigTargetBuffTemplate" virtual="true" inherits="FigTargetAuraTemplate">
     <Scripts>
+      <OnLoad inherit="append">
+        self.auraType = 'HELPFUL'
+      </OnLoad>
       <OnEnter>
         GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
         GameTooltip:SetUnitBuff('target', self.auraIndex)
@@ -42,6 +64,9 @@
   
   <Frame name="FigTargetDebuffTemplate" virtual="true" inherits="FigTargetAuraTemplate">
     <Scripts>
+      <OnLoad inherit="append">
+        self.auraType = 'HARMFUL'
+      </OnLoad>
       <OnEnter>
         GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
         GameTooltip:SetUnitDebuff('target', self.auraIndex, 'HARMFUL')
