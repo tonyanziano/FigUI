@@ -189,12 +189,14 @@ function FigTarget.updateAuras(frame)
 end
 
 function FigTarget.updateFrame(frame)
-  FigTarget.colorHp(frame, 'target')
-  FigTarget.colorPower(frame, 'target')
-  FigTarget.updateHp(frame, 'target')
-  FigTarget.updatePower(frame, 'target')
-  FigTarget.updatePlayerInfo(frame)
-  FigTarget.updateAuras(frame)
+  if UnitExists('target') then
+    FigTarget.colorHp(frame, 'target')
+    FigTarget.colorPower(frame, 'target')
+    FigTarget.updateHp(frame, 'target')
+    FigTarget.updatePower(frame, 'target')
+    FigTarget.updatePlayerInfo(frame)
+    FigTarget.updateAuras(frame)
+  end
 end
 
 function FigTarget.handleEvents(frame, event, ...)
@@ -214,7 +216,7 @@ function FigTarget.handleEvents(frame, event, ...)
     FigTarget.updateFrame(frame)
   end
 
-  if event == 'PLAYER_TARGET_CHANGED' and UnitExists('target') then
+  if event == 'PLAYER_TARGET_CHANGED' then
     FigTarget.updateFrame(frame)
   end
 
