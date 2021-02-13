@@ -13,6 +13,7 @@ Fonts\Fonts.xml
 Templates\Templates.xml
 Resources\DeathKnight.xml
 Resources\Paladin.xml
+Resources\Shaman.xml
 UnitFrames\Player.xml
 UnitFrames\Target.xml
 UnitFrames\TargetOfTarget.xml
