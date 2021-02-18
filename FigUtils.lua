@@ -33,6 +33,59 @@ end
 
 function Fig.drawBordersForFrame(frame)
   if not frame then return end
+
+  if not frame.hasBorders then
+    -- draw borders
+    frame.top = frame:CreateTexture(nil, 'OVERLAY')
+    frame.top:SetColorTexture(0, 0, 0, 1)
+    frame.top:SetPoint('TOPLEFT', frame, 'TOPLEFT')
+    frame.top:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
+    frame.top:SetHeight(2)
+
+    frame.bottom = frame:CreateTexture(nil, 'OVERLAY')
+    frame.bottom:SetColorTexture(0, 0, 0, 1)
+    frame.bottom:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
+    frame.bottom:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
+    frame.bottom:SetHeight(2)
+
+    frame.left = frame:CreateTexture(nil, 'OVERLAY')
+    frame.left:SetColorTexture(0, 0, 0, 1)
+    frame.left:SetPoint('TOPLEFT', frame, 'TOPLEFT')
+    frame.left:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
+    frame.left:SetWidth(2)
+
+    frame.right = frame:CreateTexture(nil, 'OVERLAY')
+    frame.right:SetColorTexture(0, 0, 0, 1)
+    frame.right:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
+    frame.right:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
+    frame.right:SetWidth(2)
+
+    frame.hasBorders = true
+  end
+end
+
+function Fig.hideBordersForFrame(frame)
+  if not frame then return end
+  if frame.hasBorders then
+    frame.top:Hide()
+    frame.bottom:Hide()
+    frame.left:Hide()
+    frame.right:Hide()
+  end
+end
+
+function Fig.showBordersForFrame(frame)
+  if not frame then return end
+  if frame.hasBorders then
+    frame.top:Show()
+    frame.bottom:Show()
+    frame.left:Show()
+    frame.right:Show()
+  end
+end
+
+function Fig.drawBordersForFrame_OLD(frame)
+  if not frame then return end
   
   local borderThickness = 2
   borderThickness = PixelUtil.GetNearestPixelSize(borderThickness, frame:GetEffectiveScale(), 1)

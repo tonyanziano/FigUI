@@ -32,33 +32,6 @@ function FigShaman.onUpdate(frame, elapsed)
   frame.text:SetText(maelstrom)
 end
 
-function drawBorders(frame)
-  -- draw borders
-  frame.top = frame:CreateTexture(nil, 'OVERLAY')
-  frame.top:SetColorTexture(0, 0, 0, 1)
-  frame.top:SetPoint('TOPLEFT', frame, 'TOPLEFT')
-  frame.top:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
-  frame.top:SetHeight(2)
-  
-  frame.bottom = frame:CreateTexture(nil, 'OVERLAY')
-  frame.bottom:SetColorTexture(0, 0, 0, 1)
-  frame.bottom:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
-  frame.bottom:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
-  frame.bottom:SetHeight(2)
-  
-  frame.left = frame:CreateTexture(nil, 'OVERLAY')
-  frame.left:SetColorTexture(0, 0, 0, 1)
-  frame.left:SetPoint('TOPLEFT', frame, 'TOPLEFT')
-  frame.left:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
-  frame.left:SetWidth(2)
-  
-  frame.right = frame:CreateTexture(nil, 'OVERLAY')
-  frame.right:SetColorTexture(0, 0, 0, 1)
-  frame.right:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
-  frame.right:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
-  frame.right:SetWidth(2)
-end
-
 function FigShaman.initialize(frame)
   frame:SetScript('OnEvent', FigShaman.handleEvents)
   frame:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
@@ -67,5 +40,5 @@ function FigShaman.initialize(frame)
 
   frame:SetStatusBarColor(110/255, 110/255, 230/255)
   frame.bg:SetColorTexture(10/255, 10/255, 10/255)
-  drawBorders(frame)
+  Fig.drawBordersForFrame(frame)
 end
