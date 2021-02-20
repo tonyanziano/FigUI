@@ -29,9 +29,9 @@ local powerBarColors = {
 }
 
 local noClassHpColor = {
-  r = 1/255,
-  g = 1/255,
-  b = 1/255
+  r = 37/255,
+  g = 143/255,
+  b = 16/255
 }
 
 function FigTarget.updateHp(frame, unit)
@@ -62,8 +62,13 @@ end
 
 function FigTarget.colorHp(frame, unit)
   local _, class = UnitClass('target')
-  local classColor = C_ClassColor.GetClassColor(class)
-  if not classColor then
+  local classColor
+  if class then 
+    classColor = C_ClassColor.GetClassColor(class)
+    if not classColor then
+      classColor = noClassHpColor
+    end
+  else
     classColor = noClassHpColor
   end
   frame.hp:SetStatusBarColor(classColor.r, classColor.g, classColor.b, 1)
