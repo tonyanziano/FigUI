@@ -35,31 +35,40 @@ function Fig.drawBordersForFrame(frame)
   if not frame then return end
 
   if not frame.hasBorders then
+    -- draw all borders within a frame on top of the parent frame (gets around the issue of textures being drawn under child frames)
+    local borderFrameLevel = frame:GetFrameLevel() + 20
+    local borderFrame = CreateFrame('frame', nil, frame)
+    borderFrame:SetPoint('CENTER')
+    borderFrame:SetFrameLevel(borderFrameLevel)
+    borderFrame:SetSize(frame:GetSize())
+    frame.borders = borderFrame
+    
     -- draw borders
-    frame.top = frame:CreateTexture(nil, 'OVERLAY')
-    frame.top:SetColorTexture(0, 0, 0, 1)
-    frame.top:SetPoint('TOPLEFT', frame, 'TOPLEFT')
-    frame.top:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
-    frame.top:SetHeight(2)
+    borderFrame.top = borderFrame:CreateTexture(nil, 'OVERLAY')
+    borderFrame.top:SetColorTexture(0, 0, 0, 1)
+    borderFrame.top:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT')
+    borderFrame.top:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT')
+    borderFrame.top:SetHeight(2)
 
-    frame.bottom = frame:CreateTexture(nil, 'OVERLAY')
-    frame.bottom:SetColorTexture(0, 0, 0, 1)
-    frame.bottom:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
-    frame.bottom:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
-    frame.bottom:SetHeight(2)
+    borderFrame.bottom = borderFrame:CreateTexture(nil, 'OVERLAY')
+    borderFrame.bottom:SetColorTexture(0, 0, 0, 1)
+    borderFrame.bottom:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT')
+    borderFrame.bottom:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT')
+    borderFrame.bottom:SetHeight(2)
 
-    frame.left = frame:CreateTexture(nil, 'OVERLAY')
-    frame.left:SetColorTexture(0, 0, 0, 1)
-    frame.left:SetPoint('TOPLEFT', frame, 'TOPLEFT')
-    frame.left:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
-    frame.left:SetWidth(2)
+    borderFrame.left = borderFrame:CreateTexture(nil, 'OVERLAY')
+    borderFrame.left:SetColorTexture(0, 0, 0, 1)
+    borderFrame.left:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT')
+    borderFrame.left:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT')
+    borderFrame.left:SetWidth(2)
 
-    frame.right = frame:CreateTexture(nil, 'OVERLAY')
-    frame.right:SetColorTexture(0, 0, 0, 1)
-    frame.right:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
-    frame.right:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
-    frame.right:SetWidth(2)
+    borderFrame.right = borderFrame:CreateTexture(nil, 'OVERLAY')
+    borderFrame.right:SetColorTexture(0, 0, 0, 1)
+    borderFrame.right:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT')
+    borderFrame.right:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT')
+    borderFrame.right:SetWidth(2)
 
+    borderFrame:Show()
     frame.hasBorders = true
   end
 end
