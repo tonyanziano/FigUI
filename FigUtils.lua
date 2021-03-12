@@ -76,20 +76,14 @@ end
 function Fig.hideBordersForFrame(frame)
   if not frame then return end
   if frame.hasBorders then
-    frame.top:Hide()
-    frame.bottom:Hide()
-    frame.left:Hide()
-    frame.right:Hide()
+    frame.borders:Hide();
   end
 end
 
 function Fig.showBordersForFrame(frame)
   if not frame then return end
   if frame.hasBorders then
-    frame.top:Show()
-    frame.bottom:Show()
-    frame.left:Show()
-    frame.right:Show()
+    frame.borders:Show()
   end
 end
 
