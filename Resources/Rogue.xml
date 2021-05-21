@@ -2,16 +2,46 @@
   <Script file="Rogue.lua" />
 
   <Frame name="FigResourceRogue" inherits="FigBorderedTemplate" hidden="true">
-    <Size x="250" y="25"/>
+    <Size x="250" y="30"/>
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="100"/>
     </Anchors>
 
     <Frames>
-      <StatusBar parentKey="status" enableMouse="true" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="250" y="25"/>
+      <!-- Combo Points -->
+      <StatusBar name="$parentComboPoints" parentKey="comboPoints" enableMouse="true" minValue="0" maxValue="5" defaultValue="0">
+        <Size x="250" y="10"/>
         <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
+          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
+        </Anchors>
+
+        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
+        <BarColor r=".86" g=".22" b=".22" a="1"/>
+
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="$parentTexture" setAllPoints="true">
+              <Color r="0" g="0" b="0" a=".5"/>
+            </Texture>
+          </Layer>
+          <Layer level="ARTWORK">
+            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
+              <Size>
+                <AbsDimension x="0" y="16"/>
+              </Size>
+              <Anchors>
+                <Anchor point="CENTER"/>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+      </StatusBar>
+
+      <!-- Energy -->
+      <StatusBar parentKey="energy" enableMouse="true" minValue="0" maxValue="100" defaultValue="100">
+        <Size x="250" y="20"/>
+        <Anchors>
+          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
         </Anchors>
 
         <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
@@ -19,7 +49,7 @@
 
         <Layers>
           <Layer level="BACKGROUND">
-            <Texture name="$parentTexture" setAllPoints="true">
+            <Texture name="$parentEnergyTexture" setAllPoints="true">
               <Color r="0" g="0" b="0" a=".5"/>
             </Texture>
           </Layer>
