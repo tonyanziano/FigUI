@@ -1,0 +1,3 @@
+FigTargetOfTargetOptions = {
+  percentHpOnly = true
+}

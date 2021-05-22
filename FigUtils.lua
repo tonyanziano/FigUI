@@ -19,9 +19,12 @@ end
 -- Shortens a duration in seconds to a prettier form:
 -- Ex. 3600 -> 1h, 180 -> 3m, etc
 function Fig.prettyPrintDuration(duration)
-  if duration > 3600 then
+  if duration > (60 * 60 * 24) then
+    -- days
+    return format('%id', math.ceil(dutation / (60 * 60 * 24)))
+  elseif duration > (60 * 60) then
     -- hours
-    return format('%ih', math.ceil(duration / 3600))
+    return format('%ih', math.ceil(duration / (60 * 60)))
   elseif duration > 60 then
     -- minutes
     return format('%im', math.ceil(duration / 60))

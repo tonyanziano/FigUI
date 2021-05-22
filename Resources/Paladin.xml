@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Paladin.lua" />
 
-  <Frame name="FigResourcePaladin" inherits="FigBackdropTemplate" hidden="true">
+  <Frame name="FigResourcePaladin" inherits="FigBorderedTemplate" hidden="true">
     <Size x="254" y="34"/>
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="100"/>

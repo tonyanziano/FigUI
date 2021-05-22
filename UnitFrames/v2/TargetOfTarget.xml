@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="TargetOfTarget.lua" />
+  <Button name="FigTargetOfTarget" inherits="FigGenericUnitFrame" mixin="FigTargetOfTargetOptions">
+    <KeyValues>
+      <KeyValue type="string" key="trackingUnit" value="targettarget"/>
+    </KeyValues>
+
+    <Size x="120" y="50" />
+    <Anchors>
+      <Anchor point="TopLeft" relativeTo="FigTarget" relativePoint="TopRight" x="25" />
+    </Anchors>
+  </Button>
+</Ui>

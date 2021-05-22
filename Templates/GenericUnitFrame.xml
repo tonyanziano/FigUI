@@ -1,0 +1,102 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="GenericUnitFrame.lua" />
+
+  <!-- Generic UnitFrame -->
+  <Button name="FigGenericUnitFrame" parent="UIParent" virtual="true" inherits="SecureActionButtonTemplate">
+    <KeyValues>
+      <!-- specify what unit the frame is for ("player", "target", "party1") -->
+      <KeyValue type="string" key="trackingUnit" value=""/>
+    </KeyValues>
+
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture>
+          <Color r="0" g="0" b="0" a="0.75" />
+        </Texture>
+      </Layer>
+    </Layers>
+
+    <Frames>
+      <!-- hp -->
+      <StatusBar name="$parentHp" parentKey="hp" minValue="0" maxValue="100" defaultValue="100">
+        <Anchors>
+          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
+        </Anchors>
+
+        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
+        <BarColor r="0" g="0" b="0" a="1"/>
+
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString parentKey="text" inherits="SystemFont_Shadow_Med3">
+              <Anchors>
+                <Anchor point="RIGHT" x="-8" />
+              </Anchors>
+            </FontString>
+            <FontString parentKey="name" inherits="SystemFont_Shadow_Med3" nonspacewrap="true" maxlines="2" justifyH="LEFT">
+              <Anchors>
+                <Anchor point="LEFT" x="8" />
+              </Anchors>
+            </FontString>
+            <FontString parentKey="level" inherits="SystemFont_Shadow_Small" justifyH="LEFT">
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="8" y="4" />
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+      </StatusBar>
+
+      <!-- divider -->
+      <Frame name="$parentDivider">
+        <Anchors>
+          <Anchor point="TOP" relativeTo="$parentHp" relativePoint="BOTTOM" />
+          <Anchor point="TOPLEFT" relativeTo="$parentHp" relativePoint="BOTTOMLEFT" />
+          <Anchor point="TOPRIGHT" relativeTo="$parentHp" relativePoint="BOTTOMRIGHT" />
+        </Anchors>
+        <Size y="1" />
+        <Layers>
+          <Layer level="ARTWORK">
+            <Texture setAllPoints="true">
+              <Color r="0" g="0" b="0" a="1" />
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+
+      <!-- power -->
+      <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
+        <Anchors>
+          <Anchor point="TOP" relativeTo="$parentDivider" relativePoint="BOTTOM" />
+        </Anchors>
+
+        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
+        <BarColor r="0" g="0" b="0" a="1"/>
+
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
+              <Anchors>
+                <Anchor point="RIGHT" x="-8" />
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+      </StatusBar>
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        if self.trackingUnit ~= nil then
+          FigTemplates.initializeUnitFrame(self)
+        end
+      </OnLoad>
+      <OnEnter>
+        -- register tooltip
+        GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
+        GameTooltip:SetUnit(self.trackingUnit)
+        GameTooltip:Show()
+      </OnEnter>
+    </Scripts>
+  </Button>
+</Ui>

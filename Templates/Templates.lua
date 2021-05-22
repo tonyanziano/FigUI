@@ -1,13 +1,13 @@
 FigTemplates = {}
 
-function moveBackdrop(overlay)
+function moveBorderedFrame(overlay)
   local frame = overlay:GetParent()
   if not frame.isLocked then
     frame:StartMoving()
   end
 end
 
-function stopMovingBackdrop(overlay)
+function stopMovingBorderedFrame(overlay)
   local frame = overlay:GetParent()
   frame:StopMovingOrSizing()
 end
@@ -18,35 +18,26 @@ function onToggleLock(frame)
   frame.overlay:SetShown(overlayIsVisible)
 end
 
-function FigTemplates.initalizeBackdrop(frame)
-  -- temp
-  Fig.frames[frame:GetName()] = frame
-  frame.onToggleLock = onToggleLock
-  frame.isLocked = true
-  frame:SetClampedToScreen(true)
-
-  -- create overlay for dragging
-  frame.overlay:SetShown(false)
-  frame.overlay:SetAllPoints()
-  frame.overlay:SetFrameLevel(frame:GetFrameLevel() + 5) -- ensure frame is clickable
-  frame.overlay:RegisterForDrag('LeftButton')
-  frame.overlay:SetScript('OnDragStart', moveBackdrop)
-  frame.overlay:SetScript('OnDragStop', stopMovingBackdrop)
-end
-
 function FigTemplates.initializeBorderedFrame(frame)
   Fig.frames[frame:GetName()] = frame
   frame.onToggleLock = onToggleLock
   frame.isLocked = true
   frame:SetClampedToScreen(true)
+  frame:EnableMouse(true)
+  frame:SetMovable(true)
 
   -- create overlay for dragging
+  frame.overlay = CreateFrame('Frame', nil, frame)
+  frame.overlay.tex = frame.overlay:CreateTexture(nil, 'OVERLAY')
+  frame.overlay.tex:SetAllPoints()
+  frame.overlay.tex:SetColorTexture(0, 1, 0, .6)
+  frame.overlay:EnableMouse(true)
   frame.overlay:SetShown(false)
   frame.overlay:SetAllPoints()
   frame.overlay:SetFrameLevel(frame:GetFrameLevel() + 5) -- ensure frame is clickable
   frame.overlay:RegisterForDrag('LeftButton')
-  frame.overlay:SetScript('OnDragStart', moveBackdrop)
-  frame.overlay:SetScript('OnDragStop', stopMovingBackdrop)
+  frame.overlay:SetScript('OnDragStart', moveBorderedFrame)
+  frame.overlay:SetScript('OnDragStop', stopMovingBorderedFrame)
 
   Fig.drawBordersForFrame(frame)
 end
