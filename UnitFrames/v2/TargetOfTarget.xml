@@ -7,7 +7,7 @@
 
     <Size x="120" y="50" />
     <Anchors>
-      <Anchor point="TopLeft" relativeTo="FigTarget" relativePoint="TopRight" x="25" />
+      <Anchor point="TOPLEFT" relativeTo="FigTarget" relativePoint="TOPRIGHT" x="25" />
     </Anchors>
   </Button>
 </Ui>

@@ -1,4 +1,4 @@
-FigTargetOfTargetOptions = {
+FigPetOptions = {
   percentHpOnly = true,
   oneLineName = true
 }

@@ -11,6 +11,10 @@ function FigTemplates.getMenuFunctionForUnit(frame, unit)
     return function()
       ToggleDropDownMenu(1, nil, PartyFrameDropDown, frame, 0, 0);
     end
+  elseif unit == 'pet' then
+    return function()
+      ToggleDropDownMenu(1, nil, PetFrameDropDown, frame, 0, 0);
+    end
   end
   return nil
 end
@@ -34,7 +38,7 @@ function drawHpForUnitFrame(frame)
   -- update the status text
   local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
   if maxHp == 0 then return end -- hp has not loaded yet -- let next redraw do the work
-  local percentHp = format('%i', tostring(hp / maxHp * 100))
+  local percentHp = format('%.1f', tostring(hp / maxHp * 100))
   local shortHp = Fig.prettyPrintNumber(hp)
   if frame.percentHpOnly ~= nil then
     frame.hp.text:SetText(format('%s%%', percentHp))
@@ -71,7 +75,7 @@ function drawPowerForUnitFrame(frame)
     return
   end
   local percentPower = tostring(power / maxPower * 100)
-  frame.power.text:SetText(format('%s%%', percentPower))
+  frame.power.text:SetText(format('%.1f%%', percentPower))
   frame.power:SetValue(percentPower)
 end
 
@@ -95,4 +99,7 @@ function FigTemplates.initializeUnitFrame(frame)
   frame.power:SetHeight(frame:GetHeight() * .20) -- power takes 20% of frame height
   -- the unit frame name should be truncated before bleeding into the status text
   frame.hp.name:SetWidth(frame.hp:GetWidth() / 3)
+  if frame.oneLineName then
+    frame.hp.name:SetMaxLines(1)
+  end
 end

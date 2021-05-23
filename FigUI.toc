@@ -25,3 +25,4 @@ Templates\GenericUnitFrame.xml
 UnitFrames\v2\Player.xml
 UnitFrames\v2\Target.xml
 UnitFrames\v2\TargetOfTarget.xml
+UnitFrames\v2\Pet.xml
