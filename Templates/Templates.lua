@@ -1,18 +1,18 @@
 FigTemplates = {}
 
-function moveBorderedFrame(overlay)
+local function moveBorderedFrame(overlay)
   local frame = overlay:GetParent()
   if not frame.isLocked then
     frame:StartMoving()
   end
 end
 
-function stopMovingBorderedFrame(overlay)
+local function stopMovingBorderedFrame(overlay)
   local frame = overlay:GetParent()
   frame:StopMovingOrSizing()
 end
 
-function onToggleLock(frame)
+local function onToggleLock(frame)
   frame.isLocked = not frame.isLocked
   local overlayIsVisible = not frame.isLocked
   frame.overlay:SetShown(overlayIsVisible)

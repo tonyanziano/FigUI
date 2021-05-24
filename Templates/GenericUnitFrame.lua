@@ -1,4 +1,4 @@
-function FigTemplates.getMenuFunctionForUnit(frame, unit)
+local function getMenuFunctionForUnit(frame, unit)
   if unit == 'player' then
     return function()
       ToggleDropDownMenu(1, nil, PlayerFrameDropDown, frame, 0, 0);
@@ -19,7 +19,7 @@ function FigTemplates.getMenuFunctionForUnit(frame, unit)
   return nil
 end
 
-function drawHpForUnitFrame(frame)
+local function drawHpForUnitFrame(frame)
   local unit = frame.trackingUnit
 
   -- color the bar
@@ -59,7 +59,7 @@ function drawHpForUnitFrame(frame)
   frame.hp.level:SetText(format('Lv. %s', level))
 end
 
-function drawPowerForUnitFrame(frame)
+local function drawPowerForUnitFrame(frame)
   local unit = frame.trackingUnit
 
   -- color the bar
@@ -79,24 +79,29 @@ function drawPowerForUnitFrame(frame)
   frame.power:SetValue(percentPower)
 end
 
-function drawUnitFrame(frame)
+local function drawUnitFrame(frame, elapsed)
   drawHpForUnitFrame(frame)
   drawPowerForUnitFrame(frame)
+  if frame.drawAuras ~= nil then
+    frame:drawAuras(elapsed)
+  end
 end
 
 function FigTemplates.initializeUnitFrame(frame)
   -- make it function like a Blizzard unit frame
-  SecureUnitButton_OnLoad(frame, frame.trackingUnit, FigTemplates.getMenuFunctionForUnit(frame, frame.trackingUnit))
+  SecureUnitButton_OnLoad(frame, frame.trackingUnit, getMenuFunctionForUnit(frame, frame.trackingUnit))
   RegisterUnitWatch(frame)
   frame:RegisterForClicks('LeftButtonUp', 'RightButtonUp');
 
   -- other initialization
+  frame:SetScript('OnEvent', onEvent)
   frame:SetScript('OnUpdate', drawUnitFrame);
   FigTemplates.initializeBorderedFrame(frame)
   frame.hp:SetWidth(frame:GetWidth())
   frame.hp:SetHeight(frame:GetHeight() * .80) -- hp takes 80% of frame height
   frame.power:SetWidth(frame:GetWidth())
   frame.power:SetHeight(frame:GetHeight() * .20) -- power takes 20% of frame height
+
   -- the unit frame name should be truncated before bleeding into the status text
   frame.hp.name:SetWidth(frame.hp:GetWidth() / 3)
   if frame.oneLineName then

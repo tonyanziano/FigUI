@@ -8,10 +8,12 @@
 
 FigUI.lua
 FigUtils.lua
+FigDebug.lua
 Config\Config.xml
 Fonts\Fonts.xml
 Templates\Templates.lua
 Templates\GenericUnitFrame.xml
+Templates\Aura.xml
 
 ##Resources\DeathKnight.xml
 ##Resources\Paladin.xml
