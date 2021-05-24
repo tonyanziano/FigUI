@@ -82,16 +82,32 @@ end
 local function drawUnitFrame(frame, elapsed)
   drawHpForUnitFrame(frame)
   drawPowerForUnitFrame(frame)
-  if frame.drawAuras ~= nil then
-    frame:drawAuras(elapsed)
+end
+
+local function onEvent(frame, event, ...)
+  if event == 'UNIT_AURA' then
+    frame:drawAuras()
+  end
+  if event == 'PLAYER_TARGET_CHANGED' then
+    frame:drawAuras()
   end
 end
 
 function FigTemplates.initializeUnitFrame(frame)
   -- make it function like a Blizzard unit frame
-  SecureUnitButton_OnLoad(frame, frame.trackingUnit, getMenuFunctionForUnit(frame, frame.trackingUnit))
+  local unit = frame.trackingUnit
+  SecureUnitButton_OnLoad(frame, unit, getMenuFunctionForUnit(frame, unit))
   RegisterUnitWatch(frame)
   frame:RegisterForClicks('LeftButtonUp', 'RightButtonUp');
+
+  -- draw auras if the frame cares about them
+  if frame.drawAuras ~= nil then
+    frame:RegisterUnitEvent('UNIT_AURA', unit)
+    -- special case for target frame
+    if unit == 'target' then
+      frame:RegisterUnitEvent('PLAYER_TARGET_CHANGED')
+    end
+  end
 
   -- other initialization
   frame:SetScript('OnEvent', onEvent)

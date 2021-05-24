@@ -59,9 +59,6 @@ local function doInitialDrawOfAuras(frame)
     end
     local yOffset = -(auraRow * aura:GetHeight())
     local xOffset = auraCol * aura:GetWidth()
-    -- aura.spellId = 204018
-    -- aura.tex:SetTexture(135880)
-    -- aura.cd:SetCooldown(GetTime() - 5, 20)
     aura:SetPoint('TOPLEFT', frame.buffs, 'TOPLEFT', xOffset, yOffset)
     aura:Show()
   end
@@ -78,9 +75,6 @@ local function doInitialDrawOfAuras(frame)
     end
     local yOffset = -(auraRow * aura:GetHeight())
     local xOffset = auraCol * aura:GetWidth()
-    -- aura.spellId = 188389
-    -- aura.tex:SetTexture(135813)
-    -- aura.cd:SetCooldown(GetTime() - 8, 10)
     aura:SetPoint('TOPLEFT', frame.debuffs, 'TOPLEFT', xOffset, yOffset)
     aura:Show()
   end
@@ -88,81 +82,67 @@ local function doInitialDrawOfAuras(frame)
   frame.hasDrawnAuras = true
 end
 
-local redrawInterval = 0.2 -- redraw every 0.2 seconds
-local timeSinceLastDraw = 0
-local function drawAuras(frame, elapsed)
+local function drawAuras(frame)
   if frame.hasDrawnAuras == nil then
     doInitialDrawOfAuras(frame)
   end
 
-  -- redraw
-  timeSinceLastDraw = timeSinceLastDraw + elapsed
-  if timeSinceLastDraw >= redrawInterval then
-    local unit = frame.trackingUnit
+  local unit = frame.trackingUnit
 
-    -- populate the aura frames with data
-    frame.buffs:SetHeight(-1)
-    frame.buffs:Hide()
-    for i = 1, maxBuffs do
-      local aura = _G['FigTargetBuff' .. i]
-      local name, icon, count, _, _, expirationTime, _, _, _, spellId = UnitBuff(unit, i)
-      if name ~= nil then
-        -- draw the buff
-        aura.spellId = spellId
-        aura.tex:SetTexture(icon)
-        if count > 0 then
-          aura.count:SetText(count)
-        else
-          aura.count:SetText('')
-        end
-        if expirationTime > 0 then
-          aura.cd:SetCooldown(GetTime(), expirationTime)
-        end
-        aura:Show()
-        -- calculate the height of the buffs bar
-        local numBuffRows = math.ceil(i / numberOfAurasPerRow)
-        frame.buffs:SetHeight(numBuffRows * auraSize)
-        frame.buffs:Show()
+  -- populate the aura frames with data
+  frame.buffs:SetHeight(-1)
+  frame.buffs:Hide()
+  for i = 1, maxBuffs do
+    local aura = _G['FigTargetBuff' .. i]
+    local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitBuff(unit, i)
+
+    if name ~= nil then
+      -- draw the buff
+      aura.spellId = spellId
+      aura.tex:SetTexture(icon)
+      if count > 0 then
+        aura.count:SetText(count)
       else
-        -- hide the buff
-        aura:Hide()
+        aura.count:SetText('')
       end
-    end
+      if expirationTime > 0 then
+        aura.cd:Clear()
+        aura.cd:SetCooldown(expirationTime - duration, duration)
+      end
+      aura:Show()
 
-    for i = 1, maxDebuffs do
-      local aura = _G['FigTargetDebuff' .. i]
-      local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitDebuff(unit, i)
-      local unitGuid = UnitGUID(unit)
-      if name ~= nil then
-        -- draw the debuff
-        aura.spellId = spellId
-        aura.tex:SetTexture(icon)
-        if count > 0 then
-          aura.count:SetText(count)
-        else
-          aura.count:SetText('')
-        end
-        if expirationTime > 0 then
-          local currentTime = GetTime()
-          -- only update the cooldown if:
-          --  - there currently is no cooldown set
-          --  - the current cooldown has finished
-          --  - the aura has been reapplied (new expiration time is later than the stored expiration time)
-          --  - the target of the aura is different
-          if aura.expirationTime == nil or currentTime >= aura.expirationTime or expirationTime > aura.expirationTime or unitGuid ~= aura.unitGuid then
-            aura.cd:SetCooldown(expirationTime - duration, expirationTime - currentTime)
-            aura.expirationTime = expirationTime
-            aura.unitGuid = unitGuid
-          end
-        end
-        aura:Show()
+      -- calculate the height of the buffs bar
+      local numBuffRows = math.ceil(i / numberOfAurasPerRow)
+      frame.buffs:SetHeight(numBuffRows * auraSize)
+      frame.buffs:Show()
+    else
+      -- hide the buff
+      aura:Hide()
+    end
+  end
+
+  for i = 1, maxDebuffs do
+    local aura = _G['FigTargetDebuff' .. i]
+    local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitDebuff(unit, i)
+
+    if name ~= nil then
+      -- draw the debuff
+      aura.spellId = spellId
+      aura.tex:SetTexture(icon)
+      if count > 0 then
+        aura.count:SetText(count)
       else
-        -- hide the debuff
-        aura:Hide()
+        aura.count:SetText('')
       end
+      if expirationTime > 0 then
+        aura.cd:Clear()
+        aura.cd:SetCooldown(expirationTime - duration, duration)
+      end
+      aura:Show()
+    else
+      -- hide the debuff
+      aura:Hide()
     end
-
-    timeSinceLastDraw = 0
   end
 end
 
