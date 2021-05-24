@@ -1,86 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="TargetOfTarget.lua" />
+  <Button name="FigTargetOfTarget" inherits="FigGenericUnitFrame" mixin="FigTargetOfTargetOptions">
+    <KeyValues>
+      <KeyValue type="string" key="trackingUnit" value="targettarget"/>
+    </KeyValues>
 
-  <Button name="FigToTFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="FigTargetFrame">
-    <Size x="100" y="35"/>
+    <Size x="120" y="50" />
     <Anchors>
-      <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT" x="10"/>
+      <Anchor point="TOPLEFT" relativeTo="FigTarget" relativePoint="TOPRIGHT" x="25" />
     </Anchors>
-
-    <Frames>
-      <!-- HP -->
-      <StatusBar parentKey="hp" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="100" y="25"/>
-        <Anchors>
-          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
-        </Anchors>
-
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r="0" g="0" b="0" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture>
-              <Color r="0" g="0" b="0" a="0.5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Anchors>
-                <Anchor point="BOTTOMRIGHT" />
-              </Anchors>
-            </FontString>
-            <FontString parentKey="playerInfo" inherits="SystemFont_Shadow_Small">
-              <Anchors>
-                <Anchor point="TOPLEFT" x="4" y="-2" />
-              </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-      </StatusBar>
-
-      <!-- Power -->
-      <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="100" y="10"/>
-        <Anchors>
-          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
-        </Anchors>
-
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r="0" g="0" b="0" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture>
-              <Color r="0" g="0" b="0" a="0.5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Anchors>
-                <Anchor point="RIGHT"/>
-              </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-      </StatusBar>
-    </Frames>
-
-    <Scripts>
-      <OnLoad inherit="prepend">
-        self:SetAttribute('unit', 'targettarget')
-        RegisterUnitWatch(self, false)
-
-        FigToT.initialize(self)
-      </OnLoad>
-      <OnEnter>
-        GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
-        GameTooltip:SetUnit('targettarget')
-        GameTooltip:Show()
-      </OnEnter>
-      <OnShow>
-        FigToT.onShow(self)
-      </OnShow>
-    </Scripts>
   </Button>
 </Ui>

@@ -1,252 +1,152 @@
-FigTarget = {}
+local numberOfAurasPerRow = 10
+local auraSize -- will be calculated on initial draw
 
-local powerBarColors = {
-  ['MANA'] = {
-    r = 19/255,
-    g = 69/255,
-    b = 145/255
-  },
-  ['RAGE'] = {
-    r = 156/255,
-    g = 39/255,
-    b = 39/255
-  },
-  ['FOCUS'] = {
-    r = 222/255,
-    g = 145/255,
-    b = 44/255
-  },
-  ['ENERGY'] = {
-    r = 232/255,
-    g = 225/255,
-    b = 19/255
-  },
-  ['RUNIC_POWER'] = {
-    r = 77/255,
-    g = 137/255,
-    b = 227/255
-  }
-}
+-- values are from the official WoW target frame source
+local maxBuffs = 32
+local maxDebuffs = 16
 
-local noClassHpColor = {
-  r = 37/255,
-  g = 143/255,
-  b = 16/255
-}
-
-function FigTarget.updateHp(frame, unit)
-  if unit == 'target' then
-    local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
-    local percentHp = format('%i', tostring(hp / maxHp * 100))
-    local shortHp = Fig.prettyPrintNumber(hp)
-    frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
-    frame.hp:SetValue(percentHp)
-  end
+local function createAuraFrame(index, auraContainer, auraNameSuffix)
+  local f = CreateFrame('Frame', 'FigTarget' .. auraNameSuffix .. index, auraContainer, 'FigAuraTemplate')
+  f:SetSize(auraSize, auraSize)
+  -- icon
+  f.tex = f:CreateTexture(nil, 'BACKGROUND')
+  f.tex:SetPoint('TOPLEFT', f, 'TOPLEFT')
+  f.tex:SetAllPoints()
+  -- count
+  f.count = f:CreateFontString(nil, 'OVERLAY')
+  f.count:SetPoint('BOTTOMRIGHT', f.tex, 'BOTTOMRIGHT')
+  f.count:SetFont("Fonts\\FRIZQT__.TTF", 8, 'OUTLINE')
+  f.count:SetTextHeight(8)
+  -- cooldown
+  f.cd = CreateFrame('Cooldown', nil, f, 'CooldownFrameTemplate')
+  f.cd:SetHideCountdownNumbers(true)
+  f.cd:SetReverse(true) -- foreground should be the icon and the swip should dim the icon
+  f.cd:SetAllPoints()
+  return f
 end
 
-function FigTarget.updatePower(frame, unit)
-  if unit == 'target' then
-    local power, maxPower = UnitPower(unit), UnitPowerMax(unit)
-    if maxPower == 0 then
-      -- handle the case of 0 / 0 power
-      frame.power.text:SetText('N/A')
-      frame.power:SetValue(0)
-      return
+local function doInitialDrawOfAuras(frame)
+  -- draw buff / debuff containers
+  auraSize = frame:GetWidth() / numberOfAurasPerRow
+  if frame.buffs == nil then
+    frame.buffs = CreateFrame('Frame', 'FigTargetBuffs', frame)
+    frame.buffs:SetWidth(frame:GetWidth())
+    -- hide the buffs frame until we actually have buffs to render;
+    -- setting height to 0 bugs out the debuff bar's relative anchor so
+    -- we use -1 instead
+    frame.buffs:SetHeight(-1)
+    frame.buffs:Hide()
+    frame.buffs:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, -4)
+  end
+  if frame.debuffs == nil then
+    frame.debuffs = CreateFrame('Frame', 'FigTargetDebuffs', frame)
+    frame.debuffs:SetWidth(frame:GetWidth())
+    local maxDebuffRows = math.ceil(maxDebuffs / numberOfAurasPerRow)
+    frame.debuffs:SetHeight(auraSize * maxDebuffRows) -- debuffs frame can always be full height because it comes after the buffs frame
+    frame.debuffs:Show()
+    frame.debuffs:SetPoint('TOPLEFT', frame.buffs, 'BOTTOMLEFT')
+  end
+
+  -- draw and position buffs
+  for i = 1, maxBuffs do
+    local aura = createAuraFrame(i, frame.buffs, 'Buff')
+    -- row and col start at 0
+    local auraRow = math.ceil(i / numberOfAurasPerRow) - 1
+    local auraCol = (i % numberOfAurasPerRow) - 1
+    if auraCol == -1 then
+      -- end of row
+      auraCol = numberOfAurasPerRow - 1
     end
-    local percentPower = format('%i', tostring(power / maxPower * 100))
-    local shortPower = Fig.prettyPrintNumber(power)
-    frame.power.text:SetText(format('%s - %s%%', shortPower, percentPower))
-    frame.power:SetValue(percentPower)
+    local yOffset = -(auraRow * aura:GetHeight())
+    local xOffset = auraCol * aura:GetWidth()
+    aura:SetPoint('TOPLEFT', frame.buffs, 'TOPLEFT', xOffset, yOffset)
+    aura:Show()
   end
-end
 
-function FigTarget.colorHp(frame, unit)
-  local _, class = UnitClass('target')
-  local classColor
-  if class then 
-    classColor = C_ClassColor.GetClassColor(class)
-    if not classColor then
-      classColor = noClassHpColor
+  -- draw and position debuffs
+  for i = 1, maxDebuffs do
+    local aura = createAuraFrame(i, frame.debuffs, 'Debuff')
+    -- row and col start at 0
+    local auraRow = math.ceil(i / numberOfAurasPerRow) - 1
+    local auraCol = (i % numberOfAurasPerRow) - 1
+    if auraCol == -1 then
+      -- end of row
+      auraCol = numberOfAurasPerRow - 1
     end
-  else
-    classColor = noClassHpColor
+    local yOffset = -(auraRow * aura:GetHeight())
+    local xOffset = auraCol * aura:GetWidth()
+    aura:SetPoint('TOPLEFT', frame.debuffs, 'TOPLEFT', xOffset, yOffset)
+    aura:Show()
   end
-  frame.hp:SetStatusBarColor(classColor.r, classColor.g, classColor.b, 1)
+
+  frame.hasDrawnAuras = true
 end
 
-function FigTarget.colorPower(frame, unit)
-  local _, powerToken = UnitPowerType(unit)
-  local powerColor = powerBarColors[powerToken]
-  if not powerColor then
-    -- fall back to mana color
-    powerColor = powerBarColors['MANA']
-  end
-  frame.power:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b, 1)
-end
-
-function FigTarget.updatePlayerInfo(frame)
-  local name, level = UnitName('target'), UnitLevel('target')
-  if level == -1 then
-    level = '??'
-  end
-  frame.hp.playerInfo:SetText(format('%s %s', level, name))
-end
-
--- updates the duration and stacks of an aura
-function getAura(frame)
-  if frame.auraType == 'HELPFUL' then
-    return UnitBuff('target', frame.slot)
-  else
-    return UnitDebuff('target', frame.slot)
-  end
-end
-
-function FigTarget.updateAuraStatus(frame, elapsed)
-  local totalElapsed = frame.elapsedSinceLastStatusTick + elapsed
-  if totalElapsed >= frame.statusTick then
-    frame.elapsedSinceLastStatusTick = 0
-    local _, _, count, _, _, expirationTime = getAura(frame)
-    if expirationTime == 0 or expirationTime == nil then
-      frame.text:SetText(nil)
-    else
-      frame.text:SetText(Fig.prettyPrintDuration(expirationTime - GetTime()))
-    end
-    if count == 0 or count == nil then
-      frame.stackCount:SetText(nil)
-    else
-      frame.stackCount:SetText(count)
-    end
-  else
-    frame.elapsedSinceLastStatusTick = totalElapsed
-  end
-end
-
-function FigTarget.initAuraConfig()
-  -- create a frame to measure width
-  local dummyFrame = _G['FigDummyAura'] or CreateFrame('Frame', 'FigDummyAura', UIParent, 'FigTargetAuraTemplate')
-  FigTarget.aurasPerRow = math.floor(FigTargetFrame:GetWidth() / dummyFrame:GetWidth())
-  FigTarget.auraTextHeight = dummyFrame.text:GetHeight()
-  FigTarget.auraWidth = dummyFrame:GetWidth()
-  FigTarget.auraHeight = dummyFrame:GetHeight()
-  if dummyFrame:IsShown() then
-    dummyFrame:Hide()
-  end
-end
-
-local maxNumAuras = 40
-local targetBotBorderCompensation = 5
-
-function FigTarget.updateAuras(frame)
-  -- draw buffs
-  frame.numBuffRows = nil
-  for i = 1, maxNumAuras / 2 do
-    local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
-      nameplateShowPersonal, spellId = UnitBuff('target', i)
-    local f = _G['FigTargetBuff' .. i] or CreateFrame('Frame', 'FigTargetBuff' .. i, frame, 'FigTargetBuffTemplate')
-    if not f.slot then
-      f.slot = i
-    end
-    if name then
-      local xOffset = FigTarget.auraWidth * ((i - 1) % FigTarget.aurasPerRow)
-      local rowNum = math.floor((i - 1) / FigTarget.aurasPerRow)
-      local yOffset = FigTarget.auraHeight * rowNum
-      if rowNum >= 1 then
-        -- make sure it clears the duration text of the previous row
-        yOffset = yOffset + FigTarget.auraTextHeight
-      end
-      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset - targetBotBorderCompensation)
-      f.texture:SetTexture(icon)
-      f.auraIndex = i
-      frame.numBuffRows = rowNum -- used to position the debuffs
-      f:Show()
-    else
-      f.auraIndex = nil
-      f:Hide()
-    end
+local function drawAuras(frame)
+  if frame.hasDrawnAuras == nil then
+    doInitialDrawOfAuras(frame)
   end
 
-  -- draw debuffs
-  for i = 1, maxNumAuras / 2 do
-    local name, icon, count, debuffType, duration, expirationTime, source, isStealable,
-      nameplateShowPersonal, spellId = UnitDebuff('target', i)
-    local f = _G['FigTargetDebuff' .. i] or CreateFrame('Frame', 'FigTargetDebuff' .. i, frame, 'FigTargetDebuffTemplate')
-    if not f.slot then
-      f.slot = i
-    end
-    if name then
-      local xOffset = FigTarget.auraWidth * ((i - 1) % FigTarget.aurasPerRow)
-      local debuffRowsStartPos
-      if frame.numBuffRows ~= nil then
-        debuffRowsStartPos = (frame.numBuffRows + 1) * (FigTarget.auraHeight + FigTarget.auraTextHeight) + targetBotBorderCompensation
+  local unit = frame.trackingUnit
+
+  -- populate the aura frames with data
+  frame.buffs:SetHeight(-1)
+  frame.buffs:Hide()
+  for i = 1, maxBuffs do
+    local aura = _G['FigTargetBuff' .. i]
+    local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitBuff(unit, i)
+
+    if name ~= nil then
+      -- draw the buff
+      aura.spellId = spellId
+      aura.tex:SetTexture(icon)
+      if count > 0 then
+        aura.count:SetText(count)
       else
-        debuffRowsStartPos = 0 + targetBotBorderCompensation
+        aura.count:SetText('')
       end
-      local yOffset = FigTarget.auraHeight * math.floor((i - 1) / FigTarget.aurasPerRow) + debuffRowsStartPos
-      f:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', xOffset, -yOffset)
-      f.texture:SetTexture(icon)
-      f.auraIndex = i
-      f:Show()
+      if expirationTime > 0 then
+        aura.cd:Clear()
+        aura.cd:SetCooldown(expirationTime - duration, duration)
+      end
+      aura:Show()
+
+      -- calculate the height of the buffs bar
+      local numBuffRows = math.ceil(i / numberOfAurasPerRow)
+      frame.buffs:SetHeight(numBuffRows * auraSize)
+      frame.buffs:Show()
     else
-      f.auraIndex = nil
-      f:Hide()
+      -- hide the buff
+      aura:Hide()
+    end
+  end
+
+  for i = 1, maxDebuffs do
+    local aura = _G['FigTargetDebuff' .. i]
+    local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitDebuff(unit, i)
+
+    if name ~= nil then
+      -- draw the debuff
+      aura.spellId = spellId
+      aura.tex:SetTexture(icon)
+      if count > 0 then
+        aura.count:SetText(count)
+      else
+        aura.count:SetText('')
+      end
+      if expirationTime > 0 then
+        aura.cd:Clear()
+        aura.cd:SetCooldown(expirationTime - duration, duration)
+      end
+      aura:Show()
+    else
+      -- hide the debuff
+      aura:Hide()
     end
   end
 end
 
-function FigTarget.updateFrame(frame)
-  if UnitExists('target') then
-    FigTarget.colorHp(frame, 'target')
-    FigTarget.colorPower(frame, 'target')
-    FigTarget.updateHp(frame, 'target')
-    FigTarget.updatePower(frame, 'target')
-    FigTarget.updatePlayerInfo(frame)
-    FigTarget.updateAuras(frame)
-  end
-end
-
-function FigTarget.handleEvents(frame, event, ...)
-  if not frame:IsShown() then
-    return
-  end
-
-  if event == 'UNIT_HEALTH' then
-    FigTarget.updateHp(frame, ...)
-  end
-
-  if event == 'UNIT_POWER_UPDATE' then
-    FigTarget.updatePower(frame, ...)
-  end
-
-  if event == 'PLAYER_ENTERING_WORLD' then
-    FigTarget.updateFrame(frame)
-  end
-
-  if event == 'PLAYER_TARGET_CHANGED' then
-    FigTarget.updateFrame(frame)
-  end
-
-  if event == 'UNIT_AURA' and ... == 'target' then
-    FigTarget.updateAuras(frame)
-  end
-end
-
-function FigTarget.initialize(frame)
-  -- register for events
-  frame:RegisterEvent('UNIT_HEALTH')
-  frame:RegisterEvent('UNIT_POWER_UPDATE')
-  frame:RegisterEvent('PLAYER_LEVEL_CHANGED')
-  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
-  frame:RegisterEvent('PLAYER_TARGET_CHANGED')
-  frame:RegisterEvent('UNIT_AURA')
-  frame:SetScript('OnEvent', FigTarget.handleEvents)
-
-  -- hide default target frame
-  TargetFrame:SetScript('OnEvent', nil)
-
-  frame:SetPoint('CENTER', UIParent, 'CENTER', 200, -240)
-  FigTarget.initAuraConfig()
-end
-
-function FigTarget.onShow(frame)
-  FigTarget.updateFrame(frame)
-end
+FigTargetOptions = {
+  drawAuras = drawAuras,
+  oneLineName = true
+}

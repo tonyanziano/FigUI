@@ -1,101 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Player.lua" />
+  <Button name="FigPlayer" inherits="FigGenericUnitFrame">
+    <KeyValues>
+      <KeyValue type="string" key="trackingUnit" value="player"/>
+    </KeyValues>
 
-  <Button name="FigPlayerFrame" inherits="SecureUnitButtonTemplate,FigBorderedTemplate" parent="UIParent">
-    <Size x="200" y="50"/>
+    <Size x="250" y="70" />
     <Anchors>
-      <Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="CENTER" x="-310" y="-100" />
+      <Anchor point="RIGHT" relativeTo="UIParent" relativePoint="CENTER" x="-25" y="-200" />
     </Anchors>
-
-    <Frames>
-      <!-- HP -->
-      <StatusBar parentKey="hp" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="40"/>
-        <Anchors>
-          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
-        </Anchors>
-
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r="0" g="0" b="0" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture>
-              <Color r="0" g="0" b="0" a="0.5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Med3">
-              <Anchors>
-                <Anchor point="RIGHT" y="-10"/>
-              </Anchors>
-            </FontString>
-            <FontString parentKey="playerInfo" inherits="SystemFont_Shadow_Small">
-              <Anchors>
-                <Anchor point="TOPLEFT" x="4" y="-2" />
-              </Anchors>
-            </FontString>
-            <FontString parentKey="resting" inherits="SystemFont_Shadow_Small" text="zzz">
-              <Anchors>
-                <Anchor point="BOTTOMLEFT" x="2" y="2" />
-              </Anchors>
-            </FontString>
-          </Layer>
-          <Layer level="OVERLAY">
-            <Texture parentKey="combat" file="Interface\CharacterFrame\UI-StateIcon" hidden="true">
-              <Size x="24" y="24"/>
-              <Anchors>
-                <Anchor point="TOPRIGHT" />
-              </Anchors>
-              <TexCoords left="0.5" right="1.0" top="0" bottom="0.484375"/>
-            </Texture>
-          </Layer>
-        </Layers>
-      </StatusBar>
-
-      <!-- Power -->
-      <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="10"/>
-        <Anchors>
-          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
-        </Anchors>
-
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r="0" g="0" b="0" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture>
-              <Color r="0" g="0" b="0" a="0.5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Anchors>
-                <Anchor point="RIGHT"/>
-              </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-      </StatusBar>
-    </Frames>
-
-    <Scripts>
-      <OnLoad inherit="prepend">
-        -- configure to behave like default player frame
-	      self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-        local showMenu = function()
-          ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0);
-        end
-        SecureUnitButton_OnLoad(self, 'player', showMenu)
-
-        FigPlayer.initialize(self)
-      </OnLoad>
-      <OnEnter>
-        GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
-        GameTooltip:SetUnit('player')
-        GameTooltip:Show()
-      </OnEnter>
-    </Scripts>
   </Button>
 </Ui>

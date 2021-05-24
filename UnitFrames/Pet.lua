@@ -1,1 +1,4 @@
--- placeholder
+FigPetOptions = {
+  percentHpOnly = true,
+  oneLineName = true
+}
