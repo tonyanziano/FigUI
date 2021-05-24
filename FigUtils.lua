@@ -1,5 +1,5 @@
 function Fig.makeFrame(name, parent)
-  local f = CreateFrame('FRAME', name, parent or UIParent)
+  local f = CreateFrame('frame', name, parent or UIParent)
   return f
 end
 

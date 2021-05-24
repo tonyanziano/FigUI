@@ -27,7 +27,7 @@ function FigTemplates.initializeBorderedFrame(frame)
   frame:SetMovable(true)
 
   -- create overlay for dragging
-  frame.overlay = CreateFrame('Frame', nil, frame)
+  frame.overlay = CreateFrame('frame', nil, frame)
   frame.overlay.tex = frame.overlay:CreateTexture(nil, 'OVERLAY')
   frame.overlay.tex:SetAllPoints()
   frame.overlay.tex:SetColorTexture(0, 1, 0, .6)
