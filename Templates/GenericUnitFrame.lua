@@ -51,12 +51,20 @@ local function drawHpForUnitFrame(frame)
   local name = UnitName(unit)
   frame.hp.name:SetText(name)
 
-  -- update the level
+  -- update the level & classification
   local level = UnitLevel(unit)
   if level == -1 then
     level = '??'
   end
-  frame.hp.level:SetText(format('Lv. %s', level))
+  local classification = UnitClassification(unit)
+  local eliteIdentifier, rareIdentifier = '', ''
+  if strfind(classification, 'elite') then
+    eliteIdentifier = '(Elite)'
+  end
+  if strfind(classification, 'rare') then
+    rareIdentifier = '*'
+  end
+  frame.hp.level:SetText(format('Lv. %s %s %s', level, eliteIdentifier, rareIdentifier))
 end
 
 local function drawPowerForUnitFrame(frame)
