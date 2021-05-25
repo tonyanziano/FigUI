@@ -1,6 +1,6 @@
 FigWarlock = {}
 
-function FigWarlock.doInitialDraw(frame)
+local function doInitialDraw(frame)
   local frameHeight = frame:GetHeight()
   local soulShards = UnitPower('player', Enum.PowerType.SoulShards)
   local maxSoulShards = UnitPowerMax('player', Enum.PowerType.SoulShards)
@@ -58,6 +58,9 @@ local function updateSoulShards()
 end
 
 local function onEvent(frame, event, ...)
+  if event == 'PLAYER_ENTERING_WORLD' then
+    doInitialDraw(frame)
+  end
   if event == 'UNIT_POWER_FREQUENT' then
     local _, powerType = ...
     if powerType == 'SOUL_SHARDS' then
@@ -70,4 +73,5 @@ function FigWarlock.initialize(frame)
   -- set up redraw logic
   frame:SetScript('OnEvent', onEvent)
   frame:RegisterUnitEvent('UNIT_POWER_FREQUENT', 'player')
+  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
 end
