@@ -9,5 +9,11 @@
     <Anchors>
       <Anchor point="RIGHT" relativeTo="UIParent" relativePoint="CENTER" x="-25" y="-200" />
     </Anchors>
+
+    <Scripts>
+      <OnLoad inherit="prepend">
+        FigPlayerMixin.initialize(self)
+      </OnLoad>
+    </Scripts>
   </Button>
 </Ui>

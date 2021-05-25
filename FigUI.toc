@@ -16,10 +16,8 @@ Templates\GenericUnitFrame.xml
 Templates\Aura.xml
 Templates\StatusBar.xml
 
-##Resources\DeathKnight.xml
-##Resources\Paladin.xml
-##Resources\Rogue.xml
-##Resources\Shaman.xml
+Resources\FigResources.lua
+Resources\Warlock.xml
 
 UnitFrames\Player.xml
 UnitFrames\Target.xml
