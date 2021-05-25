@@ -40,6 +40,8 @@ local DebuffTypeColors = {
 }
 
 -- Draw borders for auras to show their type (magic, poison, curse, etc.)
+-- Differs slightly from Fig.drawBordersForFrame() because the borders are
+-- inset into the icon instead of on the perimeter
 local function drawAuraBorders(frame)
   -- draw all borders within a frame on top of the parent frame (gets around the issue of textures being drawn under child frames)
   local borderFrameLevel = frame:GetFrameLevel() + 20
@@ -53,26 +55,26 @@ local function drawAuraBorders(frame)
   -- draw borders
   borderFrame.top = borderFrame:CreateTexture(nil, 'OVERLAY')
   borderFrame.top:SetColorTexture(0, 0, 0, 0)
-  borderFrame.top:SetPoint('BOTTOMLEFT', borderFrame, 'TOPLEFT', -borderThickness, 0)
-  borderFrame.top:SetPoint('BOTTOMRIGHT', borderFrame, 'TOPRIGHT', borderThickness, 0)
+  borderFrame.top:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT')
+  borderFrame.top:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT')
   borderFrame.top:SetHeight(borderThickness)
 
   borderFrame.bottom = borderFrame:CreateTexture(nil, 'OVERLAY')
   borderFrame.bottom:SetColorTexture(0, 0, 0, 0)
-  borderFrame.bottom:SetPoint('TOPLEFT', borderFrame, 'BOTTOMLEFT', -borderThickness, 0)
-  borderFrame.bottom:SetPoint('TOPRIGHT', borderFrame, 'BOTTOMRIGHT', borderThickness, 0)
+  borderFrame.bottom:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT')
+  borderFrame.bottom:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT')
   borderFrame.bottom:SetHeight(borderThickness)
 
   borderFrame.left = borderFrame:CreateTexture(nil, 'OVERLAY')
   borderFrame.left:SetColorTexture(0, 0, 0, 0)
-  borderFrame.left:SetPoint('TOPRIGHT', borderFrame, 'TOPLEFT')
-  borderFrame.left:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMLEFT')
+  borderFrame.left:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT')
+  borderFrame.left:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT')
   borderFrame.left:SetWidth(borderThickness)
 
   borderFrame.right = borderFrame:CreateTexture(nil, 'OVERLAY')
   borderFrame.right:SetColorTexture(0, 0, 0, 0)
-  borderFrame.right:SetPoint('TOPLEFT', borderFrame, 'TOPRIGHT')
-  borderFrame.right:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMRIGHT')
+  borderFrame.right:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT')
+  borderFrame.right:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT')
   borderFrame.right:SetWidth(borderThickness)
 
   function borderFrame.setBorderColor(r, g, b, a)
