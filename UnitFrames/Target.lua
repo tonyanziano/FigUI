@@ -6,6 +6,13 @@ local maxBuffs = 32
 local maxDebuffs = 16
 
 local DebuffTypeColors = {
+  -- TODO: confirm 'Bleed' is the correct debuff type
+  ['Bleed'] = {
+    r = 181/255,
+    g = 11/255,
+    b = 11/255,
+    a = 1
+  },
   ['Curse'] = {
     r = 122/255,
     g = 20/255,
@@ -32,6 +39,7 @@ local DebuffTypeColors = {
   }
 }
 
+-- Draw borders for auras to show their type (magic, poison, curse, etc.)
 local function drawAuraBorders(frame)
   -- draw all borders within a frame on top of the parent frame (gets around the issue of textures being drawn under child frames)
   local borderFrameLevel = frame:GetFrameLevel() + 20
@@ -87,8 +95,8 @@ local function createAuraFrame(index, auraContainer, auraNameSuffix)
   -- count
   f.count = f:CreateFontString(nil, 'OVERLAY')
   f.count:SetPoint('BOTTOMRIGHT', f.tex, 'BOTTOMRIGHT')
-  f.count:SetFont("Fonts\\FRIZQT__.TTF", 8, 'OUTLINE')
-  f.count:SetTextHeight(8)
+  f.count:SetFont("Fonts\\FRIZQT__.TTF", 14, 'OUTLINE')
+  f.count:SetTextHeight(14)
   -- cooldown
   f.cd = CreateFrame('cooldown', nil, f, 'CooldownFrameTemplate')
   f.cd:SetHideCountdownNumbers(true)
