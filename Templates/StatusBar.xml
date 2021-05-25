@@ -1,0 +1,14 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <StatusBar name="FigStatusBarTemplate" virtual="true" minValue="0" maxValue="100" defaultValue="50">
+    <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill" />
+    <BarColor r="1" g="0" b="0" a="1" />
+
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture setAllPoints="true">
+          <Color r="0" g="0" b="0" a="1" />
+        </Texture>
+      </Layer>
+    </Layers>
+  </StatusBar>
+</Ui>

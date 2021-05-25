@@ -14,6 +14,7 @@ Fonts\Fonts.xml
 Templates\Templates.lua
 Templates\GenericUnitFrame.xml
 Templates\Aura.xml
+Templates\StatusBar.xml
 
 ##Resources\DeathKnight.xml
 ##Resources\Paladin.xml
