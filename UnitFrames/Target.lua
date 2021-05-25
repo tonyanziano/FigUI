@@ -169,6 +169,7 @@ end
 
 local function drawAuras(frame)
   if frame.hasDrawnAuras == nil then
+    -- draw and position all the aura frames
     doInitialDrawOfAuras(frame)
   end
 
