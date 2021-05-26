@@ -36,16 +36,21 @@ local function drawHpForUnitFrame(frame)
   end
 
   -- update the status text
-  local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
-  if maxHp == 0 then return end -- hp has not loaded yet -- let next redraw do the work
-  local percentHp = format('%.1f', tostring(hp / maxHp * 100))
-  local shortHp = Fig.prettyPrintNumber(hp)
-  if frame.percentHpOnly ~= nil then
-    frame.hp.text:SetText(format('%s%%', percentHp))
+  if UnitIsDeadOrGhost(unit) then
+    frame.hp.text:SetText('DEAD')
+    frame.hp:SetValue(0)
   else
-    frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
+    local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
+    if maxHp == 0 then return end -- hp has not loaded yet -- let next redraw do the work
+    local percentHp = format('%.1f', tostring(hp / maxHp * 100))
+    local shortHp = Fig.prettyPrintNumber(hp)
+    if frame.percentHpOnly ~= nil then
+      frame.hp.text:SetText(format('%s%%', percentHp))
+    else
+      frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
+    end
+    frame.hp:SetValue(percentHp)
   end
-  frame.hp:SetValue(percentHp)
 
   -- update the name
   local name = UnitName(unit)
