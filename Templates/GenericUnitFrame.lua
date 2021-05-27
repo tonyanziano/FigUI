@@ -24,7 +24,8 @@ local function drawHpForUnitFrame(frame)
 
   -- color the bar
   if UnitIsPlayer(unit) then
-    classColor = C_ClassColor.GetClassColor(UnitClass(unit))
+    local _, classToken = UnitClass(unit)
+    local classColor = C_ClassColor.GetClassColor(classToken)
     frame.hp:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
   else
     -- color for NPC
