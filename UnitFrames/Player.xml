@@ -18,6 +18,17 @@
     </Scripts>
   </Button>
 
+  <Frame name="FigPlayerRestingIndicatorTemplate" hidden="true" virtual="true">
+    <Size x="32" y="31" />
+    <Layers>
+      <Layer level="OVERLAY">
+        <Texture file="Interface\CharacterFrame\UI-StateIcon" setAllPoints="true">
+          <TexCoords left="0" right="0.5" top="0" bottom="0.484375"/>
+        </Texture>
+      </Layer>
+    </Layers>
+  </Frame>
+
   <Frame name="FigPlayerCombatIndicatorTemplate" hidden="true" virtual="true">
     <Size x="32" y="31" />
     <Layers>

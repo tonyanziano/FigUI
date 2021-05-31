@@ -6,23 +6,40 @@ local function initCombatIndicator(playerFrame)
   playerFrame.combatIndicator:SetScale(0.7)
 end
 
+local function initRestingIndicator(playerFrame)
+  -- the resting indicator is anchored to the combat indicator
+  if not playerFrame.combatIndicator then
+    initCombatIndicator(playerFrame)
+  end
+  playerFrame.restingIndicator = CreateFrame('frame', 'FigPlayerRestingIndicator', playerFrame, 'FigPlayerRestingIndicatorTemplate')
+  playerFrame.restingIndicator:SetPoint('TOPLEFT', playerFrame.combatIndicator, 'TOPRIGHT', 0, 0)
+  playerFrame.restingIndicator:SetScale(0.7)
+end
+
 local function onEvent(frame, event, ...)
   if event == 'PLAYER_REGEN_DISABLED' then
     if not frame.combatIndicator then
       initCombatIndicator(frame)
     end
     frame.combatIndicator:Show()
-  elseif 'PLAYER_REGEN_ENABLED' then
+  elseif event == 'PLAYER_REGEN_ENABLED' then
     if not frame.combatIndicator then
       initCombatIndicator(frame)
     end
     frame.combatIndicator:Hide()
+  elseif event == 'PLAYER_UPDATE_RESTING' or event == 'PLAYER_ENTERING_WORLD' then
+    if not frame.restingIndicator then
+      initRestingIndicator(frame)
+    end
+    frame.restingIndicator:SetShown(IsResting())
   end
 end
 
 function FigPlayerMixin.initialize(frame)
+  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
   frame:RegisterEvent('PLAYER_REGEN_DISABLED')
   frame:RegisterEvent('PLAYER_REGEN_ENABLED')
+  frame:RegisterEvent('PLAYER_UPDATE_RESTING')
   frame:SetScript('OnEvent', onEvent)
 
   -- get resource bar if applicable
