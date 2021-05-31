@@ -77,7 +77,7 @@
           <Layer level="ARTWORK">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
               <Anchors>
-                <Anchor point="RIGHT" x="-8" />
+                <Anchor point="RIGHT" x="-8" y="1" />
               </Anchors>
             </FontString>
           </Layer>
