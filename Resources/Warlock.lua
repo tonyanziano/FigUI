@@ -10,15 +10,12 @@ local function doInitialDraw(frame)
 
   for i = 1, maxSoulShards do
     -- draw shard indicator
-    local shard = _G['FigResourceWarlockShard' .. i]
-    if shard == nil then
-      shard = CreateFrame('frame', 'FigResourceWarlockShard' .. i, frame)
-    end
+    local shard = _G['FigResourceWarlockShard' .. i] or CreateFrame('frame', 'FigResourceWarlockShard' .. i, frame)
     shard:SetSize(soulShardWidth, frameHeight)
-    shard.bgTex = shard:CreateTexture(nil, 'BACKGROUND')
+    shard.bgTex = _G[shard:GetName() .. 'Background'] or shard:CreateTexture(shard:GetName() .. 'Background', 'BACKGROUND')
     shard.bgTex:SetColorTexture(0.1, 0.1, 0.1, 1)
     shard.bgTex:SetAllPoints()
-    shard.fillTex = shard:CreateTexture(nil, 'ARTWORK')
+    shard.fillTex = _G[shard:GetName() .. 'Fill'] or shard:CreateTexture(shard:GetName() .. 'Fill', 'ARTWORK')
     shard.fillTex:SetColorTexture(0.50,	0.32,	0.55, 1)
     shard.fillTex:SetAllPoints()
 
@@ -36,10 +33,7 @@ local function doInitialDraw(frame)
 
     -- draw shard divider
     if i ~= maxSoulShards then
-      local divider = _G['FigResourceWarlockDivider' .. i]
-      if divider == nil then
-        divider = CreateFrame('frame', 'FigResourceWarlockDivider' .. i, frame)
-      end
+      local divider = _G['FigResourceWarlockDivider' .. i] or CreateFrame('frame', 'FigResourceWarlockDivider' .. i, frame)
       divider:SetSize(dividerWidth, frameHeight)
       divider.tex = divider:CreateTexture(nil, 'BACKGROUND')
       divider.tex:SetAllPoints()
