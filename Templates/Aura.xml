@@ -3,7 +3,7 @@
     <Scripts>
       <OnEnter>
         GameTooltip:SetOwner(self, 'ANCHOR_BOTTOMRIGHT')
-        GameTooltip:SetSpellByID(self.spellId)
+        GameTooltip:SetUnitAura(self.unit, self.index, self.filter)
         GameTooltip:Show()
       </OnEnter>
       <OnLeave>

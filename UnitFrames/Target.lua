@@ -88,7 +88,8 @@ local function drawAuraBorders(frame)
 end
 
 local function createAuraFrame(index, auraContainer, auraNameSuffix)
-  local f = CreateFrame('frame', 'FigTarget' .. auraNameSuffix .. index, auraContainer, 'FigAuraTemplate')
+  local f = _G['FigTarget' .. auraNameSuffix .. index] or CreateFrame('frame', 'FigTarget' .. auraNameSuffix .. index, auraContainer, 'FigAuraTemplate')
+  f.unit = 'target'
   f:SetSize(auraSize, auraSize)
   -- icon
   f.tex = f:CreateTexture(nil, 'BACKGROUND')
@@ -100,7 +101,7 @@ local function createAuraFrame(index, auraContainer, auraNameSuffix)
   f.count:SetFont("Fonts\\FRIZQT__.TTF", 14, 'OUTLINE')
   f.count:SetTextHeight(14)
   -- cooldown
-  f.cd = CreateFrame('cooldown', nil, f, 'CooldownFrameTemplate')
+  f.cd = _G[f:GetName() .. 'CoolDown'] or CreateFrame('cooldown', _G[f:GetName() .. 'CoolDown'], f, 'CooldownFrameTemplate')
   f.cd:SetHideCountdownNumbers(true)
   f.cd:SetReverse(true) -- foreground should be the icon and the swip should dim the icon
   f.cd:SetAllPoints()
@@ -114,7 +115,7 @@ local function doInitialDrawOfAuras(frame)
   -- draw buff / debuff containers
   auraSize = frame:GetWidth() / numberOfAurasPerRow
   if frame.buffs == nil then
-    frame.buffs = CreateFrame('frame', 'FigTargetBuffs', frame)
+    frame.buffs = _G['FigTargetBuffs'] or CreateFrame('frame', 'FigTargetBuffs', frame)
     frame.buffs:SetWidth(frame:GetWidth())
     -- hide the buffs frame until we actually have buffs to render;
     -- setting height to 0 bugs out the debuff bar's relative anchor so
@@ -124,7 +125,7 @@ local function doInitialDrawOfAuras(frame)
     frame.buffs:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, -4)
   end
   if frame.debuffs == nil then
-    frame.debuffs = CreateFrame('frame', 'FigTargetDebuffs', frame)
+    frame.debuffs = _G['FigTargetDebuffs'] or CreateFrame('frame', 'FigTargetDebuffs', frame)
     frame.debuffs:SetWidth(frame:GetWidth())
     local maxDebuffRows = math.ceil(maxDebuffs / numberOfAurasPerRow)
     frame.debuffs:SetHeight(auraSize * maxDebuffRows) -- debuffs frame can always be full height because it comes after the buffs frame
@@ -135,6 +136,9 @@ local function doInitialDrawOfAuras(frame)
   -- draw and position buffs
   for i = 1, maxBuffs do
     local aura = createAuraFrame(i, frame.buffs, 'Buff')
+    aura.unit = frame.trackingUnit
+    aura.index = i
+    aura.filter = 'HELPFUL'
     -- row and col start at 0
     local auraRow = math.ceil(i / numberOfAurasPerRow) - 1
     local auraCol = (i % numberOfAurasPerRow) - 1
@@ -151,6 +155,9 @@ local function doInitialDrawOfAuras(frame)
   -- draw and position debuffs
   for i = 1, maxDebuffs do
     local aura = createAuraFrame(i, frame.debuffs, 'Debuff')
+    aura.unit = frame.trackingUnit
+    aura.index = i
+    aura.filter = 'HARMFUL'
     -- row and col start at 0
     local auraRow = math.ceil(i / numberOfAurasPerRow) - 1
     local auraCol = (i % numberOfAurasPerRow) - 1
@@ -184,7 +191,6 @@ local function drawAuras(frame)
 
     if name ~= nil then
       -- draw the buff
-      aura.spellId = spellId
       aura.tex:SetTexture(icon)
       if count > 0 then
         aura.count:SetText(count)
@@ -213,7 +219,6 @@ local function drawAuras(frame)
 
     if name ~= nil then
       -- draw the debuff
-      aura.spellId = spellId
       aura.tex:SetTexture(icon)
       if count > 0 then
         aura.count:SetText(count)
