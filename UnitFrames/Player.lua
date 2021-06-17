@@ -42,6 +42,9 @@ function FigPlayerMixin.initialize(frame)
   frame:RegisterEvent('PLAYER_UPDATE_RESTING')
   frame:SetScript('OnEvent', onEvent)
 
+  -- hide default player frame
+  PlayerFrame:Hide();
+
   -- get resource bar if applicable
   local resourceBar = FigResources.getResourceBarForPlayer()
 

@@ -244,7 +244,15 @@ local function drawAuras(frame)
   end
 end
 
+local function initialize(frame)
+  -- hide default target frame
+  TargetFrame:SetScript('OnUpdate', nil)
+  TargetFrame:SetScript('OnEvent', nil)
+  TargetFrame:Hide()
+end
+
 FigTargetOptions = {
   drawAuras = drawAuras,
+  initialize = initialize,
   oneLineName = true
 }
