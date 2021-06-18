@@ -15,6 +15,7 @@ Templates\Templates.lua
 Templates\GenericUnitFrame.xml
 Templates\Aura.xml
 Templates\StatusBar.xml
+Templates\AuraTimer.xml
 
 Resources\FigResources.lua
 Resources\Warlock.xml
@@ -23,3 +24,4 @@ UnitFrames\Player.xml
 UnitFrames\Target.xml
 UnitFrames\TargetOfTarget.xml
 UnitFrames\Pet.xml
+UnitFrames\DebuffTracker.xml

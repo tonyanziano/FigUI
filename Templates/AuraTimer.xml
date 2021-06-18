@@ -1,0 +1,52 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="AuraTimer.lua" />
+
+  <Frame name="FigAuraTimerTemplate" virtual="true" mixin="FigAuraTimerTemplateMixin">
+    <Size x="100" y="25" />
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" />
+    </Anchors>
+
+    <Frames>
+      <!-- icon -->
+      <Frame name="$parentIcon" parentKey="icon">
+        <Size x="25" y="25" />
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT" />
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture parentKey="tex" setAllPoints="true" />
+          </Layer>
+        </Layers>
+      </Frame>
+
+      <!-- progress bar -->
+      <StatusBar name="$parentTimerBar" parentKey="timer" inherits="FigStatusBarTemplate">
+        <Size x="75" y="10" />
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" />
+        </Anchors>
+
+        <Layers>
+          <Layer level="ARTWORK">
+            <!-- time remaining -->
+            <FontString parentKey="text" inherits="NumberFont_Outline_Large">
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+      </StatusBar>
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        self:Hide()
+        self.timer:SetStatusBarColor(0.88, 0.88, 0.88, 1)
+        self:initialize()
+      </OnLoad>
+    </Scripts>
+  </Frame>
+</Ui>
