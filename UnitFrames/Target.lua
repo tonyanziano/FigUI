@@ -187,7 +187,7 @@ local function drawAuras(frame)
   frame.buffs:Hide()
   for i = 1, maxBuffs do
     local aura = _G['FigTargetBuff' .. i]
-    local name, icon, count, _, duration, expirationTime, _, _, _, spellId = UnitBuff(unit, i)
+    local name, icon, count, _, duration, expirationTime = UnitBuff(unit, i)
 
     if name ~= nil then
       -- draw the buff
@@ -215,7 +215,7 @@ local function drawAuras(frame)
 
   for i = 1, maxDebuffs do
     local aura = _G['FigTargetDebuff' .. i]
-    local name, icon, count, debuffType, duration, expirationTime, _, _, _, spellId = UnitDebuff(unit, i)
+    local name, icon, count, debuffType, duration, expirationTime = UnitDebuff(unit, i)
 
     if name ~= nil then
       -- draw the debuff
@@ -253,6 +253,5 @@ end
 
 FigTargetOptions = {
   drawAuras = drawAuras,
-  initialize = initialize,
-  oneLineName = true
+  initialize = initialize
 }

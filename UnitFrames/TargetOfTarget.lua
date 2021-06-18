@@ -1,4 +1,3 @@
 FigTargetOfTargetOptions = {
-  percentHpOnly = true,
-  oneLineName = true
+  percentHpOnly = true
 }

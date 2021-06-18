@@ -134,7 +134,5 @@ function FigTemplates.initializeUnitFrame(frame)
 
   -- the unit frame name should be truncated before bleeding into the status text
   frame.hp.name:SetWidth(frame.hp:GetWidth() / 3)
-  if frame.oneLineName then
-    frame.hp.name:SetMaxLines(1)
-  end
+  frame.hp.name:SetMaxLines(1)
 end

@@ -1,4 +1,3 @@
 FigPetOptions = {
-  percentHpOnly = true,
-  oneLineName = true
+  percentHpOnly = true
 }
