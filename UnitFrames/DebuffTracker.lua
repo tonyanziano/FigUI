@@ -10,11 +10,9 @@ local function drawAuras(frame)
     if name ~= nil and source == 'player' then
       -- draw the timer
       timer.icon.tex:SetTexture(icon)
-      if expirationTime > 0 then
-        -- pass this information to the timer and let it draw itself
-        timer.duration = duration
-        timer.expirationTime = expirationTime
-      end
+      -- pass this information to the timer and let it draw itself
+      timer.duration = duration
+      timer.expirationTime = expirationTime
       timer:Show()
     else
       -- hide the timer

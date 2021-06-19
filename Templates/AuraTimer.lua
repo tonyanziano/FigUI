@@ -3,19 +3,26 @@ local function tick(frame, elapsed)
   frame.timeSinceLastTick = frame.timeSinceLastTick + elapsed
 
   if frame.timeSinceLastTick >= tickRate then
-    -- update the timer
-    local timeRemaining = frame.expirationTime - GetTime()
-    frame.timer:SetMinMaxValues(0, frame.duration)
-    frame.timer:SetValue(timeRemaining)
+    if frame.expirationTime > 0 then
+      -- update the timer
+      local timeRemaining = frame.expirationTime - GetTime()
+      frame.timer:SetMinMaxValues(0, frame.duration)
+      frame.timer:SetValue(timeRemaining)
 
-    -- display an integer until the final 10 seconds
-    local timeRemainingText
-    if timeRemaining >= 10 then
-      timeRemainingText = format('%i', tostring(timeRemaining))
+      -- display an integer until the final 10 seconds
+      local timeRemainingText
+      if timeRemaining >= 10 then
+        timeRemainingText = format('%i', tostring(timeRemaining))
+      else
+        timeRemainingText = format('%.1f', tostring(timeRemaining))
+      end
+      frame.timer.text:SetText(timeRemainingText)
     else
-      timeRemainingText = format('%.1f', tostring(timeRemaining))
+      -- it is a permanent debuff like talented Corruption for warlocks
+      frame.timer:SetMinMaxValues(0, 1)
+      frame.timer:SetValue(1)
+      frame.timer.text:SetText('')
     end
-    frame.timer.text:SetText(timeRemainingText)
 
     frame.timeSinceLastTick = 0
   end
