@@ -8,7 +8,10 @@ function Fig.getTexturePath(texture)
 end
 
 function Fig.prettyPrintNumber(num)
-  if num >= 1000 then
+  if num >= 1000000 then
+    -- do conversion to shorter syntax (eg. 5300000 = 5.3m)
+    return format('%.1f', tostring(num / 1000000)) .. 'm'
+  elseif num >= 1000 then
     -- do conversion to shorter syntax (eg. 4700 = 4.7k)
     return format('%.1f', tostring(num / 1000)) .. 'k'
   else
