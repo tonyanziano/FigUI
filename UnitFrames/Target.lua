@@ -6,8 +6,7 @@ local maxBuffs = 32
 local maxDebuffs = 16
 
 local DebuffTypeColors = {
-  -- TODO: confirm 'Bleed' is the correct debuff type
-  ['Bleed'] = {
+  ['Generic'] = {
     r = 181/255,
     g = 11/255,
     b = 11/255,
@@ -232,10 +231,11 @@ local function drawAuras(frame)
       if debuffType ~= nil then
         local debuffTypeColor = DebuffTypeColors[debuffType]
         aura.borders.setBorderColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
-        aura.borders:Show()
       else
-        aura.borders:Hide()
+        local debuffTypeColor = DebuffTypeColors['Generic']
+        aura.borders.setBorderColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
       end
+      aura.borders:Show()
       aura:Show()
     else
       -- hide the debuff
