@@ -5,39 +5,6 @@ local auraSize -- will be calculated on initial draw
 local maxBuffs = 32
 local maxDebuffs = 16
 
-local DebuffTypeColors = {
-  ['Generic'] = {
-    r = 181/255,
-    g = 11/255,
-    b = 11/255,
-    a = 1
-  },
-  ['Curse'] = {
-    r = 122/255,
-    g = 20/255,
-    b = 227/255,
-    a = 1
-  },
-  ['Disease'] = {
-    r = 232/255,
-    g = 173/255,
-    b = 79/255,
-    a = 1
-  },
-  ['Magic'] = {
-    r = 33/255,
-    g = 120/255,
-    b = 219/255,
-    a = 1
-  },
-  ['Poison'] = {
-    r = 25/255,
-    g = 133/255,
-    b = 17/255,
-    a = 1
-  }
-}
-
 -- Draw borders for auras to show their type (magic, poison, curse, etc.)
 -- Differs slightly from Fig.drawBordersForFrame() because the borders are
 -- inset into the icon instead of on the perimeter
@@ -229,10 +196,10 @@ local function drawAuras(frame)
         aura.cd:SetCooldown(expirationTime - duration, duration)
       end
       if debuffType ~= nil then
-        local debuffTypeColor = DebuffTypeColors[debuffType]
+        local debuffTypeColor = FigDebuffTypeColors[debuffType]
         aura.borders.setBorderColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
       else
-        local debuffTypeColor = DebuffTypeColors['Generic']
+        local debuffTypeColor = FigDebuffTypeColors['Generic']
         aura.borders.setBorderColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
       end
       aura.borders:Show()

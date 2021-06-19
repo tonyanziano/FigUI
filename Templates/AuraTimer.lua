@@ -6,8 +6,8 @@ local function tick(frame, elapsed)
     if frame.expirationTime > 0 then
       -- update the timer
       local timeRemaining = frame.expirationTime - GetTime()
-      frame.timer:SetMinMaxValues(0, frame.duration)
-      frame.timer:SetValue(timeRemaining)
+      frame.progress:SetMinMaxValues(0, frame.duration)
+      frame.progress:SetValue(timeRemaining)
 
       -- display an integer until the final 10 seconds
       local timeRemainingText
@@ -16,12 +16,12 @@ local function tick(frame, elapsed)
       else
         timeRemainingText = format('%.1f', tostring(timeRemaining))
       end
-      frame.timer.text:SetText(timeRemainingText)
+      frame.progress.text:SetText(timeRemainingText)
     else
       -- it is a permanent debuff like talented Corruption for warlocks
-      frame.timer:SetMinMaxValues(0, 1)
-      frame.timer:SetValue(1)
-      frame.timer.text:SetText('')
+      frame.progress:SetMinMaxValues(0, 1)
+      frame.progress:SetValue(1)
+      frame.progress.text:SetText('')
     end
 
     frame.timeSinceLastTick = 0

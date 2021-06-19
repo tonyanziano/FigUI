@@ -11,6 +11,7 @@ FigUtils.lua
 FigDebug.lua
 Config\Config.xml
 Fonts\Fonts.xml
+Common\Constants.lua
 Templates\Templates.lua
 Templates\GenericUnitFrame.xml
 Templates\Aura.xml

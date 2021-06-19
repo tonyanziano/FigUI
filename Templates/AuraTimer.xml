@@ -2,7 +2,7 @@
   <Script file="AuraTimer.lua" />
 
   <Frame name="FigAuraTimerTemplate" virtual="true" mixin="FigAuraTimerTemplateMixin">
-    <Size x="100" y="25" />
+    <Size x="0" y="25" />
     <Anchors>
       <Anchor point="CENTER" relativeTo="UIParent" />
     </Anchors>
@@ -22,8 +22,8 @@
       </Frame>
 
       <!-- progress bar -->
-      <StatusBar name="$parentTimerBar" parentKey="timer" inherits="FigStatusBarTemplate">
-        <Size x="75" y="10" />
+      <StatusBar name="$parentProgressBar" parentKey="progress" inherits="FigStatusBarTemplate">
+        <Size x="0" y="25" />
         <Anchors>
           <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" />
         </Anchors>
@@ -44,7 +44,8 @@
     <Scripts>
       <OnLoad>
         self:Hide()
-        self.timer:SetStatusBarColor(0.88, 0.88, 0.88, 1)
+        local genericDebuffColor = FigDebuffTypeColors['Generic']
+        self.progress:SetStatusBarColor(genericDebuffColor.r, genericDebuffColor.g, genericDebuffColor.b, genericDebuffColor.a)
         self:initialize()
       </OnLoad>
     </Scripts>
