@@ -39,5 +39,5 @@ function FigTemplates.initializeBorderedFrame(frame)
   frame.overlay:SetScript('OnDragStart', moveBorderedFrame)
   frame.overlay:SetScript('OnDragStop', stopMovingBorderedFrame)
 
-  Fig.drawBordersForFrame(frame)
+  Fig.drawOutsetBordersForFrame(frame)
 end

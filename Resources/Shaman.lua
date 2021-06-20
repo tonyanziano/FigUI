@@ -40,5 +40,5 @@ function FigShaman.initialize(frame)
 
   frame:SetStatusBarColor(110/255, 110/255, 230/255)
   frame.bg:SetColorTexture(10/255, 10/255, 10/255)
-  Fig.drawBordersForFrame(frame)
+  Fig.drawOutsetBordersForFrame(frame)
 end

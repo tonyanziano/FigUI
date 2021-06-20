@@ -6,7 +6,7 @@ local maxBuffs = 32
 local maxDebuffs = 16
 
 -- Draw borders for auras to show their type (magic, poison, curse, etc.)
--- Differs slightly from Fig.drawBordersForFrame() because the borders are
+-- Differs slightly from Fig.drawOutsetBordersForFrame() because the borders are
 -- inset into the icon instead of on the perimeter
 local function drawAuraBorders(frame)
   -- draw all borders within a frame on top of the parent frame (gets around the issue of textures being drawn under child frames)

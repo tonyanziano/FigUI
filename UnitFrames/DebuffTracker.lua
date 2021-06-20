@@ -50,6 +50,7 @@ local function initialize(frame)
     local timer = _G['FigAuraTimer' .. i] or CreateFrame('frame', 'FigAuraTimer' .. i, UIParent, 'FigAuraTimerTemplate')
     timer:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, yOffset)
     timer.progress:SetWidth(containerWidth - measuringFrame.icon:GetWidth())
+    Fig.drawInsetBordersForFrame(timer.progress)
   end
 
   -- listen for events to redraw the timers
