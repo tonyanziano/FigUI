@@ -16,12 +16,17 @@ local function tick(frame, elapsed)
       else
         timeRemainingText = format('%.1f', tostring(timeRemaining))
       end
-      frame.progress.text:SetText(timeRemainingText)
+      local count = ''
+      if frame.count > 0 then
+        count = format('[%i] ', frame.count)
+      end
+      frame.progress.info:SetText(format('%s%s', count, frame.name))
+      frame.progress.duration:SetText(timeRemainingText)
     else
       -- it is a permanent debuff like talented Corruption for warlocks
       frame.progress:SetMinMaxValues(0, 1)
       frame.progress:SetValue(1)
-      frame.progress.text:SetText('')
+      frame.progress.duration:SetText('')
     end
 
     frame.timeSinceLastTick = 0

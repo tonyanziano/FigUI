@@ -23,17 +23,23 @@
 
       <!-- progress bar -->
       <StatusBar name="$parentProgressBar" parentKey="progress" inherits="FigStatusBarTemplate">
-        <Size x="0" y="25" />
+        <Size x="0" y="15" />
         <Anchors>
-          <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" />
+          <Anchor point="BOTTOMLEFT" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" />
         </Anchors>
 
         <Layers>
           <Layer level="ARTWORK">
-            <!-- time remaining -->
-            <FontString parentKey="text" inherits="NumberFont_Outline_Large">
+            <!-- debuff name and count -->
+            <FontString parentKey="info" inherits="NumberFont_Outline_Large">
               <Anchors>
-                <Anchor point="CENTER" />
+                <Anchor point="LEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+              </Anchors>
+            </FontString>
+            <!-- time remaining -->
+            <FontString parentKey="duration" inherits="NumberFont_Outline_Large">
+              <Anchors>
+                <Anchor point="RIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" />
               </Anchors>
             </FontString>
           </Layer>

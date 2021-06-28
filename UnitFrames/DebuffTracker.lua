@@ -5,7 +5,7 @@ measuringFrame:Hide()
 local function drawAuras(frame)
   for i = 1, maxNumberOfDebuffs do
     local timer = _G['FigAuraTimer' .. i]
-    local name, icon, _, debuffType, duration, expirationTime, source = UnitDebuff('target', i)
+    local name, icon, count, debuffType, duration, expirationTime, source = UnitDebuff('target', i)
 
     if name ~= nil and (source == 'player' or source == 'pet') then
       -- draw the timer
@@ -18,8 +18,10 @@ local function drawAuras(frame)
         timer.progress:SetStatusBarColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
       end
       -- pass this information to the timer and let it draw itself
+      timer.count = count;
       timer.duration = duration
       timer.expirationTime = expirationTime
+      timer.name = name;
       timer:Show()
     else
       -- hide the timer
@@ -50,7 +52,7 @@ local function initialize(frame)
     local timer = _G['FigAuraTimer' .. i] or CreateFrame('frame', 'FigAuraTimer' .. i, UIParent, 'FigAuraTimerTemplate')
     timer:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, yOffset)
     timer.progress:SetWidth(containerWidth - measuringFrame.icon:GetWidth())
-    Fig.drawInsetBordersForFrame(timer.progress)
+    Fig.drawInsetBordersForFrame(timer.progress, 'ARTWORK')
   end
 
   -- listen for events to redraw the timers

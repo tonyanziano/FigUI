@@ -80,45 +80,47 @@ function Fig.drawOutsetBordersForFrame(frame)
   end
 end
 
-function Fig.drawInsetBordersForFrame(frame)
+function Fig.drawInsetBordersForFrame(frame, drawLayer, borderThickness)
   if not frame then return end
 
   if not frame.hasBorders then
-    -- draw all borders within a frame on top of the parent frame (gets around the issue of textures being drawn under child frames)
-    local borderFrameLevel = frame:GetFrameLevel() + 20
-    local borderFrame = CreateFrame('frame', nil, frame)
-    borderFrame:SetPoint('CENTER')
-    borderFrame:SetFrameLevel(borderFrameLevel)
-    borderFrame:SetSize(frame:GetSize())
-    frame.borders = borderFrame
-    local borderThickness = 1 -- TODO: make this configurable
+    drawLayer = drawLayer or 'BORDER' -- allow us to draw borders on top of StatusBar elements that use the BORDER layer
+    borderThickness = borderThickness or 1
+    frame.borders = {}
     
     -- draw borders
-    borderFrame.top = borderFrame:CreateTexture(nil, 'OVERLAY')
-    borderFrame.top:SetColorTexture(0, 0, 0, 1)
-    borderFrame.top:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT', borderThickness, 0)
-    borderFrame.top:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT', -borderThickness, 0)
-    borderFrame.top:SetHeight(borderThickness)
+    frame.borders.top = frame:CreateTexture(frame:GetName() .. 'TopBorder', drawLayer)
+    frame.borders.top:SetDrawLayer(drawLayer, 7)
+    frame.borders.top:SetColorTexture(0, 0, 0, 1)
+    frame.borders.top:SetPoint('TOPLEFT', frame, 'TOPLEFT', borderThickness, 0)
+    frame.borders.top:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', -borderThickness, 0)
+    frame.borders.top:SetHeight(borderThickness)
+    frame.borders.top:Show()
 
-    borderFrame.bottom = borderFrame:CreateTexture(nil, 'OVERLAY')
-    borderFrame.bottom:SetColorTexture(0, 0, 0, 1)
-    borderFrame.bottom:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT', borderThickness, 0)
-    borderFrame.bottom:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT', -borderThickness, 0)
-    borderFrame.bottom:SetHeight(borderThickness)
+    frame.borders.bottom = frame:CreateTexture(frame:GetName() .. 'BottomBorder', drawLayer)
+    frame.borders.bottom:SetDrawLayer(drawLayer, 7)
+    frame.borders.bottom:SetColorTexture(0, 0, 0, 1)
+    frame.borders.bottom:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', borderThickness, 0)
+    frame.borders.bottom:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', -borderThickness, 0)
+    frame.borders.bottom:SetHeight(borderThickness)
+    frame.borders.bottom:Show()
 
-    borderFrame.left = borderFrame:CreateTexture(nil, 'OVERLAY')
-    borderFrame.left:SetColorTexture(0, 0, 0, 1)
-    borderFrame.left:SetPoint('TOPLEFT', borderFrame, 'TOPLEFT')
-    borderFrame.left:SetPoint('BOTTOMLEFT', borderFrame, 'BOTTOMLEFT')
-    borderFrame.left:SetWidth(borderThickness)
+    frame.borders.left = frame:CreateTexture(frame:GetName() .. 'LeftBorder', drawLayer)
+    frame.borders.left:SetDrawLayer(drawLayer, 7)
+    frame.borders.left:SetColorTexture(0, 0, 0, 1)
+    frame.borders.left:SetPoint('TOPLEFT', frame, 'TOPLEFT')
+    frame.borders.left:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT')
+    frame.borders.left:SetWidth(borderThickness)
+    frame.borders.left:Show()
 
-    borderFrame.right = borderFrame:CreateTexture(nil, 'OVERLAY')
-    borderFrame.right:SetColorTexture(0, 0, 0, 1)
-    borderFrame.right:SetPoint('TOPRIGHT', borderFrame, 'TOPRIGHT')
-    borderFrame.right:SetPoint('BOTTOMRIGHT', borderFrame, 'BOTTOMRIGHT')
-    borderFrame.right:SetWidth(borderThickness)
+    frame.borders.right = frame:CreateTexture(frame:GetName() .. 'RightBorder', drawLayer)
+    frame.borders.right:SetDrawLayer(drawLayer, 7)
+    frame.borders.right:SetColorTexture(0, 0, 0, 1)
+    frame.borders.right:SetPoint('TOPRIGHT', frame, 'TOPRIGHT')
+    frame.borders.right:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT')
+    frame.borders.right:SetWidth(borderThickness)
+    frame.borders.right:Show()
 
-    borderFrame:Show()
     frame.hasBorders = true
   end
 end
