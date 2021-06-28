@@ -7,7 +7,7 @@ local function drawAuras(frame)
     local timer = _G['FigAuraTimer' .. i]
     local name, icon, _, debuffType, duration, expirationTime, source = UnitDebuff('target', i)
 
-    if name ~= nil and source == 'player' then
+    if name ~= nil and (source == 'player' or source == 'pet') then
       -- draw the timer
       timer.icon.tex:SetTexture(icon)
       if debuffType ~= nil then
