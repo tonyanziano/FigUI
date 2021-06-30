@@ -196,7 +196,7 @@ local function drawAuras(frame)
         aura.cd:SetCooldown(expirationTime - duration, duration)
       end
       if debuffType ~= nil then
-        local debuffTypeColor = FigDebuffTypeColors[debuffType]
+        local debuffTypeColor = FigDebuffTypeColors[debuffType] or FigDebuffTypeColors['Generic']
         aura.borders.setBorderColor(debuffTypeColor.r, debuffTypeColor.g, debuffTypeColor.b, debuffTypeColor.a)
       else
         local debuffTypeColor = FigDebuffTypeColors['Generic']
