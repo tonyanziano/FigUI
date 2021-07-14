@@ -9,14 +9,19 @@
 FigUI.lua
 FigUtils.lua
 FigDebug.lua
+
 Config\Config.xml
+
 Fonts\Fonts.xml
+
 Common\Constants.lua
+
 Templates\Templates.lua
 Templates\GenericUnitFrame.xml
 Templates\Aura.xml
 Templates\StatusBar.xml
 Templates\AuraTimer.xml
+Templates\MovableFrame.xml
 
 Resources\FigResources.lua
 Resources\Warlock.xml

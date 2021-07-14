@@ -1,20 +1,37 @@
 -- placeholder
-local panel = CreateFrame('FRAME', 'FigConfigPanel', UIParent, 'BackdropTemplate')
+local panel = CreateFrame('frame', 'FigConfigPanel', UIParent, 'BackdropTemplate')
 panel.name = "Fig UI"
 panel.okay = function ()
-  print('okay pressed')
+  -- save changes
 end
 panel.cancel = function ()
-  print('cancel pressed')
-end
-panel.default = function ()
-  print('default pressed')
+  -- discard changes?
 end
 InterfaceOptions_AddCategory(panel)
 
-local checkBox = CreateFrame('CheckButton', nil, panel, 'ChatConfigCheckButtonTemplate')
-checkBox:SetPoint('TOPLEFT', panel, 'TOPLEFT', 4, 4)
+panel.lastControl = nil
+local panelHorizontalPadding = 4
 
-local btn = CreateFrame('Button', nil, panel, 'OptionsButtonTemplate')
-btn:SetText('push me')
-btn:SetPoint('TOPLEFT', panel, 'TOPLEFT', 8, 8)
+-- onToggle: function (self, checked)
+function addCheckbox(label, onToggle)
+  local checkBoxVertPadding = 4
+  local checkBox = CreateFrame('CheckButton', 'figcheck', panel, 'ChatConfigCheckButtonTemplate')
+  checkBox.Text:SetText(label)
+  checkBox.Text:SetPoint('LEFT', checkBox, 'RIGHT')
+  checkBox.func = onToggle
+  --checkBox.tooltip -- can define this to add a tooltip
+
+  if panel.lastControl then
+    -- set position relative to last control
+    checkBox:SetPoint('TOPLEFT', panel.lastControl, 'BOTTOMLEFT', 0, -checkBoxVertPadding)
+  else
+    -- set position relative to top of panel
+    checkBox:SetPoint('TOPLEFT', panel, 'TOPLEFT', panelHorizontalPadding, -checkBoxVertPadding)
+  end
+  panel.lastControl = checkBox;
+end
+addCheckbox('Borders')
+
+-- local btn = CreateFrame('Button', nil, panel, 'OptionsButtonTemplate')
+-- btn:SetText('push me')
+-- btn:SetPoint('TOPLEFT', panel, 'TOPLEFT')

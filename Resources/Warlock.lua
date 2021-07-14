@@ -42,7 +42,7 @@ local function doInitialDraw(frame)
     end
   end
 
-  FigTemplates.initializeBorderedFrame(frame)
+  Fig.drawOutsetBordersForFrame(frame)
 end
 
 local function updateSoulShards()

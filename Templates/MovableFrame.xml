@@ -1,0 +1,16 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="MovableFrame.lua" />
+
+  <Frame name="FigMovableFrameTemplate" virtual="true" enableMouse="true" mixin="FigMovableFrameMixin">
+    <Scripts>
+      <OnLoad>
+        -- setup frame to be movable
+        self:SetClampedToScreen(true)
+        self:SetMovable(true)
+        self:RegisterForDrag('LeftButton')
+        self:SetScript('OnDragStart', self.moveFrame)
+        self:SetScript('OnDragStop', self.stopMovingFrame)
+      </OnLoad>
+    </Scripts>
+  </Frame>
+</Ui>

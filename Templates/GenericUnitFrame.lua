@@ -126,7 +126,7 @@ function FigTemplates.initializeUnitFrame(frame)
   -- other initialization
   frame:SetScript('OnEvent', onEvent)
   frame:SetScript('OnUpdate', drawUnitFrame);
-  FigTemplates.initializeBorderedFrame(frame)
+  Fig.drawOutsetBordersForFrame(frame)
   frame.hp:SetWidth(frame:GetWidth())
   frame.hp:SetHeight(frame:GetHeight() * .80) -- hp takes 80% of frame height
   frame.power:SetWidth(frame:GetWidth())
