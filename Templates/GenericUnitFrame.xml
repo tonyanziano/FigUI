@@ -2,7 +2,7 @@
   <Script file="GenericUnitFrame.lua" />
 
   <!-- Generic UnitFrame -->
-  <Button name="FigGenericUnitFrame" parent="UIParent" virtual="true" inherits="SecureActionButtonTemplate">
+  <Button name="FigGenericUnitFrame" parent="UIParent" virtual="true" inherits="SecureActionButtonTemplate, FigMovableFrameTemplate">
     <KeyValues>
       <!-- specify what unit the frame is for ("player", "target", "party1") -->
       <KeyValue type="string" key="trackingUnit" value=""/>
@@ -86,7 +86,7 @@
     </Frames>
 
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         if self.trackingUnit ~= nil then
           FigTemplates.initializeUnitFrame(self)
         end

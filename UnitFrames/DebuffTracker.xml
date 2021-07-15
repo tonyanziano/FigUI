@@ -1,9 +1,9 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="DebuffTracker.lua" />
 
-  <Frame name="FigPlayerDebuffTracker" mixin="FigPlayerDebuffTrackerMixin">
+  <Frame name="FigPlayerDebuffTracker" mixin="FigPlayerDebuffTrackerMixin" inherits="FigMovableFrameTemplate">
     <Anchors>
-      <Anchor point="BOTTOMLEFT" relativeTo="FigPlayer" relativePoint="TOPLEFT" y="2" />
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" y="2" />
     </Anchors>
   
     <Scripts>
