@@ -1,4 +1,4 @@
-Fig = { frames = {} }
+Fig = {}
 FigFramesAreLocked = true
 
 -- register slash commands
@@ -6,6 +6,7 @@ FigFramesAreLocked = true
 SLASH_TOGGLE_FRAME_LOCK1 = '/figlock'
 function SlashCmdList.TOGGLE_FRAME_LOCK()
   FigFramesAreLocked = not FigFramesAreLocked
+  FigMovableFrameMixin.toggleFrameMovement()
   print(format('<FigUI> Frames are now %s.', FigFramesAreLocked and 'locked' or 'unlocked'))
 end
 
