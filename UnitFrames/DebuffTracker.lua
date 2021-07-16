@@ -49,7 +49,7 @@ local function initialize(frame)
   -- do the initial draw of the debuff timers
   for i = 1, maxNumberOfDebuffs do
     local yOffset = (i - 1) * timerHeight
-    local timer = _G['FigAuraTimer' .. i] or CreateFrame('frame', 'FigAuraTimer' .. i, UIParent, 'FigAuraTimerTemplate')
+    local timer = _G['FigAuraTimer' .. i] or CreateFrame('frame', 'FigAuraTimer' .. i, frame, 'FigAuraTimerTemplate')
     timer:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, yOffset)
     timer.progress:SetWidth(containerWidth - measuringFrame.icon:GetWidth())
     Fig.drawInsetBordersForFrame(timer.progress, 'ARTWORK')

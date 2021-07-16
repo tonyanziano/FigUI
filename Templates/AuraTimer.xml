@@ -4,7 +4,7 @@
   <Frame name="FigAuraTimerTemplate" virtual="true" mixin="FigAuraTimerTemplateMixin">
     <Size x="0" y="25" />
     <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent" />
+      <Anchor point="CENTER" relativeTo="$parent" />
     </Anchors>
 
     <Frames>

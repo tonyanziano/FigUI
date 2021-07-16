@@ -1,13 +1,21 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="DebuffTracker.lua" />
 
-  <Frame name="FigPlayerDebuffTracker" mixin="FigPlayerDebuffTrackerMixin" inherits="FigMovableFrameTemplate">
+  <Frame name="FigPlayerDebuffTracker" parent="FigPlayer" mixin="FigPlayerDebuffTrackerMixin" inherits="FigMovableFrameTemplate">
     <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" y="2" />
+      <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT" y="2" />
     </Anchors>
+
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture>
+          <Color r="0" g="0" b="0" a=".5" />
+        </Texture>
+      </Layer>
+    </Layers>
   
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         self:initialize()
       </OnLoad>
     </Scripts>
