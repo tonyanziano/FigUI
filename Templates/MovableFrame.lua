@@ -49,7 +49,7 @@ end
 
 function FigMovableFrameMixin.moveFrame(frame)
   if not FigFramesAreLocked then
-    FigDebug.log('<FigUI> Started dragging frame: ', frame:GetName())
+    FigDebug.log('Started dragging frame: ', frame:GetName())
     frame:ClearAllPoints()
     frame:StartMoving()
     frame:SetUserPlaced(true)
@@ -58,7 +58,7 @@ end
 
 function FigMovableFrameMixin.stopMovingFrame(frame)
   if not FigFramesAreLocked then
-    FigDebug.log('<FigUI> Stopped dragging frame: ', frame:GetName())
+    FigDebug.log('Stopped dragging frame: ', frame:GetName())
     frame:StopMovingOrSizing()
   end
 end
