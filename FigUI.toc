@@ -1,10 +1,10 @@
-## Interface: 90005
+## Interface: 90105
 ## Title: FigUI
 ## Notes: Custom UI by Fignewticus - Zul'Jin (H)
 ## SavedVariablesPerCharacter: FigConfig
 ## DefaultState: enabled
 ## Author: Fignewticus - Zul'jin (H)
-## Version 0.0.2-alpha
+## Version 0.0.3-alpha
 
 FigUI.lua
 FigUtils.lua
