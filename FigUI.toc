@@ -24,6 +24,7 @@ Templates\AuraTimer.xml
 Templates\MovableFrame.xml
 
 Resources\FigResources.lua
+Resources\ResourceBase.xml
 Resources\Warlock.xml
 
 UnitFrames\Player.xml

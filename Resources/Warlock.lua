@@ -1,6 +1,8 @@
-FigWarlock = {}
+FigResourceWarlockMixin = {}
 
-local function doInitialDraw(frame)
+FigResourceWarlockMixin.powerType = 'SOUL_SHARDS'
+
+function FigResourceWarlockMixin.doInitialDraw(frame)
   local frameHeight = frame:GetHeight()
   local soulShards = UnitPower('player', Enum.PowerType.SoulShards)
   local maxSoulShards = UnitPowerMax('player', Enum.PowerType.SoulShards)
@@ -45,7 +47,7 @@ local function doInitialDraw(frame)
   Fig.drawOutsetBordersForFrame(frame)
 end
 
-local function updateSoulShards()
+function FigResourceWarlockMixin.updateResource()
   local soulShards = UnitPower('player', Enum.PowerType.SoulShards)
   local maxSoulShards = UnitPowerMax('player', Enum.PowerType.SoulShards)
   FigDebug.log('Updating soul shards', soulShards, maxSoulShards)
@@ -61,26 +63,4 @@ local function updateSoulShards()
       shard.available = false
     end
   end
-end
-
--- TODO: abstract this out into a common component, and then implement
--- frame.updatePower() and store frame.powerType and frame.updatePower in a mixin
--- for each resource
-local function onEvent(frame, event, ...)
-  if event == 'PLAYER_ENTERING_WORLD' then
-    doInitialDraw(frame)
-  end
-  if event == 'UNIT_POWER_FREQUENT' then
-    local _, powerType = ...
-    if powerType == 'SOUL_SHARDS' then
-      updateSoulShards()
-    end
-  end
-end
-
-function FigWarlock.initialize(frame)
-  -- set up redraw logic
-  frame:SetScript('OnEvent', onEvent)
-  frame:RegisterUnitEvent('UNIT_POWER_FREQUENT', 'player')
-  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
 end
