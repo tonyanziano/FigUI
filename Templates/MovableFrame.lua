@@ -1,4 +1,5 @@
-FigMovableFrameMixin = { movableFrames = {} }
+FigMovableFrameMixin = {}
+local movableFrames = {}
 
 -- create an indicator that will be shown when the frame is movable
 local function createMovableIndicator(frame)
@@ -22,22 +23,22 @@ local function createMovableIndicator(frame)
 end
 
 function FigMovableFrameMixin.registerFrameForMovement(frame)
-  if not FigMovableFrameMixin.movableFrames[frame:GetName()] then
+  if not movableFrames[frame:GetName()] then
     createMovableIndicator(frame)
-    FigMovableFrameMixin.movableFrames[frame:GetName()] = frame
+    movableFrames[frame:GetName()] = frame
   end
 end
 
 -- preps frames to be moved or stationary depending on the current /figlock status
 function FigMovableFrameMixin.toggleFrameMovement()
   if FigFramesAreLocked then
-    for k, v in pairs(FigMovableFrameMixin.movableFrames) do
+    for k, v in pairs(movableFrames) do
       local frame = v
       frame.movableIndicator:Hide()
       frame:EnableMouse(frame.mouseEnabledCopy or false)
     end
   else
-    for k, v in pairs(FigMovableFrameMixin.movableFrames) do
+    for k, v in pairs(movableFrames) do
       local frame = v
       frame.movableIndicator:Show()
       -- store the previous mouseEnabled value to be restored when finished dragging

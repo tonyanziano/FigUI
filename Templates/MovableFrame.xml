@@ -3,7 +3,7 @@
 
   <Frame name="FigMovableFrameTemplate" virtual="true" movable="true" mixin="FigMovableFrameMixin">
     <Scripts>
-      <OnLoad>
+      <OnLoad inherit="prepend">
         -- setup frame to be movable
         self:SetClampedToScreen(true)
         self:RegisterForDrag('LeftButton')
