@@ -52,7 +52,7 @@ end
 function FigResourcePaladinMixin.updateResource(frame)
   local holyPower = UnitPower('player', Enum.PowerType.HolyPower)
   local maxHolyPower = UnitPowerMax('player', Enum.PowerType.HolyPower)
-  FigDebug.log('Updating holy power', holyPower, maxHolyPower)
+  FigDebug.log('Updating holy power: ', holyPower, maxHolyPower)
   for i = 1, maxHolyPower do
     local pip = _G['FigResourcePaladinPip' .. i]
     if i <= holyPower then

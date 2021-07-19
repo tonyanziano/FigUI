@@ -50,7 +50,7 @@ end
 function FigResourceWarlockMixin.updateResource()
   local soulShards = UnitPower('player', Enum.PowerType.SoulShards)
   local maxSoulShards = UnitPowerMax('player', Enum.PowerType.SoulShards)
-  FigDebug.log('Updating soul shards', soulShards, maxSoulShards)
+  FigDebug.log('Updating soul shards: ', soulShards, maxSoulShards)
   for i = 1, maxSoulShards do
     local shard = _G['FigResourceWarlockShard' .. i]
     if i <= soulShards then

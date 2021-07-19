@@ -26,6 +26,7 @@ Templates\MovableFrame.xml
 Resources\FigResources.lua
 Resources\ResourceBase.xml
 Resources\Paladin.xml
+Resources\Rogue.xml
 Resources\Warlock.xml
 
 UnitFrames\Player.xml

@@ -18,7 +18,7 @@ FigDebug = {
 local debugLogPrefix = format('%sFigUI%s ', WrapTextInColorCode('<', 'FF2DEBE5'), WrapTextInColorCode('>', 'FF2DEBE5'))
 function FigDebug.log(...)
   if FigDebug.logging then
-    print(debugLogPrefix .. ...)
+    print(debugLogPrefix, ...)
   end
 end
 

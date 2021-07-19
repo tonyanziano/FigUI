@@ -1,40 +1,68 @@
-FigRogue = {}
+FigResourceRogueMixin = {}
 
-function FigRogue.drawSeparators(frame)
-  local frameWidth = frame.comboPoints:GetWidth()
-  local numSeparators = 4
-  local separatorWidth = 2
-  for i=1, numSeparators do
-    -- create a texture for each separator and place into overlay layer
-    local separator = frame.comboPoints:CreateTexture(nil, 'OVERLAY')
-    separator:SetColorTexture(0, 0, 0, 1)
-    separator:SetHeight(frame.comboPoints:GetHeight())
-    separator:SetWidth(separatorWidth)
-    separator:SetPoint('LEFT', frame.comboPoints, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
-  end
-end
+FigResourceRogueMixin.powerType = 'COMBO_POINTS'
 
-function FigRogue.updateEnergy(frame)
-  local energy = UnitPower('player', Enum.PowerType.Energy)
-  local maxEnergy = UnitPowerMax('player', Enum.PowerType.Energy)
-  frame.energy:SetValue(energy)
-  frame.energy:SetMinMaxValues(0, maxEnergy);
-  frame.energy.text:SetText(energy)
-end
-
-function FigRogue.updateComboPoints(frame)
+function FigResourceRogueMixin.doInitialDraw(frame)
+  local frameWidth = frame:GetWidth()
+  local frameHeight = frame:GetHeight()
   local comboPoints = UnitPower('player', Enum.PowerType.ComboPoints)
-  frame.comboPoints:SetValue(comboPoints)
-  frame.comboPoints.text:SetText(comboPoints)
+  local maxComboPoints = UnitPowerMax('player', Enum.PowerType.ComboPoints)
+  local dividerWidth = 1
+  local remainingFrameWidth = frameWidth - (dividerWidth * (maxComboPoints - 1))
+  local comboPointWidth = remainingFrameWidth / maxComboPoints
+  local comboPointColor = PowerBarColor['COMBO_POINTS']
+
+  for i = 1, maxComboPoints do
+    -- draw combo point indicator
+    local pip = _G['FigResourceRoguePip' .. i] or CreateFrame('frame', 'FigResourceRoguePip' .. i, frame)
+    pip:SetSize(comboPointWidth, frameHeight)
+    pip.bgTex = _G[pip:GetName() .. 'Background'] or pip:CreateTexture(pip:GetName() .. 'Background', 'BACKGROUND')
+    pip.bgTex:SetColorTexture(0.1, 0.1, 0.1, 1)
+    pip.bgTex:SetAllPoints()
+    pip.fillTex = _G[pip:GetName() .. 'Fill'] or pip:CreateTexture(pip:GetName() .. 'Fill', 'ARTWORK')
+    pip.fillTex:SetColorTexture(comboPointColor.r, comboPointColor.g, comboPointColor.b, 1)
+    pip.fillTex:SetAllPoints()
+
+    if i <= comboPoints then
+      -- the combo point is available
+      pip.fillTex:Show()
+      pip.available = true
+    else
+      -- the combo point is unavailable
+      pip.fillTex:Hide()
+      pip.available = false
+    end
+    local xOffset = (i - 1) * (comboPointWidth + dividerWidth)
+    pip:SetPoint('LEFT', frame, 'LEFT', xOffset, 0)
+
+    -- draw pip divider
+    if i ~= maxComboPoints then
+      local divider = _G['FigResourceRogueDivider' .. i] or CreateFrame('frame', 'FigResourceRogueDivider' .. i, frame)
+      divider:SetSize(dividerWidth, frameHeight)
+      divider.tex = divider:CreateTexture(nil, 'BACKGROUND')
+      divider.tex:SetAllPoints()
+      divider.tex:SetColorTexture(0, 0, 0, 1)
+      divider:SetPoint('LEFT', frame, 'LEFT', xOffset + comboPointWidth, 0)
+    end
+  end
+
+  Fig.drawOutsetBordersForFrame(frame)
 end
 
-function FigRogue.updateResources(frame)
-  FigRogue.updateEnergy(frame)
-  FigRogue.updateComboPoints(frame)
-end
-
-function FigRogue.initialize(frame)
-  FigRogue.drawSeparators(frame);
-  -- register for events
-  frame:SetScript('OnUpdate', FigRogue.updateResources)
+function FigResourceRogueMixin.updateResource(frame)
+  local comboPoints = UnitPower('player', Enum.PowerType.ComboPoints)
+  local maxComboPoints = UnitPowerMax('player', Enum.PowerType.ComboPoints)
+  FigDebug.log('Updating combo points: ', comboPoints, maxComboPoints)
+  for i = 1, maxComboPoints do
+    local pip = _G['FigResourceRoguePip' .. i]
+    if i <= comboPoints then
+      -- the combo point is available
+      pip.fillTex:Show()
+      pip.available = true
+    else
+      -- the combo point is unavailable
+      pip.fillTex:Hide()
+      pip.available = false
+    end
+  end
 end

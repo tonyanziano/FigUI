@@ -14,7 +14,6 @@ local function onEvent(frame, event, ...)
 end
 
 function FigResourceBaseMixin.initialize(frame)
-  print('initializing ', frame:GetName())
   frame:SetScript('OnEvent', onEvent)
   frame:RegisterUnitEvent('UNIT_POWER_FREQUENT', 'player')
   frame:RegisterEvent('PLAYER_ENTERING_WORLD')
