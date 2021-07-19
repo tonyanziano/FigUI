@@ -1,12 +1,13 @@
 FigResourcePaladinMixin = {}
 
 FigResourcePaladinMixin.powerType = 'HOLY_POWER'
+local MAX_HOLY_POWER = 5 -- there is a very strange bug where during the login process, UnitPowerMax(...) for holy power returns 3 instead of 5
 
 function FigResourcePaladinMixin.doInitialDraw(frame)
   local frameWidth = frame:GetWidth()
   local frameHeight = frame:GetHeight()
   local holyPower = UnitPower('player', Enum.PowerType.HolyPower)
-  local maxHolyPower = UnitPowerMax('player', Enum.PowerType.HolyPower)
+  local maxHolyPower = MAX_HOLY_POWER
   local dividerWidth = 1
   local remainingFrameWidth = frameWidth - (dividerWidth * (maxHolyPower - 1))
   local holyPowerWidth = remainingFrameWidth / maxHolyPower

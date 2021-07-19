@@ -4,8 +4,7 @@ FigResourceBaseMixin = {}
 local function onEvent(frame, event, ...)
   if event == 'PLAYER_ENTERING_WORLD' then
     frame:doInitialDraw()
-  end
-  if event == 'UNIT_POWER_FREQUENT' then
+  elseif event == 'UNIT_POWER_FREQUENT' then
     local _, powerType = ...
     if powerType == frame.powerType then
       frame:updateResource()
