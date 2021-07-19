@@ -69,7 +69,8 @@ local function drawHpForUnitFrame(frame)
       aFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
       aFrame:SetHeight(frame.hp:GetHeight())
       if percentHp == 1 then
-        -- show a sliver of absorbs
+        -- show an overshield indicator
+        -- TODO: make the appearance of this more distinct
         aFrame:SetPoint('LEFT', frame.hp, 'LEFT', frame.hp:GetWidth() - minimumAbsorbsWidth, 0)
         aFrame:SetWidth(minimumAbsorbsWidth)
       else
