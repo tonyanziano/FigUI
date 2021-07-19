@@ -29,6 +29,12 @@
         <Layers>
           <Layer level="ARTWORK">
             <Texture parentKey="absorbs" name="$parentAbsorbs" file="Interface\AddOns\FigUI\Textures\AbsorbFill" />
+            <Texture parentKey="overShield" name="$parentOverShield" file="Interface\AddOns\FigUI\Textures\OverShield" hidden="true">
+              <Size x="15" y="0" />
+              <Anchors>
+                <Anchor point="RIGHT" relativeTo="$parent" relativePoint="RIGHT" />
+              </Anchors>
+            </Texture>
             <FontString parentKey="text" inherits="SystemFont_Shadow_Med3">
               <Anchors>
                 <Anchor point="RIGHT" x="-8" />

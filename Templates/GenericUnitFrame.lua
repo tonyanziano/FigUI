@@ -56,30 +56,35 @@ local function drawHpForUnitFrame(frame)
     local absorbs = UnitGetTotalAbsorbs(unit)
     if absorbs > 0 then
       -- size & position the absorbs bar
-      local aFrame = frame.hp.absorbs
+      local aFrame, osFrame = frame.hp.absorbs, frame.hp.overShield
       percentHp = hp / maxHp
       local absorbsToPercentHp = absorbs / maxHp
       local trueAbsorbsWidth = absorbsToPercentHp * frame.hp:GetWidth() -- how big it should be if there is room
       local availableAbsorbsWidth = (1 - percentHp) * frame.hp:GetWidth() -- how much room is left between the hp bar and the end of the frame
-      local minimumAbsorbsWidth = 15
       -- we will add the bar to the end of the hp bar
       local startPos = percentHp * frame.hp:GetWidth()
       aFrame:ClearAllPoints()
       aFrame:SetDrawLayer('ARTWORK', 7)
       aFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
       aFrame:SetHeight(frame.hp:GetHeight())
+
       if percentHp == 1 then
-        -- show an overshield indicator
-        -- TODO: make the appearance of this more distinct
-        aFrame:SetPoint('LEFT', frame.hp, 'LEFT', frame.hp:GetWidth() - minimumAbsorbsWidth, 0)
-        aFrame:SetWidth(minimumAbsorbsWidth)
+        -- show an over shield indicator
+        aFrame:Hide()
+        osFrame:SetHeight(frame.hp:GetHeight())
+        osFrame:SetDrawLayer('ARTWORK', 7)
+        osFrame:Show()
       else
+        -- show absorbs
         -- allow the bar to only fill up to the remaining hp bar space
+        osFrame:Hide()
         aFrame:SetWidth(math.min(trueAbsorbsWidth, availableAbsorbsWidth))
+        aFrame:Show()
       end
-      frame.hp.absorbs:Show()
     else
+      -- no absorbs
       frame.hp.absorbs:Hide()
+      frame.hp.overShield:Hide()
     end
   end
 
