@@ -54,7 +54,5 @@ function FigPlayerMixin.initialize(frame)
     -- size the bar
     resourceBar:SetWidth(frame:GetWidth())
     resourceBar:SetHeight(25)
-
-    resourceBar:doInitialDraw()
   end
 end
