@@ -51,6 +51,35 @@ local function drawHpForUnitFrame(frame)
       frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
     end
     frame.hp:SetValue(percentHp)
+
+    -- update absorbs
+    local absorbs = UnitGetTotalAbsorbs(unit)
+    if absorbs > 0 then
+      -- size & position the absorbs bar
+      local aFrame = frame.hp.absorbs
+      percentHp = hp / maxHp
+      local absorbsToPercentHp = absorbs / maxHp
+      local trueAbsorbsWidth = absorbsToPercentHp * frame.hp:GetWidth() -- how big it should be if there is room
+      local availableAbsorbsWidth = (1 - percentHp) * frame.hp:GetWidth() -- how much room is left between the hp bar and the end of the frame
+      local minimumAbsorbsWidth = 15
+      -- we will add the bar to the end of the hp bar
+      local startPos = percentHp * frame.hp:GetWidth()
+      aFrame:ClearAllPoints()
+      aFrame:SetDrawLayer('ARTWORK', 7)
+      aFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
+      aFrame:SetHeight(frame.hp:GetHeight())
+      if percentHp == 1 then
+        -- show a sliver of absorbs
+        aFrame:SetPoint('LEFT', frame.hp, 'LEFT', frame.hp:GetWidth() - minimumAbsorbsWidth, 0)
+        aFrame:SetWidth(minimumAbsorbsWidth)
+      else
+        -- allow the bar to only fill up to the remaining hp bar space
+        aFrame:SetWidth(math.min(trueAbsorbsWidth, availableAbsorbsWidth))
+      end
+      frame.hp.absorbs:Show()
+    else
+      frame.hp.absorbs:Hide()
+    end
   end
 
   -- update the name

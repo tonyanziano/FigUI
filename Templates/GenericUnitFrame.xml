@@ -28,6 +28,7 @@
 
         <Layers>
           <Layer level="ARTWORK">
+            <Texture parentKey="absorbs" name="$parentAbsorbs" file="Interface\AddOns\FigUI\Textures\AbsorbFill" />
             <FontString parentKey="text" inherits="SystemFont_Shadow_Med3">
               <Anchors>
                 <Anchor point="RIGHT" x="-8" />
