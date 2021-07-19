@@ -1,51 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="Paladin.lua" />
 
-  <Frame name="FigResourcePaladin" inherits="FigBorderedTemplate" hidden="true">
-    <Size x="254" y="34"/>
-    <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" x="0" y="100"/>
-    </Anchors>
-
-    <Frames>
-      <StatusBar parentKey="status" enableMouse="true" minValue="0" maxValue="5" defaultValue="0">
-        <Size x="250" y="30"/>
-        <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
-        </Anchors>
-
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r=".86" g=".86" b=".22" a="1"/>
-
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture name="$parentTexture" setAllPoints="true">
-              <Color r="0" g="0" b="0" a=".5"/>
-            </Texture>
-          </Layer>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
-              <Anchors>
-                <Anchor point="CENTER"/>
-              </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-      </StatusBar>
-    </Frames>
-
-    <Scripts>
-      <OnLoad inherit="prepend">
-        -- only show if the player is a paladin
-        local _, class = UnitClass("player")
-        if class ~= 'PALADIN' then return end
-
-        self:Show()
-        FigPaladin.initialize(self)
-      </OnLoad>
-    </Scripts>
+  <Frame name="FigResourcePaladinTemplate" virtual="true" mixin="FigResourcePaladinMixin" inherits="FigResourceBaseTemplate">
   </Frame>
 </Ui>

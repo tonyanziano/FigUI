@@ -1,47 +1,68 @@
-FigPaladin = {}
+FigResourcePaladinMixin = {}
 
-FigPaladin.showSeparators = true
+FigResourcePaladinMixin.powerType = 'HOLY_POWER'
 
-function FigPaladin.drawSeparators(frame)
-  local frameWidth = frame.status:GetWidth()
-  local numSeparators = 4
-  local separatorWidth = 2
-  for i=1, numSeparators do
-    -- create a texture for each separator and place into overlay layer
-    local separator = frame.status:CreateTexture(nil, 'OVERLAY')
-    separator:SetColorTexture(0, 0, 0, 1)
-    separator:SetHeight(frame.status:GetHeight())
-    separator:SetWidth(2)
-    separator:SetPoint('LEFT', frame.status, 'LEFT', i * (frameWidth / (numSeparators + 1)) - (separatorWidth / 2), 0)
-  end
-end
+function FigResourcePaladinMixin.doInitialDraw(frame)
+  local frameWidth = frame:GetWidth()
+  local frameHeight = frame:GetHeight()
+  local holyPower = UnitPower('player', Enum.PowerType.HolyPower)
+  local maxHolyPower = UnitPowerMax('player', Enum.PowerType.HolyPower)
+  local dividerWidth = 1
+  local remainingFrameWidth = frameWidth - (dividerWidth * (maxHolyPower - 1))
+  local holyPowerWidth = remainingFrameWidth / maxHolyPower
+  local holyPowerColor = PowerBarColor['HOLY_POWER']
 
-function FigPaladin.updateHolyPower(frame)
-  local holyPower = UnitPower('player', 9) -- 9 is the enum for holy power
-  frame.status:SetValue(holyPower)
-  frame.status.text:SetText('' .. holyPower)
-end
+  for i = 1, maxHolyPower do
+    -- draw holy power indicator
+    local pip = _G['FigResourcePaladinPip' .. i] or CreateFrame('frame', 'FigResourcePaladinPip' .. i, frame)
+    pip:SetSize(holyPowerWidth, frameHeight)
+    pip.bgTex = _G[pip:GetName() .. 'Background'] or pip:CreateTexture(pip:GetName() .. 'Background', 'BACKGROUND')
+    pip.bgTex:SetColorTexture(0.1, 0.1, 0.1, 1)
+    pip.bgTex:SetAllPoints()
+    pip.fillTex = _G[pip:GetName() .. 'Fill'] or pip:CreateTexture(pip:GetName() .. 'Fill', 'ARTWORK')
+    pip.fillTex:SetColorTexture(holyPowerColor.r, holyPowerColor.g, holyPowerColor.b, 1)
+    pip.fillTex:SetAllPoints()
 
-function FigPaladin.handleEvents(frame, event, ...)
-  if event == 'UNIT_POWER_UPDATE' then
-    local unitId, powerType = ...
-    if unitId == 'player' and powerType == 'HOLY_POWER' then
-      FigPaladin.updateHolyPower(frame)
+    if i <= holyPower then
+      -- the holy power is available
+      pip.fillTex:Show()
+      pip.available = true
+    else
+      -- the holy power is unavailable
+      pip.fillTex:Hide()
+      pip.available = false
+    end
+    local xOffset = (i - 1) * (holyPowerWidth + dividerWidth)
+    pip:SetPoint('LEFT', frame, 'LEFT', xOffset, 0)
+
+    -- draw pip divider
+    if i ~= maxHolyPower then
+      local divider = _G['FigResourcePaladinDivider' .. i] or CreateFrame('frame', 'FigResourcePaladinDivider' .. i, frame)
+      divider:SetSize(dividerWidth, frameHeight)
+      divider.tex = divider:CreateTexture(nil, 'BACKGROUND')
+      divider.tex:SetAllPoints()
+      divider.tex:SetColorTexture(0, 0, 0, 1)
+      divider:SetPoint('LEFT', frame, 'LEFT', xOffset + holyPowerWidth, 0)
     end
   end
 
-  if event == 'PLAYER_ENTERING_WORLD' then
-    FigPaladin.updateHolyPower(frame)
-  end
+  Fig.drawOutsetBordersForFrame(frame)
 end
 
-function FigPaladin.initialize(frame)
-  -- register for events
-  frame:RegisterEvent('UNIT_POWER_UPDATE')
-  frame:RegisterEvent('PLAYER_ENTERING_WORLD')
-  frame:SetScript('OnEvent', FigPaladin.handleEvents)
-
-  -- do initial draw
-  FigPaladin.drawSeparators(frame)
-  FigPaladin.updateHolyPower(frame)
+function FigResourcePaladinMixin.updateResource(frame)
+  local holyPower = UnitPower('player', Enum.PowerType.HolyPower)
+  local maxHolyPower = UnitPowerMax('player', Enum.PowerType.HolyPower)
+  FigDebug.log('Updating holy power', holyPower, maxHolyPower)
+  for i = 1, maxHolyPower do
+    local pip = _G['FigResourcePaladinPip' .. i]
+    if i <= holyPower then
+      -- the holy power is available
+      pip.fillTex:Show()
+      pip.available = true
+    else
+      -- the holy power is unavailable
+      pip.fillTex:Hide()
+      pip.available = false
+    end
+  end
 end

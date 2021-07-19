@@ -6,6 +6,9 @@ function FigResources.getResourceBarForPlayer()
   if class == 'Warlock' then
     local f = CreateFrame('frame', 'FigResourceWarlock', UIParent, 'FigResourceWarlockTemplate')
     return f
+  elseif class == 'Paladin' then
+    local f = CreateFrame('frame', 'FigResourcePaladin', UIParent, 'FigResourcePaladinTemplate')
+    return f
   end
 
   -- class & spec doesn't have a special resource bar
