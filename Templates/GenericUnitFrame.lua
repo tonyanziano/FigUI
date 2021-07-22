@@ -43,48 +43,71 @@ local function drawHpForUnitFrame(frame)
   else
     local hp, maxHp = UnitHealth(unit), UnitHealthMax(unit)
     if maxHp == 0 then return end -- hp has not loaded yet -- let next redraw do the work
-    local percentHp = format('%.1f', tostring(hp / maxHp * 100))
+    local percentHp = hp / maxHp
+    local readablePercentHp = format('%.1f', tostring(percentHp * 100))
     local shortHp = Fig.prettyPrintNumber(hp)
     if frame.percentHpOnly ~= nil then
-      frame.hp.text:SetText(format('%s%%', percentHp))
+      frame.hp.text:SetText(format('%s%%', readablePercentHp))
     else
-      frame.hp.text:SetText(format('%s - %s%%', shortHp, percentHp))
+      frame.hp.text:SetText(format('%s - %s%%', shortHp, readablePercentHp))
     end
-    frame.hp:SetValue(percentHp)
+    frame.hp:SetValue(readablePercentHp)
 
     -- update absorbs
     local absorbs = UnitGetTotalAbsorbs(unit)
     if absorbs > 0 then
       -- size & position the absorbs bar
-      local aFrame, osFrame = frame.hp.absorbs, frame.hp.overShield
-      percentHp = hp / maxHp
+      local absorbsFrame, overShieldFrame = frame.hp.absorbs, frame.hp.overShield
       local absorbsToPercentHp = absorbs / maxHp
       local trueAbsorbsWidth = absorbsToPercentHp * frame.hp:GetWidth() -- how big it should be if there is room
       local availableAbsorbsWidth = (1 - percentHp) * frame.hp:GetWidth() -- how much room is left between the hp bar and the end of the frame
       -- we will add the bar to the end of the hp bar
       local startPos = percentHp * frame.hp:GetWidth()
-      aFrame:ClearAllPoints()
-      aFrame:SetDrawLayer('ARTWORK', 7)
-      aFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
-      aFrame:SetHeight(frame.hp:GetHeight())
+      absorbsFrame:ClearAllPoints()
+      absorbsFrame:SetDrawLayer('ARTWORK', 7)
+      absorbsFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
+      absorbsFrame:SetHeight(frame.hp:GetHeight())
 
       if percentHp == 1 then
         -- show an over shield indicator
-        aFrame:Hide()
-        osFrame:SetHeight(frame.hp:GetHeight())
-        osFrame:SetDrawLayer('ARTWORK', 7)
-        osFrame:Show()
+        absorbsFrame:Hide()
+        overShieldFrame:SetHeight(frame.hp:GetHeight())
+        overShieldFrame:SetDrawLayer('ARTWORK', 7)
+        overShieldFrame:Show()
       else
         -- show absorbs
         -- allow the bar to only fill up to the remaining hp bar space
-        osFrame:Hide()
-        aFrame:SetWidth(math.min(trueAbsorbsWidth, availableAbsorbsWidth))
-        aFrame:Show()
+        overShieldFrame:Hide()
+        absorbsFrame:SetWidth(math.min(trueAbsorbsWidth, availableAbsorbsWidth))
+        absorbsFrame:Show()
       end
     else
       -- no absorbs
       frame.hp.absorbs:Hide()
       frame.hp.overShield:Hide()
+    end
+
+    -- update incoming heals
+    local incHeals = UnitGetIncomingHeals(unit)
+    if incHeals > 0 then
+      local startPos = percentHp * frame.hp:GetWidth()
+      local trueIncHealsWidth = incHeals / maxHp * frame.hp:GetWidth()
+      local availableIncHealsWidth = (1 - percentHp) * frame.hp:GetWidth()
+      local incHealsWidth = math.min(trueIncHealsWidth, availableIncHealsWidth)
+      local healsFrame = frame.hp.incHeals
+      healsFrame:ClearAllPoints()
+      healsFrame:SetDrawLayer('ARTWORK', 7)
+      healsFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
+      healsFrame:SetHeight(frame.hp:GetHeight())
+      healsFrame:SetWidth(incHealsWidth)
+      if incHealsWidth == 0 then
+        healsFrame:Hide()
+      else
+        healsFrame:Show()
+      end
+    else
+      -- no incoming heals
+      frame.hp.incHeals:Hide()
     end
   end
 

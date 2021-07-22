@@ -28,6 +28,9 @@
 
         <Layers>
           <Layer level="ARTWORK">
+            <Texture parentKey="incHeals" name="$parentIncomingHeals" file="Interface\AddOns\FigUI\Textures\GenericBarFill">
+              <Color r="0" g="1" b="0" a="1" />
+            </Texture>
             <Texture parentKey="absorbs" name="$parentAbsorbs" file="Interface\AddOns\FigUI\Textures\AbsorbFill" />
             <Texture parentKey="overShield" name="$parentOverShield" file="Interface\AddOns\FigUI\Textures\OverShield" hidden="true">
               <Size x="15" y="0" />
