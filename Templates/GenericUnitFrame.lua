@@ -55,7 +55,7 @@ local function drawHpForUnitFrame(frame)
 
     -- update absorbs
     local absorbs = UnitGetTotalAbsorbs(unit)
-    if absorbs > 0 then
+    if absorbs and absorbs > 0 then
       -- size & position the absorbs bar
       local absorbsFrame, overShieldFrame = frame.hp.absorbs, frame.hp.overShield
       local absorbsToPercentHp = absorbs / maxHp
@@ -89,7 +89,7 @@ local function drawHpForUnitFrame(frame)
 
     -- update incoming heals
     local incHeals = UnitGetIncomingHeals(unit)
-    if incHeals > 0 then
+    if incHeals and incHeals > 0 then
       local startPos = percentHp * frame.hp:GetWidth()
       local trueIncHealsWidth = incHeals / maxHp * frame.hp:GetWidth()
       local availableIncHealsWidth = (1 - percentHp) * frame.hp:GetWidth()
