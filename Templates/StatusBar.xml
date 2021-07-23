@@ -5,10 +5,24 @@
 
     <Layers>
       <Layer level="BACKGROUND">
-        <Texture setAllPoints="true">
+        <Texture parentKey="backgroundTexture" setAllPoints="true">
           <Color r="0" g="0" b="0" a="1" />
         </Texture>
       </Layer>
     </Layers>
+
+    <Scripts>
+      <OnLoad inherit="prepend">
+        -- make the fill texture accessible via a property on the frame
+        local regions = { self:GetRegions() }
+        for i, region in ipairs(regions) do
+          local regionLayer = region:GetDrawLayer()
+          if regionLayer == 'ARTWORK' then
+            self.fillTexture = region
+            break
+          end
+        end
+      </OnLoad>
+    </Scripts>
   </StatusBar>
 </Ui>

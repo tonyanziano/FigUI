@@ -60,19 +60,16 @@ local function drawHpForUnitFrame(frame)
       local absorbsFrame, overShieldFrame = frame.hp.absorbs, frame.hp.overShield
       local absorbsToPercentHp = absorbs / maxHp
       local trueAbsorbsWidth = absorbsToPercentHp * frame.hp:GetWidth() -- how big it should be if there is room
-      local availableAbsorbsWidth = (1 - percentHp) * frame.hp:GetWidth() -- how much room is left between the hp bar and the end of the frame
+      local availableAbsorbsWidth = frame.hp:GetWidth() - frame.hp.fillTexture:GetWidth() -- how much room is left between the hp bar and the end of the frame
       -- we will add the bar to the end of the hp bar
-      local startPos = percentHp * frame.hp:GetWidth()
       absorbsFrame:ClearAllPoints()
-      absorbsFrame:SetDrawLayer('ARTWORK', 7)
-      absorbsFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
+      absorbsFrame:SetPoint('LEFT', frame.hp.fillTexture, 'RIGHT')
       absorbsFrame:SetHeight(frame.hp:GetHeight())
 
       if percentHp == 1 then
         -- show an over shield indicator
         absorbsFrame:Hide()
         overShieldFrame:SetHeight(frame.hp:GetHeight())
-        overShieldFrame:SetDrawLayer('ARTWORK', 7)
         overShieldFrame:Show()
       else
         -- show absorbs
@@ -90,16 +87,16 @@ local function drawHpForUnitFrame(frame)
     -- update incoming heals
     local incHeals = UnitGetIncomingHeals(unit)
     if incHeals and incHeals > 0 then
-      local startPos = percentHp * frame.hp:GetWidth()
-      local trueIncHealsWidth = incHeals / maxHp * frame.hp:GetWidth()
-      local availableIncHealsWidth = (1 - percentHp) * frame.hp:GetWidth()
-      local incHealsWidth = math.min(trueIncHealsWidth, availableIncHealsWidth)
       local healsFrame = frame.hp.incHeals
+      local trueIncHealsWidth = incHeals / maxHp * frame.hp:GetWidth()
+      local availableIncHealsWidth = frame.hp:GetWidth() - frame.hp.fillTexture:GetWidth()
+      local incHealsWidth = math.min(trueIncHealsWidth, availableIncHealsWidth)
+      -- we will add the bar to the end of the hp bar
       healsFrame:ClearAllPoints()
-      healsFrame:SetDrawLayer('ARTWORK', 7)
-      healsFrame:SetPoint('LEFT', frame.hp, 'LEFT', startPos, 0)
+      healsFrame:SetPoint('LEFT', frame.hp.fillTexture, 'RIGHT')
       healsFrame:SetHeight(frame.hp:GetHeight())
       healsFrame:SetWidth(incHealsWidth)
+
       if incHealsWidth == 0 then
         healsFrame:Hide()
       else

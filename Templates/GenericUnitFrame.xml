@@ -18,7 +18,7 @@
 
     <Frames>
       <!-- hp -->
-      <StatusBar name="$parentHp" parentKey="hp" minValue="0" maxValue="100" defaultValue="100">
+      <StatusBar name="$parentHp" parentKey="hp" minValue="0" maxValue="100" defaultValue="100" inherits="FigStatusBarTemplate">
         <Anchors>
           <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" />
         </Anchors>
@@ -27,7 +27,7 @@
         <BarColor r="0" g="0" b="0" a="1"/>
 
         <Layers>
-          <Layer level="ARTWORK">
+          <Layer level="OVERLAY">
             <Texture parentKey="incHeals" name="$parentIncomingHeals" file="Interface\AddOns\FigUI\Textures\GenericBarFill">
               <Color r="0" g="1" b="0" a="1" />
             </Texture>
@@ -75,7 +75,7 @@
       </Frame>
 
       <!-- power -->
-      <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100">
+      <StatusBar parentKey="power" minValue="0" maxValue="100" defaultValue="100" inherits="FigStatusBarTemplate">
         <Anchors>
           <Anchor point="TOP" relativeTo="$parentDivider" relativePoint="BOTTOM" />
         </Anchors>
@@ -84,7 +84,7 @@
         <BarColor r="0" g="0" b="0" a="1"/>
 
         <Layers>
-          <Layer level="ARTWORK">
+          <Layer level="OVERLAY">
             <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
               <Anchors>
                 <Anchor point="RIGHT" x="-8" y="1" />
