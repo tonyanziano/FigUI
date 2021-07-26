@@ -29,6 +29,7 @@ Resources\DeathKnight.xml
 Resources\Paladin.xml
 Resources\Rogue.xml
 Resources\Warlock.xml
+Resources\Warrior.xml
 
 UnitFrames\Player.xml
 UnitFrames\Target.xml
