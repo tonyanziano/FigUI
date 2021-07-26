@@ -9,6 +9,9 @@ function FigResources.getResourceBarForPlayer()
   elseif class == 'Paladin' then
     local f = CreateFrame('frame', 'FigResourcePaladin', UIParent, 'FigResourcePaladinTemplate')
     return f
+  elseif class == 'Priest' then
+    local f = CreateFrame('statusbar', 'FigResourcePriest', UIParent, 'FigResourcePriestTemplate')
+    return f
   elseif class == 'Rogue' then
     local f = CreateFrame('frame', 'FigResourceRogue', UIParent, 'FigResourceRogueTemplate')
     return f

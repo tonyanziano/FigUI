@@ -1,0 +1,17 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="Priest.lua" />
+
+  <StatusBar name="FigResourcePriestTemplate" virtual="true" mixin="FigResourcePriestMixin" inherits="FigResourceBaseTemplate, FigStatusBarTemplate">
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString parentKey="text" inherits="NumberFont_Outline_Large" />
+      </Layer>
+    </Layers>
+
+    <Scripts>
+      <OnLoad inherit="prepend">
+        self:initializePriestResourceBar()
+      </OnLoad>
+    </Scripts>
+  </StatusBar>
+</Ui>

@@ -27,6 +27,7 @@ Resources\FigResources.lua
 Resources\ResourceBase.xml
 Resources\DeathKnight.xml
 Resources\Paladin.xml
+Resources\Priest.xml
 Resources\Rogue.xml
 Resources\Shaman.xml
 Resources\Warlock.xml
