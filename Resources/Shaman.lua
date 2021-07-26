@@ -1,44 +1,52 @@
-FigShaman = {}
+FigResourceShamanMixin = {}
 
-function FigShaman.showIfApplicable(frame)
-  -- only show if the player is an elemental shaman
-  local _, class = UnitClass("player")
-  if class == 'SHAMAN' then
-    local specIndex = GetSpecialization()
-    if specIndex then
-      local _, specName = GetSpecializationInfo(specIndex)
-      if specName == 'Elemental' then
-        frame:Show()
-        return
-      end
+FigResourceShamanMixin.powerType = 'MAELSTROM'
+
+local maelstromColor = PowerBarColor[Enum.PowerType.Maelstrom]
+
+function FigResourceShamanMixin.doInitialDraw(frame)
+  local currentSpec = GetSpecialization()
+  if currentSpec then
+    local _, currentSpecName = GetSpecializationInfo(currentSpec)
+    if currentSpecName == 'Elemental' then
+      frame:Show()
+    else
+      frame:Hide()
+      return
     end
+  else
+    frame:Hide()
+    return
   end
-  frame:Hide()
+
+  local playerFrame = _G['FigPlayer']
+  if not frame:IsUserPlaced() then
+    frame:ClearAllPoints()
+    frame:SetPoint('TOPLEFT', playerFrame, 'BOTTOMLEFT', 0, -1)
+  end
+  frame:SetWidth(playerFrame:GetWidth())
+  frame:SetHeight(15)
+  frame:SetStatusBarColor(maelstromColor.r, maelstromColor.g, maelstromColor.b, 1)
+  local maelstrom, maxMaelstrom = UnitPower('player', Enum.PowerType.Maelstrom), UnitPowerMax('player', Enum.PowerType.Maelstrom)
+  frame:SetMinMaxValues(maelstrom, maxMaelstrom)
+  frame:SetValue(maelstrom)
+  Fig.drawOutsetBordersForFrame(frame)
+  frame.text:SetText(maelstrom)
 end
 
-function FigShaman.handleEvents(frame, event, ...)
-  if event == 'ACTIVE_TALENT_GROUP_CHANGED' then
-    FigShaman.showIfApplicable(frame)
-  end
-  if event == 'PLAYER_LOGIN' then
-    -- wait for the player info to load before querying class / sepc
-    FigShaman.showIfApplicable(frame)
-  end
-end
-
-function FigShaman.onUpdate(frame, elapsed)
+function FigResourceShamanMixin.updateResource(frame)
   local maelstrom = UnitPower('player', Enum.PowerType.Maelstrom)
   frame:SetValue(maelstrom)
   frame.text:SetText(maelstrom)
 end
 
-function FigShaman.initialize(frame)
-  frame:SetScript('OnEvent', FigShaman.handleEvents)
-  frame:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
-  frame:RegisterEvent('PLAYER_LOGIN')
-  frame:SetScript('OnUpdate', FigShaman.onUpdate)
+local function onEvent(frame, event, ...)
+  if event == 'PLAYER_TALENT_UPDATE' then
+    frame:doInitialDraw()
+  end
+end
 
-  frame:SetStatusBarColor(110/255, 110/255, 230/255)
-  frame.bg:SetColorTexture(10/255, 10/255, 10/255)
-  Fig.drawOutsetBordersForFrame(frame)
+function FigResourceShamanMixin.initializeShamanResourceBar(frame)
+  frame:RegisterEvent('PLAYER_TALENT_UPDATE')
+  frame:HookScript('OnEvent', onEvent)
 end
