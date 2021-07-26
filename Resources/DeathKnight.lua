@@ -99,7 +99,7 @@ local function updateRunes()
 end
 
 local function onEvent(frame, event, ...)
-  if event == 'ACTIVE_TALENT_GROUP_CHANGED' then
+  if event == 'PLAYER_TALENT_UPDATE' then
     colorRunes()
   elseif event == 'RUNE_POWER_UPDATE' then
     updateRunes()
@@ -107,7 +107,7 @@ local function onEvent(frame, event, ...)
 end
 
 function FigResourceDeathKnightMixin.initializeRuneEvents(frame)
-  frame:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
+  frame:RegisterEvent('PLAYER_TALENT_UPDATE')
   frame:RegisterEvent('RUNE_POWER_UPDATE')
   frame:HookScript('OnEvent', onEvent)
 end
