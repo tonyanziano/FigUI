@@ -1,89 +1,102 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="DeathKnight.lua" />
+  
+  <Line name="RuneBorderTemplate" virtual="true" thickness="2">
+    <Color r="0" g="0" b="0" a="1" />
+  </Line>
 
-  <Frame name="FigDeathKnightRune" virtual="true" >
+  <!-- rune -->
+  <StatusBar name="FigRuneTemplate" virtual="true" inherits="FigStatusBarTemplate" mixin="FigDeathKnightRuneMixin" minValue="0" maxValue="1" defaultValue="1">
     <Layers>
-      <Layer level="BACKGROUND">
-        <Texture setAllPoints="true" file="Interface\AddOns\FigUI\Textures\GenericBarFill">
-          <Color r=".28" g=".15" b="0.91" a="1"/>
-        </Texture>
-      </Layer>
-    </Layers>
-    <Frames>
-      <Cooldown inherits="CooldownFrameTemplate" parentKey="cd" />
-    </Frames>
-  </Frame>
-
-  <Frame name="FigResourceDeathKnight" hidden="true" parent="UIParent" inherits="FigBorderedTemplate">
-    <Size x="200" y="40"/>
-    <Anchors>
-      <Anchor point="TOP" relativeTo="UIParent" relativePoint="CENTER" x="0" y="-100"/>
-    </Anchors>
-    <Layers>
-      <Layer level="BACKGROUND">
-        <Texture setAllPoints="true">
-          <Color r="0" g="0" b="0" a="1"/>
-        </Texture>
+      <Layer level="OVERLAY">
+        <FontString parentKey="cd" inherits="NumberFont_Outline_Large">
+          <Anchors>
+            <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" />
+          </Anchors>
+        </FontString>
+        <Line parentKey="leftBorder" inherits="RuneBorderTemplate" />
+        <Line parentKey="rightBorder" inherits="RuneBorderTemplate" />
       </Layer>
     </Layers>
 
+    <Scripts>
+      <OnLoad inherits="prepend">
+        self:initialize()
+      </OnLoad>
+      <OnUpdate>
+        self:updateRune()
+      </OnUpdate>
+    </Scripts>
+  </StatusBar>
+
+  <!-- resource bar -->
+  <Frame name="FigResourceDeathKnightTemplate" virtual="true" mixin="FigResourceDeathKnightMixin" inherits="FigResourceBaseTemplate">
     <Frames>
-      <!-- Runes -->
-      <Frame parentKey="runeContainer" name="$parentRuneContainer">
-        <Size x="200" y="23"/>
-        <Anchors>
-          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
-        </Anchors>
-      </Frame>
-      
-      <Frame>
-        <Size x="200" y="2"/>
-        <Anchors>
-          <Anchor point="TOP" relativeTo="$parentRuneContainer" relativePoint="BOTTOM"/>
-        </Anchors>
+      <Frame parentKey="runeContainer">
         <Layers>
-          <Layer level="BACKGROUND">
-            <Texture setAllPoints="true">
-              <Color r="0" g="0" b="0" a="1"/>
-            </Texture>
+          <Layer level="OVERLAY">
+            <Line parentKey="leftBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="rightBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="topBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="bottomBorder" inherits="RuneBorderTemplate" />
           </Layer>
         </Layers>
+
+        <Frames>
+          <StatusBar parentKey="rune1" name="FigRune1" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="1" />
+            </KeyValues>
+          </StatusBar>
+          <StatusBar parentKey="rune2" name="FigRune2" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="2" />
+            </KeyValues>
+          </StatusBar>
+          <StatusBar parentKey="rune3" name="FigRune3" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="3" />
+            </KeyValues>
+          </StatusBar>
+          <StatusBar parentKey="rune4" name="FigRune4" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="4" />
+            </KeyValues>
+          </StatusBar>
+          <StatusBar parentKey="rune5" name="FigRune5" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="5" />
+            </KeyValues>
+          </StatusBar>
+          <StatusBar parentKey="rune6" name="FigRune6" inherits="FigRuneTemplate" >
+            <KeyValues>
+              <KeyValue type="number" key="runeIndex" value="6" />
+            </KeyValues>
+          </StatusBar>
+        </Frames>
       </Frame>
 
-      <!-- Runic Power -->
-      <StatusBar parentKey="runicPower" minValue="0" maxValue="100" defaultValue="100">
-        <Size x="200" y="15"/>
-        <Anchors>
-          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM"/>
-        </Anchors>
-
-        <!-- Status bar fill texture -->
-        <BarTexture file="Interface\AddOns\FigUI\Textures\GenericBarFill"/>
-        <BarColor r=".18" g=".56" b=".8" a="1"/>
-
+      <!-- runic power -->
+      <StatusBar parentKey="runicPower" inherits="FigStatusBarTemplate">
         <Layers>
-          <Layer level="ARTWORK">
-            <FontString parentKey="text" inherits="SystemFont_Shadow_Small">
-              <Size>
-                <AbsDimension x="0" y="16"/>
-              </Size>
+          <Layer level="OVERLAY">
+            <Line parentKey="leftBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="rightBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="topBorder" inherits="RuneBorderTemplate" />
+            <Line parentKey="bottomBorder" inherits="RuneBorderTemplate" />
+            <FontString parentKey="text" inherits="NumberFont_GameNormal">
               <Anchors>
-                <Anchor point="CENTER"/>
+                <Anchor point="CENTER" />
               </Anchors>
             </FontString>
           </Layer>
         </Layers>
       </StatusBar>
     </Frames>
-
+  
     <Scripts>
       <OnLoad inherit="prepend">
-        -- only show if the player is a dk
-        local _, class = UnitClass("player")
-        if class ~= 'DEATHKNIGHT' then return end
-
-        self:Show()
-        FigDK.initialize(self)
+        self:initializeRuneEvents()
       </OnLoad>
     </Scripts>
   </Frame>
