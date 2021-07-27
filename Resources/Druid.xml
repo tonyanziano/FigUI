@@ -1,0 +1,17 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="Druid.lua" />
+
+  <StatusBar name="FigResourceDruidTemplate" virtual="true" mixin="FigResourceDruidMixin" inherits="FigResourceBaseTemplate, FigStatusBarTemplate">
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString parentKey="text" inherits="NumberFont_Outline_Large" />
+      </Layer>
+    </Layers>
+
+    <Scripts>
+      <OnLoad inherit="prepend">
+        self:initializeDruidResourceBar()
+      </OnLoad>
+    </Scripts>
+  </StatusBar>
+</Ui>
