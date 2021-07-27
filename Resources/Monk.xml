@@ -1,0 +1,30 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Script file="Monk.lua" />
+
+  <Frame name="FigResourceMonkTemplate" virtual="true" mixin="FigResourceMonkMixin" inherits="FigResourceBaseTemplate">
+    <Frames>
+      <Frame parentKey="chi">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+        </Anchors>
+      </Frame>
+      <StatusBar parentKey="stagger" minValue="0" maxValue="1" defaultValue="0" inherits="FigStatusBarTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+        </Anchors>
+
+        <Layers>
+          <Layer level="OVERLAY">
+            <FontString parentKey="text" inherits="NumberFont_Outline_Large" />
+          </Layer>
+        </Layers>
+      </StatusBar>
+    </Frames>
+
+    <Scripts>
+      <OnLoad inherit="prepend">
+        self:initializeMonkResourceBar()
+      </OnLoad>
+    </Scripts>
+  </Frame>
+</Ui>
