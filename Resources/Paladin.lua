@@ -11,7 +11,7 @@ function FigResourcePaladinMixin.doInitialDraw(frame)
   local dividerWidth = 1
   local remainingFrameWidth = frameWidth - (dividerWidth * (maxHolyPower - 1))
   local holyPowerWidth = remainingFrameWidth / maxHolyPower
-  local holyPowerColor = PowerBarColor['HOLY_POWER']
+  local holyPowerColor = PowerBarColor[Enum.PowerType.HolyPower]
 
   for i = 1, maxHolyPower do
     -- draw holy power indicator
@@ -27,11 +27,9 @@ function FigResourcePaladinMixin.doInitialDraw(frame)
     if i <= holyPower then
       -- the holy power is available
       pip.fillTex:Show()
-      pip.available = true
     else
       -- the holy power is unavailable
       pip.fillTex:Hide()
-      pip.available = false
     end
     local xOffset = (i - 1) * (holyPowerWidth + dividerWidth)
     pip:SetPoint('LEFT', frame, 'LEFT', xOffset, 0)
@@ -54,16 +52,15 @@ function FigResourcePaladinMixin.updateResource(frame)
   local holyPower = UnitPower('player', Enum.PowerType.HolyPower)
   local maxHolyPower = UnitPowerMax('player', Enum.PowerType.HolyPower)
   FigDebug.log('Updating holy power: ', holyPower, maxHolyPower)
+
   for i = 1, maxHolyPower do
     local pip = _G['FigResourcePaladinPip' .. i]
     if i <= holyPower then
       -- the holy power is available
       pip.fillTex:Show()
-      pip.available = true
     else
       -- the holy power is unavailable
       pip.fillTex:Hide()
-      pip.available = false
     end
   end
 end
