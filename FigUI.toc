@@ -4,7 +4,7 @@
 ## SavedVariablesPerCharacter: FigConfig
 ## DefaultState: enabled
 ## Author: Fignewticus - Zul'jin (H)
-## Version 0.0.4-alpha
+## Version 1.0.0
 
 FigUI.lua
 FigUtils.lua
