@@ -6,6 +6,9 @@ function FigResources.getResourceBarForPlayer()
   if class == 'Death Knight' then
     local f = CreateFrame('frame', 'FigResourceDeathKnight', UIParent, 'FigResourceDeathKnightTemplate')
     return f
+  elseif class == 'Mage' then
+    local f = CreateFrame('frame', 'FigResourceMage', UIParent, 'FigResourceMageTemplate')
+    return f
   elseif class == 'Monk' then
     local f = CreateFrame('frame', 'FigResourceMonk', UIParent, 'FigResourceMonkTemplate')
     return f
