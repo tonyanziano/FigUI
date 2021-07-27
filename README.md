@@ -32,6 +32,7 @@ FigUI is a World of Warcraft AddOn that provides several movable unit frames tha
 - [ ] Combo points resource display for Feral Druid
 - [ ] Show alternate resource bar on player frame for classes with a secondary resource
 - [ ] **Per-frame Configuration**
+- [ ] Focus Frame
 - [ ] Visual pass (slim things down -- improve the design)
 - [ ] Add texturing to all the custom resource bars
 
