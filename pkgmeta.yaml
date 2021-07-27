@@ -1,1 +1,5 @@
 package-as: FigUI
+
+ignore:
+  - Screenshots
+  - README.md
