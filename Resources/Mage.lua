@@ -7,12 +7,10 @@ local arcaneChargesColor = PowerBarColor['ARCANE_CHARGES']
 function FigResourceMageMixin.drawArcaneCharges(frame)
   -- draw arcane charge indicators
   local frameWidth, frameHeight = frame:GetWidth(), frame:GetHeight()
-  print(frameWidth, frameHeight)
   local dividerWidth = 1
   local charges, maxCharges = UnitPower('player', Enum.PowerType.ArcaneCharges), UnitPowerMax('player', Enum.PowerType.ArcaneCharges)
   local remainingFrameWidth = frameWidth - (dividerWidth * (maxCharges - 1))
   local chargeWidth = remainingFrameWidth / maxCharges
-  print(chargeWidth)
 
   for i = 1, maxCharges do
     local pip = _G['FigResourceMageChargePip' .. i] or CreateFrame('frame', 'FigResourceMageChargePip' .. i, frame)
